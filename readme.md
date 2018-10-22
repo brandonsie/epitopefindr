@@ -15,7 +15,7 @@ This script takes a .fasta file listing peptide sequences of interest and calls 
 2. Install [BLAST+ (version 2.7.1+)](goo.gl/qWq3De).
 3. Install the following R packages from CRAN: `tools`, `data.table`, `magrittr`, `seqinr`, `stringr`, `pdftools`, `readr`, `microseq`.  
 4. Install the following R packages from Bioconductor: `rBLAST`, `EBImage`, `msa`.  
-5. Clone this GitHub repo. Scripts are stored in the directory `/epitope_script/`. Running `setup-wizard.R` will create two new folders in the same directory as `/epitope script/`: `/input/` and `/output/`. The script will look for a .fasta file containing input peptide sequences in `/epitope_script/../input/`. Output data will be written to `/epitope_script/../output/`.
+5. Clone this GitHub repo. Scripts are stored in the directory `/epitope_script/`. The script will look for a .fasta file containing input peptide sequences in `/epitope_script/../input/`. Output data will be written to `/epitope_script/../output/`.
 
 
 ----------------------------------------------------------------------
@@ -35,10 +35,10 @@ This script takes a .fasta file listing peptide sequences of interest and calls 
 3. `epSetupBLAST` blasts the tidied input sequences against each other and performs some pre-processing manipulations on the resultant blast alignment table.
 4. `pbCycleBLAST` cycles through each input peptide to find the overlap of its alignment with other peptides from the input. Nested within a call to `pbCycleBLAST` are calls to major functions `epitopeBLAST` and `indexEpitopes`.
 5. `trimEpitopes` performs a second pass through the epitope sequences to fix early index peptides
-6. `indexGroups`
-7. `groupMSA`
-8. `outputTable`
-9. `outputFiles`
+6. `indexGroups` collects trimmed sequences into aligning groups
+7. `groupMSA` creates a multiple sequence alignment motif logo for each group
+8. `outputTable` creates a spreadsheet of data about identified sequences and epitope groups
+9. `outputFiles` transferes important files into a new subfolder in the output directory
 
 
 ----------------------------------------------------------------------
