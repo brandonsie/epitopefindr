@@ -1,5 +1,3 @@
-#Readme
-
 #Minimal Overlaps from BLAST Alignments 
 Version: 0.2.0  
 Date: October 22, 2018 
