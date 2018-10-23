@@ -14,8 +14,8 @@ This script takes a .fasta file listing peptide sequences of interest and calls 
 2. Install [BLAST+ (version 2.7.1+)](https://blast.ncbi.nlm.nih.gov/Blast.cgi?PAGE_TYPE=BlastDocs&DOC_TYPE=Download).
 3. Install the following R packages from CRAN: `tools`, `data.table`, `magrittr`, `seqinr`, `stringr`, `pdftools`, `readr`, `microseq`.  
 4. Install the following R packages from Bioconductor: `rBLAST`, `EBImage`, `msa`.  
-5. Clone this GitHub repo. Source `/epitope_script/`. 
-6. Call `epitopeFinder(proj.id = [path to your input fasta file])` Output data will be written to `/epitope_script/../output/`.
+5. Clone this GitHub repo. Source `EpitopeFinder/epitope_script/`. Add your input fasta file to `EpitopeFinder/input/`. 
+6. Call `epitopeFinder(proj.id = [name of your .fasta file])` Output data will be written to `EpitopeFinder/output/`.
 
 ----------------------------------------------------------------------
 # Changelog
