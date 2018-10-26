@@ -21,10 +21,10 @@ This script takes a .fasta file listing peptide sequences of interest and calls 
 
 ----------------------------------------------------------------------
 # Changelog
-* (Version 1.0.01): Bugfix re fasta file peptide naming (gsub commas etc.)
-* 2018-10-23 (Version 1.0.0): Bugfix re: alignment gap removal; UX polishing.
-* 2018-10-23 (Version 0.2.1): Output directory bugfixes.
-* 2018-10-22 (Version 0.2.0): Github version tracking begins. Vectorized some operations to get rid of for loops.
+* 2018-10-26 (Version 1.0.01): Bugfix re fasta file peptide naming (gsub commas etc.)
+* 2018-10-23 (Version 1.0.00): Bugfix re: alignment gap removal; UX polishing.
+* 2018-10-23 (Version 0.2.10): Output directory bugfixes.
+* 2018-10-22 (Version 0.2.00): Github version tracking begins. Vectorized some operations to get rid of for loops.
 ----------------------------------------------------------------------
 # Guide
 * all-in-one script can be executed with function `epitopeFinder()`
