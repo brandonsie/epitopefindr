@@ -640,8 +640,8 @@ outputTable <- function(){
 	output$seq_ep <- full$Seq %>% as.character
 	
 	for(i in 1:nrow(output)){
-			output$seq_tile <- original[
-				strsplit(full$ID[1],"\\.") %>% unlist %>% extract(1)] %>% as.character
+			output$seq_tile[i] <- original[
+				strsplit(full$ID[i],"\\.") %>% unlist %>% extract(1)] %>% as.character
 	}
 	
 	#load group info
