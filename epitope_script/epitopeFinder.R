@@ -20,8 +20,11 @@ epitopeFinder <- function(proj.id, e.thresh, g.method = "any",
 	epSetupBLAST() #blast input sequences against each other and prep for analysis
 	
 	# load some data from global environment
-	gl <- c("path","blast.main","blast.id3","blast.id4")
-	for(i in gl){assign(i,glGet(i))}
+	blast.main <- glGet("blast.main")
+	
+	
+	gl <- c("path","blast.id3","blast.id4","g.method")
+	for(i in gl){assign(i,glParamGet(i))}
 	
 	# == == == == == Main script execution. == == == == == 
 	if(autorun){
@@ -56,7 +59,7 @@ epitopeFinder <- function(proj.id, e.thresh, g.method = "any",
 pbCycleBLAST <- function(path, ncycles="max"){
 	# == == == == == A. Initialize == == == == ==
 	blast.main <- glGet("blast.main")
-	path <- glGet("path")
+	path <- glParamGet("path")
 	
 	# == == == == == B. Count starting full peptides. == == == == ==
 	if(ncycles == "max"){
@@ -73,7 +76,7 @@ pbCycleBLAST <- function(path, ncycles="max"){
 	pb <- epPB(-n.pep,0)
 	
 	path %<>% cycleBLAST(pb, n.pep)
-	glAssign("path", path)
+	glParamAssign("path", path)
 	
 	return(path)
 	
@@ -93,8 +96,8 @@ cycleBLAST <- function(path, pb, n, verbose = FALSE){
 		if(names(peptides) %>% grepl("\\.", .) %>% mean < 1){
 			
 			path <- epitopeBLAST(path, verbose)
-			glAssign("path", path)
-			path <- glGet("path")
+			glParamAssign("path", path)
+			path <- glParamGet("path")
 			n <- n - 1 # -sum(!(grepl("\\.", names(epitopesI))))
 			
 			path <- cycleBLAST(path, pb, n)
@@ -109,8 +112,9 @@ epitopeBLAST <- function(path, verbose = FALSE){
 	peptides <- readAAStringSet(path)
 	epitopes <- peptides[grepl("\\.", names(peptides))]
 	
-	gl <- c("blast.main","output.dir","proj.id")
-	for(i in gl){assign(i,glGet(i))}
+	blast.main <- glGet("blast.main")
+	gl <- c("output.dir","proj.id")
+	for(i in gl){assign(i,glParamGet(i))}
 	
 	
 	#subset out prior epitopes. ep.genes = gene|tile names of epitopes.
@@ -316,7 +320,7 @@ trimEpitopes <- function(path, tofilter = FALSE){
 	#load some data from global environment
 	
 	gl <- c("blast.id3","output.dir")
-	for(i in gl){assign(i,glGet(i))}
+	for(i in gl){assign(i,glParamGet(i))}
 	
 	blast.main <- fread(blast.id3)
 	blast.main %<>% prepareBLAST(tofilter)
@@ -360,14 +364,14 @@ trimEpitopes <- function(path, tofilter = FALSE){
 	writeFastaAA(finalep %>% mergeFastaDuplicates, mpath)
 	print(paste(nrow(finalep),"epitope sequences identified."))
 	
-	glAssign("path",mpath)
+	glParamAssign("path", mpath)
 	return(mpath)
 }
 
 indexGroups <- function(path, mode="any"){
 	
 	gl <- c("blast.id4","output.dir")
-	for(i in gl){assign(i,glGet(i))}
+	for(i in gl){assign(i,glParamGet(i))}
 	
 	blast.main <- fread(blast.id4, data.table=FALSE)
 	glAssign("blast.main",blast.main)
@@ -501,7 +505,7 @@ indexGroups <- function(path, mode="any"){
 groupMSA <- function(trim.groups = FALSE, make.png = FALSE){
 	
 	#setup output paths and directories
-	output.dir <- glGet("output.dir")
+	output.dir <- glParamGet("output.dir")
 	gpath <- paste0(output.dir, "groups/")
 	mpath <- paste0(output.dir, "msa/")
 	cpath <- paste0(mpath,"consensusSequences.txt")
@@ -600,7 +604,7 @@ groupMSA <- function(trim.groups = FALSE, make.png = FALSE){
 
 outputTable <- function(){
 	gl <- c("output.dir","proj.id","path","path0","blast.id4","e.thresh","g.method")
-	for(i in gl){assign(i,glGet(i))}
+	for(i in gl){assign(i,glParamGet(i))}
 	
 	
 	#load epitope info
@@ -674,7 +678,7 @@ outputTable <- function(){
 
 outputFiles <- function(){
 	gl <- c("output.dir","proj.id","e.thresh","g.method")
-	for(i in gl){assign(i,glGet(i))}
+	for(i in gl){assign(i,glParamGet(i))}
 	
 	epath <- paste0(output.dir, "epitopes/", proj.id, ".fasta")
 	file.copy(epath, paste0(output.dir,"initial_peptides.fasta"))
@@ -692,7 +696,7 @@ outputFiles <- function(){
 
 prepareBLAST <- function(blast.thresh, tofilter=TRUE){
 	#
-	path0 <- glGet("path0")
+	path0 <- glParamGet("path0")
 	fasta <- readAAStringSet(path0)
 	blast.merge <- rbind(blast.thresh, qsSwap(blast.thresh)) %>% unique
 	blast.tidy <- tidyBLAST(blast.merge, fasta) #update col names, <7aa, gaps
@@ -718,7 +722,7 @@ tidyBLAST <- function(blast, fasta){
 }
 
 filterBLAST <- function(input){ #remove singletons
-	output.dir <- glGet("output.dir")
+	output.dir <- glParamGet("output.dir")
 	epath <- paste0(output.dir, "epitopes/")
 	spath <- paste0(epath, "singletons.csv")
 	
@@ -740,9 +744,9 @@ filterBLAST <- function(input){ #remove singletons
 epSetupDirectory <- function(proj.id, e.thresh, g.method){
 
 	#assign project-specific settings to global environment for easy reference
-	glAssign("proj.id", proj.id)
-	glAssign("e.thresh", e.thresh)
-	glAssign("g.method", g.method)
+	glParamAssign("proj.id", proj.id)
+	glParamAssign("e.thresh", e.thresh)
+	glParamAssign("g.method", g.method)
 	
 	#create output directories
 	project.dir <- paste0("../output/",proj.id,"/")
@@ -752,7 +756,7 @@ epSetupDirectory <- function(proj.id, e.thresh, g.method){
 	if(!dir.exists(project.dir)){dir.create(project.dir)}
 	if(!dir.exists(output.dir)){dir.create(output.dir)}
 	
-	glAssign("output.dir", output.dir)
+	glParamAssign("output.dir", output.dir)
 	if(!dir.exists(output.dir)) {dir.create(output.dir)}
 	
 	epath <- paste0(output.dir, "epitopes/")
@@ -762,34 +766,34 @@ epSetupDirectory <- function(proj.id, e.thresh, g.method){
 	if(!dir.exists(bpath)){dir.create(bpath)}
 	
 	#prepare directory path references to input .fasta sequences and blast tables
-	glAssign("path", paste0("../input/", proj.id, ".fasta")) #starting peptides
-	glAssign("blast.id1",paste0(bpath,proj.id,"_blast_1_raw.csv"))
-	glAssign("blast.id2",paste0(bpath,proj.id,"_blast_2_precycle.csv"))
-	glAssign("blast.id3",paste0(bpath,proj.id,"_blast_3_cycled.csv"))
-	glAssign("blast.id4",paste0(bpath,proj.id,"_blast_4_trimmed.csv"))
+	glParamAssign("path", paste0("../input/", proj.id, ".fasta")) #starting peptides
+	glParamAssign("blast.id1",paste0(bpath,proj.id,"_blast_1_raw.csv"))
+	glParamAssign("blast.id2",paste0(bpath,proj.id,"_blast_2_precycle.csv"))
+	glParamAssign("blast.id3",paste0(bpath,proj.id,"_blast_3_cycled.csv"))
+	glParamAssign("blast.id4",paste0(bpath,proj.id,"_blast_4_trimmed.csv"))
 	
 }
 
 epSetupPeptides <- function(){
 	#tidy input peptide sequences
-	path <- glGet("path")
-	output.dir <- glGet("output.dir")
-	proj.id <- glGet("proj.id")
+	gl <- c("path","output.dir","proj.id")
+	for(i in gl){assign(i,glParamGet(i))}
+	
 	
 	fasta <- tidyFasta(path) #remove filler .&* Update path & return AAString
 	glAssign("fasta", fasta)
 	
 	fpath <- paste0(output.dir, "epitopes/", proj.id, ".fasta")
 	writeFastaAA(fasta, fpath) 
-	glAssign("path", fpath) 
-	glAssign("path0", fpath)
+	glParamAssign("path", fpath) 
+	glParamAssign("path0", fpath)
 }
 
 epSetupBLAST <- function(){
 	#run BLASTp on input peptides against each other & pre-process for use
 	
 	gl <- c("path","blast.id1","blast.id2","e.thresh")
-	for(i in gl){assign(i,glGet(i))}
+	for(i in gl){assign(i,glParamGet(i))}
 	
 	#check for previously written blast table and only re-compute if not present
 	if(file.exists(blast.id2)){
@@ -1012,16 +1016,6 @@ libcall <- function(){
 	options(stringsAsFactors = FALSE)
 }
 
-# glLoad <- function(path){
-# 	#load global parameters file from specified path in drive
-# 	glpath <- paste0(path,"glparameters.txt")
-# 	
-# 	#if doesn't exist, start new empty file
-# 	assign("gl.parameters", matrix(ncol=2) %>% data.frame %>% 
-# 				 	setnames(c("Param","Value")), envir = .GlobalEnv)
-# }
-
-
 glAssign <- function(name, data){
 	#Quick wrapper function for assigning data to global environment
 	assign(paste0("gl.", name), data, envir = .GlobalEnv)
@@ -1030,6 +1024,34 @@ glAssign <- function(name, data){
 glGet <- function(name){
 	get(paste0("gl.", name), envir = .GlobalEnv)
 }
+
+glParamAssign <- function(name,data){
+	
+	if(!exists("gl.params")){
+		assign("gl.params", matrix(nrow=0,ncol=2) %>% data.frame %>% 
+					 	setnames(c("param","value")), envir = .GlobalEnv)
+	}
+	
+	params <- get("gl.params", envir = .GlobalEnv)
+	
+	#update value if exists. otherwise create new
+	if(name %in% params$param){
+		params$value[params$param == name] <- data
+	} else{
+		params <- rbind(params,setnames(data.frame(t(c(name,data))),names(params)))
+	}
+	
+	assign("gl.params", params, envir = .GlobalEnv)
+	
+	
+}
+
+glParamGet <- function(name){
+	params <- get("gl.params", envir = .GlobalEnv)
+	return(params$value[params$param == name])
+}
+
+
 
 makeIR <- function(df){
 	#converts a two-column data frame to an IRanges object for overlap calcs
@@ -1139,7 +1161,7 @@ chooseIndex <- function(input, method="min"){
 }
 
 dbCleanup <- function(){
-	output.dir <- glGet("output.dir")
+	output.dir <- glParamGet("output.dir")
 	
 	# remove temporary files made during blast
 	epath <- paste0(output.dir, "epitopes/")
