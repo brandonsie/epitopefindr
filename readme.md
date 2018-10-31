@@ -21,7 +21,7 @@ This script takes a .fasta file listing peptide sequences of interest and calls 
 
 ----------------------------------------------------------------------
 # Changelog
-* 2018-10-31 (Version 1.0.03): Consolidated parameter settings 
+* 2018-10-31 (Version 1.0.03): Consolidated parameter settings; made some functions internal
 * 2018-10-30 (Version 1.0.02): Bugfix re output table seq_tile column
 * 2018-10-26 (Version 1.0.01): Bugfix re fasta file peptide naming (gsub commas etc.)
 * 2018-10-23 (Version 1.0.00): Bugfix re: alignment gap removal; UX polishing.

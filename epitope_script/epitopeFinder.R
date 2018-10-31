@@ -14,17 +14,17 @@ epitopeFinder <- function(proj.id, e.thresh, g.method = "any",
 	
 	print(paste(format(Sys.time(), "%H:%M:%S"),"Step 1 of 6:",
 							"BLASTing input sequences against each other."))
-	libcall() #if necessary load relevant R packages
-	epSetupDirectory(proj.id, e.thresh, g.method) #prepare output directories
-	epSetupPeptides() #cleanup input sequences
-	epSetupBLAST() #blast input sequences against each other and prep for analysis
+	.libcall_epf() #if necessary load relevant R packages
+	.epSetupDirectory(proj.id, e.thresh, g.method) #prepare output directories
+	.epSetupPeptides() #cleanup input sequences
+	.epSetupBLAST() #blast input sequences against each other and prep for analysis
 	
 	# load some data from global environment
-	blast.main <- glGet("blast.main")
+	blast.main <- .glGet("blast.main")
 	
 	
 	gl <- c("path","blast.id3","blast.id4","g.method")
-	for(i in gl){assign(i,glParamGet(i))}
+	for(i in gl){assign(i,.glParamGet(i))}
 	
 	# == == == == == Main script execution. == == == == == 
 	if(autorun){
@@ -32,34 +32,34 @@ epitopeFinder <- function(proj.id, e.thresh, g.method = "any",
 		nindex <- blast.main$qID %>% unique %>% length
 		print(paste(format(Sys.time(), "%H:%M:%S"),"Step 2 of 6:",
 								"Identifying epitopes for",nindex,"peptides."))
-		path %<>% pbCycleBLAST(ncycles="max"); fwrite(glGet("blast.main"),blast.id3)
+		path %<>% .pbCycleBLAST(ncycles="max"); fwrite(.glGet("blast.main"),blast.id3)
 		
 		print(paste(format(Sys.time(), "%H:%M:%S"),"Step 3 of 6:",
 								"Looping back through peptides in reverse order."))
-		path %<>% trimEpitopes(); fwrite(glGet("blast.main"), blast.id4)
+		path %<>% .trimEpitopes(); fwrite(.glGet("blast.main"), blast.id4)
 		
 		print(paste(format(Sys.time(), "%H:%M:%S"),"Step 4 of 6:",
 								"Grouping epitope sequences."))
-		indexGroups(path, mode = g.method) #grou peptides. mode = "any" | "all"
+		.indexGroups(path, mode = g.method) #grou peptides. mode = "any" | "all"
 		
 		print(paste(format(Sys.time(), "%H:%M:%S"),"Step 5 of 6:",
 								"Generating multiple sequence alignment motifs."))
-		groupMSA() #generate multiple sequence alignment motifs
+		.groupMSA() #generate multiple sequence alignment motifs
 		
 		
 		print(paste(format(Sys.time(), "%H:%M:%S"),"Step 6 of 6:",
 								"Preparing other output files."))
-		outputTable() #generate output table
-		outputFiles() #copy relevant output files to a new directory
+		.outputTable() #generate output table
+		.outputFiles() #copy relevant output files to a new directory
 		
 		print(paste(format(Sys.time(), "%H:%M:%S"),"epitopeFinder run complete!"))
 	}
 }
 
-pbCycleBLAST <- function(path, ncycles="max"){
+.pbCycleBLAST <- function(path, ncycles="max"){
 	# == == == == == A. Initialize == == == == ==
-	blast.main <- glGet("blast.main")
-	path <- glParamGet("path")
+	blast.main <- .glGet("blast.main")
+	path <- .glParamGet("path")
 	
 	# == == == == == B. Count starting full peptides. == == == == ==
 	if(ncycles == "max"){
@@ -69,22 +69,22 @@ pbCycleBLAST <- function(path, ncycles="max"){
 		n.pep <- ncycles
 		
 	} else {
-		stop("Error: pbCycleBLAST: improper ncycles parameter.")
+		stop("Error: .pbCycleBLAST: improper ncycles parameter.")
 	}
 	
-	# == == == == == C. Run cycle of epitopeBLAST. == == == == ==
-	pb <- epPB(-n.pep,0)
+	# == == == == == C. Run cycle of .epitopeBLAST. == == == == ==
+	pb <- .epPB(-n.pep,0)
 	
-	path %<>% cycleBLAST(pb, n.pep)
-	glParamAssign("path", path)
+	path %<>% .cycleBLAST(pb, n.pep)
+	.glParamAssign("path", path)
 	
 	return(path)
 	
 }
 
-cycleBLAST <- function(path, pb, n, verbose = FALSE){
+.cycleBLAST <- function(path, pb, n, verbose = FALSE){
 	
-	#Repeatedly call epitopeBLAST until all peptides are converted to epitopes
+	#Repeatedly call .epitopeBLAST until all peptides are converted to epitopes
 	if(n > 0){ # n counts down to zero
 		setTxtProgressBar(pb, -n) #update progress bar in console
 		
@@ -95,26 +95,26 @@ cycleBLAST <- function(path, pb, n, verbose = FALSE){
 		peptides <- readAAStringSet(path)
 		if(names(peptides) %>% grepl("\\.", .) %>% mean < 1){
 			
-			path <- epitopeBLAST(path, verbose)
-			glParamAssign("path", path)
-			path <- glParamGet("path")
+			path <- .epitopeBLAST(path, verbose)
+			.glParamAssign("path", path)
+			path <- .glParamGet("path")
 			n <- n - 1 # -sum(!(grepl("\\.", names(epitopesI))))
 			
-			path <- cycleBLAST(path, pb, n)
+			path <- .cycleBLAST(path, pb, n)
 		} 
 	}
 	
 	return(path)
 }
 
-epitopeBLAST <- function(path, verbose = FALSE){
+.epitopeBLAST <- function(path, verbose = FALSE){
 	# == == == == == A. Load fasta, separate full peptides & epitopes. == =
 	peptides <- readAAStringSet(path)
 	epitopes <- peptides[grepl("\\.", names(peptides))]
 	
-	blast.main <- glGet("blast.main")
+	blast.main <- .glGet("blast.main")
 	gl <- c("output.dir","proj.id")
-	for(i in gl){assign(i,glParamGet(i))}
+	for(i in gl){assign(i,.glParamGet(i))}
 	
 	
 	#subset out prior epitopes. ep.genes = gene|tile names of epitopes.
@@ -124,22 +124,22 @@ epitopeBLAST <- function(path, verbose = FALSE){
 	blast.current <- blast.main[!(blast.main$qID %in% ep.genes), ] 
 	
 	# == == == == == B. Choose index peptide & imsadentify its epitopes. == =
-	index <- blast.current %>% chooseIndex()
+	index <- blast.current %>% .chooseIndex()
 	ipath <- paste0(output.dir,"epitopes/","indexOrder.txt")
 	write(index,ipath,append=TRUE)
 	
 	blast.index <- rbind(
 		blast.main[blast.main$qID==index,-"nAlign"],
-		qsSwap(blast.main[blast.main$sID==index,-"nAlign"])) %>% unique
+		.qsSwap(blast.main[blast.main$sID==index,-"nAlign"])) %>% unique
 	blast.backup <- blast.main
 	
 	if(!exists("verbose")){verbose <- FALSE}
 	if(verbose == FALSE){
-		epIndex <- blast.index %>% indexEpitopes
+		epIndex <- blast.index %>% .indexEpitopes
 	} else{
 		print(path)
 		print(paste(index, ", Blast Rows:", nrow(blast.index)))
-		system.time(epIndex <- blast.index %>% indexEpitopes %>% print)
+		system.time(epIndex <- blast.index %>% .indexEpitopes %>% print)
 		print(as.character(epIndex[, 1]))
 		cat("\n")
 	} 
@@ -150,7 +150,7 @@ epitopeBLAST <- function(path, verbose = FALSE){
 	epFrag <- data.frame(ID = names(epitopes), Seq = epitopes %>% as.character)
 	epList <- data.frame(ID = blast.remain$qID, Seq = blast.remain$qSeq) %>% 
 		rbind(epIndex, epFrag) %>% unique #blast.remain + old eps + new index eps
-	epList %<>% mergeFastaDuplicates #remove duplicates, merge nomenclature
+	epList %<>% .mergeFastaDuplicates #remove duplicates, merge nomenclature
 	
 	#write alignments: index epitopes, remaining peptides, former epitopes
 	fpath <- paste0(output.dir, "epitopes/")
@@ -162,11 +162,11 @@ epitopeBLAST <- function(path, verbose = FALSE){
 		j <- parse_number(gpath[length(gpath)]) + 1
 		path <- paste0(output.dir, "epitopes/epitopes", j, ".fasta")
 	}
-	writeFastaAA(epList, path)
+	.writeFastaAA(epList, path)
 	return(path)
-} #END epitopeBLAST()
+} #END .epitopeBLAST()
 
-indexEpitopes <- function(blast.index){
+.indexEpitopes <- function(blast.index){
 	# blast.main <- fread(paste0(output.dir, "sjogrens_blast_2_precycle.csv"))
 	# == == == == == A. Set up data frames. == =
 	pos00 <- blast.index[, c("qStart", "qEnd")] %>% unique %>% data.frame #
@@ -176,7 +176,7 @@ indexEpitopes <- function(blast.index){
 	
 	pos0 <- pos00
 	pos1 <- setnames(data.frame(matrix(nrow = 0, ncol = 2)), names(pos00))
-	df <- data.frame(findOverlaps(makeIR(pos00), minoverlap = 7))
+	df <- data.frame(findOverlaps(.makeIR(pos00), minoverlap = 7))
 	prev <- matrix(nrow = nrow(pos00), ncol = 1)
 	
 	# == == == == == Run overlap identification cycle == =
@@ -232,9 +232,9 @@ indexEpitopes <- function(blast.index){
 	}
 	
 	# Tidy up new overlap table
-	posN <- (countOverlaps(makeIR(pos00), makeIR(pos1), minoverlap = 7)) == 0
+	posN <- (countOverlaps(.makeIR(pos00), .makeIR(pos1), minoverlap = 7)) == 0
 	w1 <- paste("CAUTION:", 
-							"indexEpitopes/posN len > 0 for index", blast.index$qID[1])
+							".indexEpitopes/posN len > 0 for index", blast.index$qID[1])
 	if(length(posN[posN == TRUE])>0) {print(w1)}
 	pos1 <- rbind(pos1, pos00[posN, ]) %>% unique
 	gpos <- pos1
@@ -242,7 +242,7 @@ indexEpitopes <- function(blast.index){
 	# == == == == == C. Update blast.main. == =
 	#amend blast.main positions to be trimmed to corresponding overlap index ep
 	
-	blast.main <- glGet("blast.main")
+	blast.main <- .glGet("blast.main")
 	for(i in 1:nrow(blast.index)){ #for each 
 		if(gpos[gpos$qStart == blast.index$qStart[i] & 
 						gpos$qEnd == blast.index$qEnd[i],] %>% nrow == 0){ 
@@ -266,7 +266,7 @@ indexEpitopes <- function(blast.index){
 			
 			if(length(pos)>0){
 				
-				gOverlap <- isOverlapping2(blast.index[i,c("qStart","qEnd")],gpos)
+				gOverlap <- .isOverlapping(blast.index[i,c("qStart","qEnd")],gpos)
 				for(j in gOverlap){ #for each position of gpos that overlaps
 					
 					dstart <- gpos[j, 1] - blast.index[i, "qStart"] #g-b. positive
@@ -293,11 +293,11 @@ indexEpitopes <- function(blast.index){
 		}
 	}
 	
-	blast.main %<>% removeSmallAln
+	blast.main %<>% .removeSmallAln
 	blast.main <- blast.main[!duplicated(
 		blast.main[,c("qID","sID","qStart","qEnd","sStart","sEnd")]),]
-	blast.main %<>% numAlignments()
-	glAssign("blast.main", blast.main)
+	blast.main %<>% .numAlignments()
+	.glAssign("blast.main", blast.main)
 	
 	# == == == == == D. Convert to epitope sequences & output. == =
 	indexep <- data.frame(ID=character(), Seq=character())
@@ -310,9 +310,9 @@ indexEpitopes <- function(blast.index){
 	
 	return(indexep)
 	
-} #end indexEpitopes
+} #end .indexEpitopes
 
-trimEpitopes <- function(path, tofilter = FALSE){
+.trimEpitopes <- function(path, tofilter = FALSE){
 	#for debugging
 	if(!exists("path")) {path <- gl.path}
 	if(!exists("tofilter")) {tofilter <- FALSE}
@@ -320,11 +320,11 @@ trimEpitopes <- function(path, tofilter = FALSE){
 	#load some data from global environment
 	
 	gl <- c("blast.id3","output.dir")
-	for(i in gl){assign(i,glParamGet(i))}
+	for(i in gl){assign(i,.glParamGet(i))}
 	
 	blast.main <- fread(blast.id3)
-	blast.main %<>% prepareBLAST(tofilter)
-	glAssign("blast.main", blast.main)
+	blast.main %<>% .prepareBLAST(tofilter)
+	.glAssign("blast.main", blast.main)
 	
 	index.order <- fread(paste0(output.dir,"epitopes/indexOrder.txt"),
 											 header = FALSE, sep=".")
@@ -332,10 +332,10 @@ trimEpitopes <- function(path, tofilter = FALSE){
 	
 	
 	#update blast table in reverse order
-	pb <- epPB(1,nrow(index.order))
+	pb <- .epPB(1,nrow(index.order))
 	for(i in nrow(index.order):1){
 		setTxtProgressBar(pb,nrow(index.order)-i)
-		blast.main <- glGet("blast.main") %>% as.data.table
+		blast.main <- .glGet("blast.main") %>% as.data.table
 		index <- index.order[i] %>% as.character
 		
 		# print(i)
@@ -343,15 +343,15 @@ trimEpitopes <- function(path, tofilter = FALSE){
 		
 		blast.index <- rbind(
 			blast.main[blast.main$qID==index,-"nAlign"],
-			qsSwap(blast.main[blast.main$sID==index,-"nAlign"])) %>% unique
+			.qsSwap(blast.main[blast.main$sID==index,-"nAlign"])) %>% unique
 		blast.backup <- blast.main
 		
 		if(nrow(blast.index)>0){
-			indexEpitopes(as.data.frame(blast.index))
+			.indexEpitopes(as.data.frame(blast.index))
 		}
 	}
 	
-	blast.main <- glGet("blast.main")
+	blast.main <- .glGet("blast.main")
 	
 	#output
 	mpath <- paste0(output.dir, "epitopes/final_epitopes.fasta")
@@ -361,26 +361,26 @@ trimEpitopes <- function(path, tofilter = FALSE){
 		substr(finalep$qSeq[x], finalep$qStart[x], finalep$qEnd[x])
 	})
 	finalep$ID <- paste(finalep$qID, finalep$qStart, finalep$qEnd, sep=".")
-	writeFastaAA(finalep %>% mergeFastaDuplicates, mpath)
+	.writeFastaAA(finalep %>% .mergeFastaDuplicates, mpath)
 	print(paste(nrow(finalep),"epitope sequences identified."))
 	
-	glParamAssign("path", mpath)
+	.glParamAssign("path", mpath)
 	return(mpath)
 }
 
-indexGroups <- function(path, mode="any"){
+.indexGroups <- function(path, mode="any"){
 	
 	gl <- c("blast.id4","output.dir")
-	for(i in gl){assign(i,glParamGet(i))}
+	for(i in gl){assign(i,.glParamGet(i))}
 	
 	blast.main <- fread(blast.id4, data.table=FALSE)
-	glAssign("blast.main",blast.main)
+	.glAssign("blast.main",blast.main)
 	
 	# == == == == == A. Load final epitope list and blast table(s). == =
-	epitopes <- readAAStringSet(path) %>% unmergeFastaDuplicates
+	epitopes <- readAAStringSet(path) %>% .unmergeFastaDuplicates
 	
 	#use global blast table
-	blast.main <- glGet("blast.main") 
+	blast.main <- .glGet("blast.main") 
 	blast.main <- blast.main[blast.main$qEnd-blast.main$qStart >= 6 & 
 													 	blast.main$sEnd-blast.main$sStart >= 6, ]
 	
@@ -496,16 +496,16 @@ indexGroups <- function(path, mode="any"){
 		ep <- epitopes[names(epitopes) %in% (groups[i] %>% unlist)]
 		ID <- names(ep); Seq <- as.character(ep)
 		gdf <- data.frame(ID, Seq)
-		writeFastaAA(gdf, paste0(gpath, "group", i, ".fasta"))
+		.writeFastaAA(gdf, paste0(gpath, "group", i, ".fasta"))
 	}
 	print(paste(length(groups), "groups identified."))
 	return(length(groups))
 }
 
-groupMSA <- function(trim.groups = FALSE, make.png = FALSE){
+.groupMSA <- function(trim.groups = FALSE, make.png = FALSE){
 	
 	#setup output paths and directories
-	output.dir <- glParamGet("output.dir")
+	output.dir <- .glParamGet("output.dir")
 	gpath <- paste0(output.dir, "groups/")
 	mpath <- paste0(output.dir, "msa/")
 	cpath <- paste0(mpath,"consensusSequences.txt")
@@ -516,12 +516,12 @@ groupMSA <- function(trim.groups = FALSE, make.png = FALSE){
 	num <- list.files(gpath) %>% parse_number %>% max
 	if(num < 1){break} 
 	
-	pb <- epPB(0,num)
+	pb <- .epPB(0,num)
 	
 	for(i in 1:num){
 		setTxtProgressBar(pb, i)
 		group <- readAAStringSet(paste0(gpath, "group", i, ".fasta"))
-		group %<>% unmergeFastaDuplicates
+		group %<>% .unmergeFastaDuplicates
 		
 		if(length(group)>1){
 			
@@ -602,13 +602,13 @@ groupMSA <- function(trim.groups = FALSE, make.png = FALSE){
 	}
 }
 
-outputTable <- function(){
+.outputTable <- function(){
 	gl <- c("output.dir","proj.id","path","path0","blast.id4","e.thresh","g.method")
-	for(i in gl){assign(i,glParamGet(i))}
+	for(i in gl){assign(i,.glParamGet(i))}
 	
 	
 	#load epitope info
-	epitopes <- readAAStringSet(path) %>% unmergeFastaDuplicates
+	epitopes <- readAAStringSet(path) %>% .unmergeFastaDuplicates
 	ep <- data.frame(ID = names(epitopes), Seq = as.character(epitopes))
 	original <- readAAStringSet(path0)
 	
@@ -671,14 +671,14 @@ outputTable <- function(){
 													as.numeric(output$end))),]
 	
 	opath <- paste0(output.dir, proj.id,"_e-",e.thresh,"_g-",g.method,
-									"_outputTable.csv")
+									"_.outputTable.csv")
 	fwrite(output, opath)
 	
 }
 
-outputFiles <- function(){
+.outputFiles <- function(){
 	gl <- c("output.dir","proj.id","e.thresh","g.method")
-	for(i in gl){assign(i,glParamGet(i))}
+	for(i in gl){assign(i,.glParamGet(i))}
 	
 	epath <- paste0(output.dir, "epitopes/", proj.id, ".fasta")
 	file.copy(epath, paste0(output.dir,"initial_peptides.fasta"))
@@ -694,16 +694,16 @@ outputFiles <- function(){
 
 # -------- BLAST Table Manipulators ---
 
-prepareBLAST <- function(blast.thresh, tofilter=TRUE){
+.prepareBLAST <- function(blast.thresh, tofilter=TRUE){
 	#
-	path0 <- glParamGet("path0")
+	path0 <- .glParamGet("path0")
 	fasta <- readAAStringSet(path0)
-	blast.merge <- rbind(blast.thresh, qsSwap(blast.thresh)) %>% unique
-	blast.tidy <- tidyBLAST(blast.merge, fasta) #update col names, <7aa, gaps
+	blast.merge <- rbind(blast.thresh, .qsSwap(blast.thresh)) %>% unique
+	blast.tidy <- .tidyBLAST(blast.merge, fasta) #update col names, <7aa, gaps
 	
 	if(!exists("tofilter")){tofilter <- TRUE}
 	if(tofilter){
-		blast.filter <- filterBLAST(blast.tidy) #remove self-alignments
+		blast.filter <- .filterBLAST(blast.tidy) #remove self-alignments
 		rownames(blast.filter) <- c(1:nrow(blast.filter)) #fix row numbering
 		return(blast.filter)
 	} else{
@@ -712,17 +712,17 @@ prepareBLAST <- function(blast.thresh, tofilter=TRUE){
 	}
 }
 
-tidyBLAST <- function(blast, fasta){
-	blast %<>% organizeBLAST() #output table housekeeping (column names, etc.)
-	blast %<>% numAlignments() #Add number of alignments per peptide
-	blast %<>% addPepSeq(fasta) #add amino acid sequences (tile & align)
-	blast %<>% decipherGaps() #split gapped alignments into smaller ungapped
-	blast %<>% removeSmallAln() #remove alignmens smaller than 7 aa
+.tidyBLAST <- function(blast, fasta){
+	blast %<>% .organizeBLAST() #output table housekeeping (column names, etc.)
+	blast %<>% .numAlignments() #Add number of alignments per peptide
+	blast %<>% .addPepSeq(fasta) #add amino acid sequences (tile & align)
+	blast %<>% .decipherGaps() #split gapped alignments into smaller ungapped
+	blast %<>% .removeSmallAln() #remove alignmens smaller than 7 aa
 	return(blast)
 }
 
-filterBLAST <- function(input){ #remove singletons
-	output.dir <- glParamGet("output.dir")
+.filterBLAST <- function(input){ #remove singletons
+	output.dir <- .glParamGet("output.dir")
 	epath <- paste0(output.dir, "epitopes/")
 	spath <- paste0(epath, "singletons.csv")
 	
@@ -741,12 +741,12 @@ filterBLAST <- function(input){ #remove singletons
 	return(filter)
 }
 
-epSetupDirectory <- function(proj.id, e.thresh, g.method){
+.epSetupDirectory <- function(proj.id, e.thresh, g.method){
 
 	#assign project-specific settings to global environment for easy reference
-	glParamAssign("proj.id", proj.id)
-	glParamAssign("e.thresh", e.thresh)
-	glParamAssign("g.method", g.method)
+	.glParamAssign("proj.id", proj.id)
+	.glParamAssign("e.thresh", e.thresh)
+	.glParamAssign("g.method", g.method)
 	
 	#create output directories
 	project.dir <- paste0("../output/",proj.id,"/")
@@ -756,7 +756,7 @@ epSetupDirectory <- function(proj.id, e.thresh, g.method){
 	if(!dir.exists(project.dir)){dir.create(project.dir)}
 	if(!dir.exists(output.dir)){dir.create(output.dir)}
 	
-	glParamAssign("output.dir", output.dir)
+	.glParamAssign("output.dir", output.dir)
 	if(!dir.exists(output.dir)) {dir.create(output.dir)}
 	
 	epath <- paste0(output.dir, "epitopes/")
@@ -766,34 +766,34 @@ epSetupDirectory <- function(proj.id, e.thresh, g.method){
 	if(!dir.exists(bpath)){dir.create(bpath)}
 	
 	#prepare directory path references to input .fasta sequences and blast tables
-	glParamAssign("path", paste0("../input/", proj.id, ".fasta")) #starting peptides
-	glParamAssign("blast.id1",paste0(bpath,proj.id,"_blast_1_raw.csv"))
-	glParamAssign("blast.id2",paste0(bpath,proj.id,"_blast_2_precycle.csv"))
-	glParamAssign("blast.id3",paste0(bpath,proj.id,"_blast_3_cycled.csv"))
-	glParamAssign("blast.id4",paste0(bpath,proj.id,"_blast_4_trimmed.csv"))
+	.glParamAssign("path", paste0("../input/", proj.id, ".fasta")) #starting peptides
+	.glParamAssign("blast.id1",paste0(bpath,proj.id,"_blast_1_raw.csv"))
+	.glParamAssign("blast.id2",paste0(bpath,proj.id,"_blast_2_precycle.csv"))
+	.glParamAssign("blast.id3",paste0(bpath,proj.id,"_blast_3_cycled.csv"))
+	.glParamAssign("blast.id4",paste0(bpath,proj.id,"_blast_4_trimmed.csv"))
 	
 }
 
-epSetupPeptides <- function(){
+.epSetupPeptides <- function(){
 	#tidy input peptide sequences
 	gl <- c("path","output.dir","proj.id")
-	for(i in gl){assign(i,glParamGet(i))}
+	for(i in gl){assign(i,.glParamGet(i))}
 	
 	
-	fasta <- tidyFasta(path) #remove filler .&* Update path & return AAString
-	glAssign("fasta", fasta)
+	fasta <- .tidyFasta(path) #remove filler .&* Update path & return AAString
+	.glAssign("fasta", fasta)
 	
 	fpath <- paste0(output.dir, "epitopes/", proj.id, ".fasta")
-	writeFastaAA(fasta, fpath) 
-	glParamAssign("path", fpath) 
-	glParamAssign("path0", fpath)
+	.writeFastaAA(fasta, fpath) 
+	.glParamAssign("path", fpath) 
+	.glParamAssign("path0", fpath)
 }
 
-epSetupBLAST <- function(){
+.epSetupBLAST <- function(){
 	#run BLASTp on input peptides against each other & pre-process for use
 	
 	gl <- c("path","blast.id1","blast.id2","e.thresh")
-	for(i in gl){assign(i,glParamGet(i))}
+	for(i in gl){assign(i,.glParamGet(i))}
 	
 	#check for previously written blast table and only re-compute if not present
 	if(file.exists(blast.id2)){
@@ -806,21 +806,21 @@ epSetupBLAST <- function(){
 			blast.path <- fread(blast.id1)
 		} else{
 			print("Blasting starting sequences against each other...")
-			blast.path <- data.table(selfBLASTaa(path)) #blast seq against eachother
+			blast.path <- data.table(.selfBLASTaa(path)) #blast seq against eachother
 			fwrite(blast.path, blast.id1) #write blast to csv 
 		}
 		
 		blast.thresh <- blast.path[blast.path$E < as.numeric(e.thresh), ] 
 		
-		blast.main <- prepareBLAST(blast.thresh)
+		blast.main <- .prepareBLAST(blast.thresh)
 		fwrite(blast.main, blast.id2)
 		
 	}
 
-	glAssign("blast.main", blast.main)
+	.glAssign("blast.main", blast.main)
 }
 
-selfBLASTaa <- function(path){ 
+.selfBLASTaa <- function(path){ 
 	#blastp aa sequences against selves
 	makeblastdb(path, dbtype="prot")
 	blastdb <- blast(path, type="blastp")
@@ -828,7 +828,7 @@ selfBLASTaa <- function(path){
 	blastpred <- predict(blastdb, blastseq)
 }
 
-queryBLASTaa <- function(query, db){ #input = path to .fasta files
+.queryBLASTaa <- function(query, db){ #input = path to .fasta files
 	#blast query sequence against db sequences
 	makeblastdb(db, dbtype="prot")
 	blastdb <- blast(db, type="blastp")
@@ -836,14 +836,14 @@ queryBLASTaa <- function(query, db){ #input = path to .fasta files
 	blastpred <- predict(blastdb, blastseq)
 }
 
-removeSmallAln <- function(blast){
+.removeSmallAln <- function(blast){
 	#delete rows in blast table for which the alignment is fewer than 7aa
 	toosmall <- (1:nrow(blast))[(blast$qEnd-blast$qStart)<7]
 	if(length(toosmall)>0){blast <- blast[-toosmall, ]}
 	return(blast)
 }
 
-organizeBLAST <- function(input){
+.organizeBLAST <- function(input){
 	#rename unwieldy columns from rBLAST output table
 	names.orig <- c("QueryID", "SubjectID", "Gap.Openings", 
 									"Q.start", "Q.end", "S.start", "S.end")
@@ -866,13 +866,13 @@ organizeBLAST <- function(input){
 	return(input)
 }
 
-decipherGaps <- function(blast){
+.decipherGaps <- function(blast){
 	#split gapped alignments into multiple smaller ungapped alignments
 	
 	gpos <- c(1:nrow(blast))[blast$Gaps>0]
 	if(length(gpos) == 0){return(blast)}
 	
-	pb <- epPB(0,length(gpos))	
+	pb <- .epPB(0,length(gpos))	
 	pbcount <- 0
 	
 	
@@ -891,7 +891,7 @@ decipherGaps <- function(blast){
 		msagap <- gsub("\\[\\d\\] ","",msabl)
 		
 		if(nchar(msagap[1]) != nchar(msagap[2])){
-			stop("Error: decipherGaps: aligning two sequences with different nchar")}
+			stop("Error: .decipherGaps: aligning two sequences with different nchar")}
 		
 		#make a note of gaps
 		g1 <- gregexpr("-", msagap[1])
@@ -950,7 +950,7 @@ decipherGaps <- function(blast){
 	
 }
 
-qsSwap <- function(blast.in){
+.qsSwap <- function(blast.in){
 	#to force blast table to be symmetrical, swap subject and query info
 	#make a list of which columns refer to query, subject, and either
 	blast.in <- as.data.frame(blast.in)
@@ -978,13 +978,13 @@ qsSwap <- function(blast.in){
 	
 }
 
-numAlignments <- function(input){
+.numAlignments <- function(input){
 	#add/update column to blast table listing # of alignments per query sequence
 	input$nAlign <- apply(input, 1, function(x) sum(input$qID == x[1]))
 	return(input)
 }
 
-addPepSeq <- function(blast, fasta){
+.addPepSeq <- function(blast, fasta){
 	#add/update column in blast table listing peptide names
 	if(class(fasta) == "character") fasta <- readAAStringSet(fasta)
 	fdf <- data.frame(id = names(fasta), seq = fasta %>% as.character, 
@@ -1001,7 +1001,7 @@ addPepSeq <- function(blast, fasta){
 
 # -------- Other Helper Functions ---
 
-libcall <- function(){
+.libcall_epf <- function(){
 	library(data.table) #fread, fwrite
 	library(magrittr) #%<>%
 	library(seqinr) #write.fasta
@@ -1016,16 +1016,16 @@ libcall <- function(){
 	options(stringsAsFactors = FALSE)
 }
 
-glAssign <- function(name, data){
+.glAssign <- function(name, data){
 	#Quick wrapper function for assigning data to global environment
 	assign(paste0("gl.", name), data, envir = .GlobalEnv)
 }
 
-glGet <- function(name){
+.glGet <- function(name){
 	get(paste0("gl.", name), envir = .GlobalEnv)
 }
 
-glParamAssign <- function(name,data){
+.glParamAssign <- function(name,data){
 	
 	if(!exists("gl.params")){
 		assign("gl.params", matrix(nrow=0,ncol=2) %>% data.frame %>% 
@@ -1046,14 +1046,14 @@ glParamAssign <- function(name,data){
 	
 }
 
-glParamGet <- function(name){
+.glParamGet <- function(name){
 	params <- get("gl.params", envir = .GlobalEnv)
 	return(params$value[params$param == name])
 }
 
 
 
-makeIR <- function(df){
+.makeIR <- function(df){
 	#converts a two-column data frame to an IRanges object for overlap calcs
 	if(class(df)[1] == "numeric" & length(df) == 2){
 		df <- data.frame(df) %>% t
@@ -1063,17 +1063,7 @@ makeIR <- function(df){
 	IRanges(df[, 1], df[, 2])
 }
 
-isOverlapping2 <- function(pattern, table, almin = 7){
-	#checks whether the stard/end pos in pattern overlaps with the
-	#start/end pos of each row in table by at least almin
-	#returns positions in table that overlap. if no overlap, returns
-	
-	opos <- findOverlaps(makeIR(pattern), makeIR(table), 
-											 minoverlap = almin) %>% subjectHits
-	return(opos)
-}
-
-writeFastaAA <- function(seq, fpath){
+.writeFastaAA <- function(seq, fpath){
 	#takes data frame with $Seq and $ID or AAStringSet and writes fasta file
 	
 	if(class(seq)[1] == "data.table"){seq <- data.frame(seq)}
@@ -1083,10 +1073,10 @@ writeFastaAA <- function(seq, fpath){
 	} else if(class(seq) == "AAStringSet"){
 		write.fasta(seq %>% as.character %>% as.vector %>% as.list, 
 								names(seq), fpath, as.string=TRUE, nbchar = 90)
-	} else stop("ERROR: unrecognized input to writeFastaAA")
+	} else stop("ERROR: unrecognized input to .writeFastaAA")
 }
 
-tidyFasta <- function(input, name){
+.tidyFasta <- function(input, name){
 	#remove filler sequences after "." stop codon and cterminal "*"
 	
 	if(class(input) == "character"){
@@ -1112,7 +1102,7 @@ tidyFasta <- function(input, name){
 	output <- readAAStringSet(name)
 }
 
-mergeFastaDuplicates <- function(input){
+.mergeFastaDuplicates <- function(input){
 	#if two fasta entries have the same sequence, keep only one copy of the
 	# sequence but concatenante the name to be Name1__Name2
 	
@@ -1131,9 +1121,9 @@ mergeFastaDuplicates <- function(input){
 	return(input)
 }
 
-unmergeFastaDuplicates <- function(input){
+.unmergeFastaDuplicates <- function(input){
 	#if a fasta entry has a concatenated name (from a previous call to 
-	# mergeFastaDuplicates, then separate the concatenanted name and make
+	# .mergeFastaDuplicates, then separate the concatenanted name and make
 	# a separate entry for each
 	np <- input %>% names %>% str_count("__") #number of peptides - 1
 	for(k in 1:length(np)){input <- c(input, rep(input[k], np[k]))}
@@ -1143,7 +1133,18 @@ unmergeFastaDuplicates <- function(input){
 	return(input)
 }
 
-chooseIndex <- function(input, method="min"){ 
+
+.isOverlapping <- function(pattern, table, almin = 7){
+	#checks whether the stard/end pos in pattern overlaps with the
+	#start/end pos of each row in table by at least almin
+	#returns positions in table that overlap. if no overlap, returns
+	
+	opos <- findOverlaps(.makeIR(pattern), .makeIR(table), 
+											 minoverlap = almin) %>% subjectHits
+	return(opos)
+}
+
+.chooseIndex <- function(input, method="min"){ 
 	#identify which of a set of remaining peptides from a blast alignment table
 	# should serve as the next index peptide. "min" for fewest alignments and
 	# "max" for most alignments
@@ -1157,11 +1158,11 @@ chooseIndex <- function(input, method="min"){
 	} else if(method == "max"){
 		index <- fullpep$qID[fullpep$nAlign == max(fullpep$nAlign)][1] %>% 
 			as.character
-	} else{stop("Error: chooseIndex: improper selection method.")}
+	} else{stop("Error: .chooseIndex: improper selection method.")}
 }
 
-dbCleanup <- function(){
-	output.dir <- glParamGet("output.dir")
+.dbCleanup <- function(){
+	output.dir <- .glParamGet("output.dir")
 	
 	# remove temporary files made during blast
 	epath <- paste0(output.dir, "epitopes/")
@@ -1170,7 +1171,7 @@ dbCleanup <- function(){
 	file.remove(dbf)
 }
 
-epPB <- function(low,high){
+.epPB <- function(low,high){
 	#Brandon's default settings for txtprogressbar
 	txtProgressBar(min = low, max = high, initial = low, 
 								 char = "=", width = NA, style = 3, file = "")
