@@ -9,15 +9,12 @@ epitopeFinder <- function(proj.id, e.thresh, g.method = "any",
 	# == == == == == Setup/configuration steps. == == == == == 
 	if(grepl("\\.fasta",proj.id)){proj.id <- gsub("\\.fasta","",proj.id)} 
 	
-	print(paste("Running epitope finder on [",proj.id,".fasta] with [e < ",
-							e.thresh,"] and grouping method [",g.method,"].",sep=""))
-	
-	print(paste(format(Sys.time(), "%H:%M:%S"),"Step 1 of 6:",
-							"BLASTing input sequences against each other."))
+	.printSignpost(0, c(proj.id, e.thresh, g.method))
+	.printSignpost(1)
 	.libcall_epf() #if necessary load relevant R packages
 	.epSetupDirectory(proj.id, e.thresh, g.method) #prepare output directories
 	.epSetupPeptides() #cleanup input sequences
-	.epSetupBLAST() #blast input sequences against each other and prep for analysis
+	.epSetupBLAST() #blast input sequences against each other and tidy data
 	
 	# load some data from global environment
 	blast.main <- .glGet("blast.main")
@@ -29,32 +26,57 @@ epitopeFinder <- function(proj.id, e.thresh, g.method = "any",
 	# == == == == == Main script execution. == == == == == 
 	if(autorun){
 		
-		nindex <- blast.main$qID %>% unique %>% length
-		print(paste(format(Sys.time(), "%H:%M:%S"),"Step 2 of 6:",
-								"Identifying epitopes for",nindex,"peptides."))
+		.printSignpost(2,blast.main$qID %>% unique %>% length)
 		path %<>% .pbCycleBLAST(ncycles="max"); fwrite(.glGet("blast.main"),blast.id3)
 		
-		print(paste(format(Sys.time(), "%H:%M:%S"),"Step 3 of 6:",
-								"Looping back through peptides in reverse order."))
+		.printSignpost(3)
 		path %<>% .trimEpitopes(); fwrite(.glGet("blast.main"), blast.id4)
 		
-		print(paste(format(Sys.time(), "%H:%M:%S"),"Step 4 of 6:",
-								"Grouping epitope sequences."))
-		.indexGroups(path, mode = g.method) #grou peptides. mode = "any" | "all"
-		
-		print(paste(format(Sys.time(), "%H:%M:%S"),"Step 5 of 6:",
-								"Generating multiple sequence alignment motifs."))
+		.printSignpost(4)
+		.indexGroups(path, mode = g.method) #group alinging eps
+
+		.printSignpost(5)
 		.groupMSA() #generate multiple sequence alignment motifs
 		
-		
-		print(paste(format(Sys.time(), "%H:%M:%S"),"Step 6 of 6:",
-								"Preparing other output files."))
+		.printSignpost(6)
 		.outputTable() #generate output table
 		.outputFiles() #copy relevant output files to a new directory
 		
-		print(paste(format(Sys.time(), "%H:%M:%S"),"epitopeFinder run complete!"))
+		print(paste(format(Sys.time(), "%H:%M:%S"),"epitopeFinder run complete!",
+								"Output files have been written to",.glParamGet("output.dir")))
+		
+		return(.glParamGet("output.dir"))
 	}
 }
+
+.printSignpost <- function(step.num, ... = NA){
+	if(step.num == 0){
+		print(paste("Running epitope finder on [",...[1],".fasta] with [e < ",
+								...[2],"] and grouping method [",...[3],"].",sep=""))
+		
+	}
+	if(step.num == 1){
+		print(paste(format(Sys.time(), "%H:%M:%S"),"Step 1 of 6:",
+								"BLASTing input sequences against each other."))
+		
+	} else if(step.num == 2){
+		print(paste(format(Sys.time(), "%H:%M:%S"),"Step 2 of 6:",
+								"Identifying epitopes for", ...,"peptides."))
+	} else if(step.num == 3){
+		print(paste(format(Sys.time(), "%H:%M:%S"),"Step 3 of 6:",
+								"Looping back through peptides in reverse order."))
+	} else if(step.num == 4){
+		print(paste(format(Sys.time(), "%H:%M:%S"),"Step 4 of 6:",
+								"Grouping epitope sequences."))
+	} else if(step.num == 5){
+		print(paste(format(Sys.time(), "%H:%M:%S"),"Step 5 of 6:",
+								"Generating multiple sequence alignment motifs."))
+	} else if (step.num == 6){
+		print(paste(format(Sys.time(), "%H:%M:%S"),"Step 6 of 6:",
+								"Preparing other output files."))
+	} else {stop("Error: .printSignpost: invalid step number.")}
+}
+
 
 .pbCycleBLAST <- function(path, ncycles="max"){
 	# == == == == == A. Initialize == == == == ==
@@ -687,8 +709,6 @@ epitopeFinder <- function(proj.id, e.thresh, g.method = "any",
 	p2 <- c(proj.id, e.thresh, g.method)
 	pc <- setnames(cbind(p1, p2) %>% data.frame, c("parameter", "value"))
 	fwrite(pc, paste0(output.dir, "parameters.txt"))
-	
-	
 	
 }
 
