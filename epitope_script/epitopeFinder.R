@@ -1,20 +1,26 @@
-# -------- Main Functions ---
+# -------- Main Function ---
 
-epFindExample <- function(){
-	epitopeFinder("example","1","any")
-}
 
-epitopeFinder <- function(proj.id, e.thresh, g.method = "any", 
-												 aln.size = 7, autorun = TRUE){
+
+
+epitopeFinder <- function(
+	proj.id, e.thresh = 1, g.method = "any", aln.size = 7, autorun = TRUE,
+	relocate.input = FALSE, relocate.dir){
 	# == == == == == Setup/configuration steps. == == == == == 
 	if(grepl("\\.fasta",proj.id)){proj.id <- gsub("\\.fasta","",proj.id)} 
 	
 	.printSignpost(0, c(proj.id, e.thresh, g.method))
-	.printSignpost(1)
 	.libcall_epf() #if necessary load relevant R packages
+	
+	.printSignpost(1)
 	.epSetupDirectory(proj.id, e.thresh, g.method) #prepare output directories
 	.epSetupPeptides() #cleanup input sequences
-	.epSetupBLAST() #blast input sequences against each other and tidy data
+	epcontinue <- .epSetupBLAST() #blast input seqs against each other, tidy data
+	
+	if(!epcontinue) {
+		.dbCleanup(relocate.input = relocate.input, relocate.dir = relocate.dir)
+		return(paste("No BLAST alignments identified for",proj.id))
+	}
 	
 	# load some data from global environment
 	blast.main <- .glGet("blast.main")
@@ -27,10 +33,12 @@ epitopeFinder <- function(proj.id, e.thresh, g.method = "any",
 	if(autorun){
 		
 		.printSignpost(2,blast.main$qID %>% unique %>% length)
-		path %<>% .pbCycleBLAST(ncycles="max"); fwrite(.glGet("blast.main"),blast.id3)
+		path %<>% .pbCycleBLAST(ncycles="max")
+		fwrite(.glGet("blast.main"),blast.id3)
 		
 		.printSignpost(3)
-		path %<>% .trimEpitopes(); fwrite(.glGet("blast.main"), blast.id4)
+		path %<>% .trimEpitopes()
+		fwrite(.glGet("blast.main"), blast.id4)
 		
 		.printSignpost(4)
 		.indexGroups(path, mode = g.method) #group alinging eps
@@ -42,23 +50,26 @@ epitopeFinder <- function(proj.id, e.thresh, g.method = "any",
 		.outputTable() #generate output table
 		.outputFiles() #copy relevant output files to a new directory
 		
-		print(paste(format(Sys.time(), "%H:%M:%S"),"epitopeFinder run complete!",
-								"Output files have been written to",.glParamGet("output.dir")))
 		
+		#tidy up R environment and temporary files
+		.dbCleanup(relocate.input = relocate.input, relocate.dir = relocate.dir)
+		
+		.printSignpost(7)
 		return(.glParamGet("output.dir"))
 	}
+}
+
+epFindExample <- function(){
+	epitopeFinder("example","1","any")
 }
 
 .printSignpost <- function(step.num, ... = NA){
 	if(step.num == 0){
 		print(paste("Running epitope finder on [",...[1],".fasta] with [e < ",
 								...[2],"] and grouping method [",...[3],"].",sep=""))
-		
-	}
-	if(step.num == 1){
+	} else if(step.num == 1){
 		print(paste(format(Sys.time(), "%H:%M:%S"),"Step 1 of 6:",
 								"BLASTing input sequences against each other."))
-		
 	} else if(step.num == 2){
 		print(paste(format(Sys.time(), "%H:%M:%S"),"Step 2 of 6:",
 								"Identifying epitopes for", ...,"peptides."))
@@ -71,9 +82,12 @@ epitopeFinder <- function(proj.id, e.thresh, g.method = "any",
 	} else if(step.num == 5){
 		print(paste(format(Sys.time(), "%H:%M:%S"),"Step 5 of 6:",
 								"Generating multiple sequence alignment motifs."))
-	} else if (step.num == 6){
+	} else if(step.num == 6){
 		print(paste(format(Sys.time(), "%H:%M:%S"),"Step 6 of 6:",
 								"Preparing other output files."))
+	} else if(step.num == 7){
+		print(paste(format(Sys.time(), "%H:%M:%S"),"epitopeFinder run complete!",
+								"Output files have been written to",.glParamGet("output.dir")))
 	} else {stop("Error: .printSignpost: invalid step number.")}
 }
 
@@ -538,10 +552,10 @@ epitopeFinder <- function(proj.id, e.thresh, g.method = "any",
 	num <- list.files(gpath) %>% parse_number %>% max
 	if(num < 1){break} 
 	
-	pb <- .epPB(0,num)
+	# pb <- .epPB(0,num)
 	
 	for(i in 1:num){
-		setTxtProgressBar(pb, i)
+		# setTxtProgressBar(pb, i)
 		group <- readAAStringSet(paste0(gpath, "group", i, ".fasta"))
 		group %<>% .unmergeFastaDuplicates
 		
@@ -582,7 +596,7 @@ epitopeFinder <- function(proj.id, e.thresh, g.method = "any",
 			names(group) <- paste(gnames,gpos,sep=".")
 			
 			# == == == == == perform sequence alignment == == == == ==
-			cat("\n")
+			# cat("\n")
 			mg <- msa(group)
 			write(msaConsensusSequence(mg),cpath,append=TRUE)
 			
@@ -693,7 +707,7 @@ epitopeFinder <- function(proj.id, e.thresh, g.method = "any",
 													as.numeric(output$end))),]
 	
 	opath <- paste0(output.dir, proj.id,"_e-",e.thresh,"_g-",g.method,
-									"_.outputTable.csv")
+									"_outputTable.csv")
 	fwrite(output, opath)
 	
 }
@@ -719,14 +733,17 @@ epitopeFinder <- function(proj.id, e.thresh, g.method = "any",
 	path0 <- .glParamGet("path0")
 	fasta <- readAAStringSet(path0)
 	blast.merge <- rbind(blast.thresh, .qsSwap(blast.thresh)) %>% unique
+	if(nrow(blast.merge)==0){return(blast.merge)}
 	blast.tidy <- .tidyBLAST(blast.merge, fasta) #update col names, <7aa, gaps
 	
 	if(!exists("tofilter")){tofilter <- TRUE}
 	if(tofilter){
 		blast.filter <- .filterBLAST(blast.tidy) #remove self-alignments
+		if(nrow(blast.filter)==0){return(blast.filter)}
 		rownames(blast.filter) <- c(1:nrow(blast.filter)) #fix row numbering
 		return(blast.filter)
 	} else{
+		if(nrow(blast.tidy)==0){return(blast.tidy)}
 		rownames(blast.tidy) <- c(1:nrow(blast.tidy))
 		return(blast.tidy)
 	}
@@ -770,15 +787,15 @@ epitopeFinder <- function(proj.id, e.thresh, g.method = "any",
 	
 	#create output directories
 	project.dir <- paste0("../output/",proj.id,"/")
-	output.dir <- paste0(project.dir,Sys.Date(),"_",
-											 format(Sys.time(),"%H%M%S"),"_",
-											 proj.id, "_EpitopeFinder/")
+	output.dir <- paste0(project.dir, format(Sys.Date(),"%Y%m%d"),
+											 "_",format(Sys.time(),"%I%M%S"), 
+											 (format(Sys.time(),"%p") %>% substr(1,1)), 
+											 "_",proj.id, "_EpF/")
+	
 	if(!dir.exists(project.dir)){dir.create(project.dir)}
 	if(!dir.exists(output.dir)){dir.create(output.dir)}
-	
 	.glParamAssign("output.dir", output.dir)
-	if(!dir.exists(output.dir)) {dir.create(output.dir)}
-	
+
 	epath <- paste0(output.dir, "epitopes/")
 	if(!dir.exists(epath)){dir.create(epath)}
 	
@@ -786,7 +803,7 @@ epitopeFinder <- function(proj.id, e.thresh, g.method = "any",
 	if(!dir.exists(bpath)){dir.create(bpath)}
 	
 	#prepare directory path references to input .fasta sequences and blast tables
-	.glParamAssign("path", paste0("../input/", proj.id, ".fasta")) #starting peptides
+	.glParamAssign("path", paste0("../input/", proj.id, ".fasta")) 
 	.glParamAssign("blast.id1",paste0(bpath,proj.id,"_blast_1_raw.csv"))
 	.glParamAssign("blast.id2",paste0(bpath,proj.id,"_blast_2_precycle.csv"))
 	.glParamAssign("blast.id3",paste0(bpath,proj.id,"_blast_3_cycled.csv"))
@@ -805,6 +822,7 @@ epitopeFinder <- function(proj.id, e.thresh, g.method = "any",
 	
 	fpath <- paste0(output.dir, "epitopes/", proj.id, ".fasta")
 	.writeFastaAA(fasta, fpath) 
+	.glParamAssign("pathi",path)
 	.glParamAssign("path", fpath) 
 	.glParamAssign("path0", fpath)
 }
@@ -827,17 +845,21 @@ epitopeFinder <- function(proj.id, e.thresh, g.method = "any",
 		} else{
 			print("Blasting starting sequences against each other...")
 			blast.path <- data.table(.selfBLASTaa(path)) #blast seq against eachother
+			if(nrow(blast.path) == 0){return(FALSE)}
 			fwrite(blast.path, blast.id1) #write blast to csv 
 		}
 		
 		blast.thresh <- blast.path[blast.path$E < as.numeric(e.thresh), ] 
+		if(nrow(blast.thresh) == 0){return(FALSE)}
 		
 		blast.main <- .prepareBLAST(blast.thresh)
+		if(nrow(blast.main) == 0){return(FALSE)}
 		fwrite(blast.main, blast.id2)
 		
 	}
 
 	.glAssign("blast.main", blast.main)
+	return(TRUE)
 }
 
 .selfBLASTaa <- function(path){ 
@@ -1157,7 +1179,7 @@ epitopeFinder <- function(proj.id, e.thresh, g.method = "any",
 .isOverlapping <- function(pattern, table, almin = 7){
 	#checks whether the stard/end pos in pattern overlaps with the
 	#start/end pos of each row in table by at least almin
-	#returns positions in table that overlap. if no overlap, returns
+	#returns positions in table that overlap. if n ooverlap, returns
 	
 	opos <- findOverlaps(.makeIR(pattern), .makeIR(table), 
 											 minoverlap = almin) %>% subjectHits
@@ -1181,14 +1203,25 @@ epitopeFinder <- function(proj.id, e.thresh, g.method = "any",
 	} else{stop("Error: .chooseIndex: improper selection method.")}
 }
 
-.dbCleanup <- function(){
+.dbCleanup <- function(relocate.input = FALSE, relocate.dir){
+	
 	output.dir <- .glParamGet("output.dir")
 	
-	# remove temporary files made during blast
-	epath <- paste0(output.dir, "epitopes/")
-	dbf <- list.files(epath)[list.files(epath) %>% grepl("psq|pin|phr", .)]
-	dbf <- paste0(output.dir, "epitopes/", dbf)
-	file.remove(dbf)
+	# # remove temporary files made during blast
+	# epath <- paste0(output.dir, "epitopes/")
+	# dbf <- list.files(epath)[list.files(epath) %>% grepl("psq|pin|phr", .)]
+	# dbf <- paste0(output.dir, "epitopes/", dbf)
+	# file.remove(dbf)
+	
+	pathi <- .glParamGet("pathi")
+	
+	#if specified (off by default), move input fasta to a new directory
+	if(relocate.input){
+		if(!dir.exists(relocate.dir)){dir.create(relocate.dir)}
+		file.copy(pathi,relocate.dir)
+		file.remove(pathi)
+	}
+	
 }
 
 .epPB <- function(low,high){

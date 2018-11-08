@@ -1,6 +1,6 @@
 # EpitopeFinder: Minimal Overlaps from BLAST Alignments 
-Version: 1.0.04  
-Date: November 1, 2018  
+Version: 1.0.05 
+Date: November 8, 2018  
 Concept: Ben Larman, Daniel Monaco, Brandon Sie  
 Author: Brandon Sie  (contact: brandonsie at gmail)  
 
@@ -21,6 +21,7 @@ This script takes a .fasta file listing peptide sequences of interest and calls 
 
 ----------------------------------------------------------------------
 # Changelog
+* 2018-11-08 (Version 1.0.05): Updated some default settings and R environment management
 * 2018-11-01 (Version 1.0.04): Added .printSignpost function to tidy epitopeFinder() contents
 * 2018-10-31 (Version 1.0.03): Consolidated parameter settings; made some functions internal
 * 2018-10-30 (Version 1.0.02): Bugfix re output table seq_tile column
