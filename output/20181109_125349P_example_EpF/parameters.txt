@@ -1,4 +1,0 @@
-parameter,value
-Project,example
-E Threshold,1
-Group Method,any
