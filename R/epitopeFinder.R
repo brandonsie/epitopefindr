@@ -140,6 +140,8 @@ epFindExample <- function(){
 		} 
 	}
 	
+	close(pb)
+	
 	return(path)
 }
 
@@ -386,6 +388,8 @@ epFindExample <- function(){
 			.indexEpitopes(as.data.frame(blast.index))
 		}
 	}
+	close(pb)
+	
 	
 	blast.main <- .glGet("blast.main")
 	
@@ -987,6 +991,7 @@ epFindExample <- function(){
 			blast %<>% rbind(bn)
 		}
 	}
+	close(pb)
 	
 	blast <- blast[-gpos, ] #remove old rows
 	
