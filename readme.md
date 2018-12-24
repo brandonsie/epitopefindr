@@ -14,10 +14,8 @@ This script takes a .fasta file listing peptide sequences of interest and calls 
 # Setup:
 1. Install [R (version 3.4.2+)](https://www.r-project.org/).  
 2. Install [BLAST+ (version 2.7.1+)](https://blast.ncbi.nlm.nih.gov/Blast.cgi?PAGE_TYPE=BlastDocs&DOC_TYPE=Download).
-3. Install the following R packages from CRAN: `tools`, `data.table`, `magrittr`, `seqinr`, `stringr`, `pdftools`, `readr`, `microseq`.  
-4. Install the following R packages from Bioconductor: `rBLAST`, `EBImage`, `msa`.  
-5. Clone this GitHub repo. Source `EpitopeFinder/epitope_script/`. Add your input fasta file to `EpitopeFinder/input/`. 
-6. Call `epitopeFinder(proj.id = [name of your .fasta file])` Output data will be written to `EpitopeFinder/output/`.
+3. In R console, execute `devtools::install_github("brandonsie/EpitopeFinder")`, then `library(EpitopeFinder)`
+4. Call `epitopeFinder(proj.id = [name of your .fasta file])` Output data will be written to `EpitopeFinder/output/`.
 
 ----------------------------------------------------------------------
 # Changelog
@@ -32,7 +30,7 @@ This script takes a .fasta file listing peptide sequences of interest and calls 
 * 2018-10-22 (Version 0.2.00): Github version tracking begins. Vectorized some operations to get rid of for loops.
 ----------------------------------------------------------------------
 # Guide
-* install with `devtools::install_github("brandonsie/EpitopeFinder")`
+
 * all-in-one script can be executed with function `epitopeFinder()`
 * to use the provided "example" data, you can run `epitopeFinder(proj.id = "example", e.thresh = 1, g.method = "any")`. This example also has the wrapper function `epFindExample()`
 
