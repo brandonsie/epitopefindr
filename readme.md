@@ -1,6 +1,6 @@
 # EpitopeFinder: Minimal Overlaps from BLAST Alignments 
-Version: 1.0.05  
-Date: November 8, 2018  
+Version: 1.0.06  
+Date: December 23, 2018  
 Concept: Ben Larman, Brandon Sie, Daniel Monaco
 Author: Brandon Sie  (contact: brandonsie at gmail)  
 
@@ -9,7 +9,7 @@ The purpose of this tool is to describe the alignments among a set of peptide se
 
 This script takes a .fasta file listing peptide sequences of interest and calls BLASTp from within R to identify alignments among these peptides. Each peptide's alignments to other peptides are then simplified to the minimal number of "non overlapping" intervals* of the index peptide that represent all alignments to other peptides reported by BLAST. (*By default, each interval must be at least 7 amino acids long, and two intervals are considered NOT overlapping if they share 6 or fewer amino acids). After the minimal overlaps are identified for each peptide, these overlaps are gathered into aligning groups based on the initial BLAST. For each group, a multiple sequence alignment logo (motif) is generated to represent the collective sequence. Additionally, a spreadsheet is written to list the final trimmed amino acid sequences and some metadata. 
 
-![workflow](https://raw.githubusercontent.com/brandonsie/EpitopeFinder/master/graphics/EpitopeFindRWorkflow.png)
+![workflow](https://raw.githubusercontent.com/brandonsie/EpitopeFinder/master/man/graphics/EpitopeFindRWorkflow.png)
 
 # Setup:
 1. Install [R (version 3.4.2+)](https://www.r-project.org/).  
@@ -21,6 +21,7 @@ This script takes a .fasta file listing peptide sequences of interest and calls 
 
 ----------------------------------------------------------------------
 # Changelog
+* 2018-12-23 (Version 1.0.06): Converted project to package (not yet fully documented)  
 * 2018-11-08 (Version 1.0.05): Updated some default settings and R environment management
 * 2018-11-01 (Version 1.0.04): Added .printSignpost function to tidy epitopeFinder() contents
 * 2018-10-31 (Version 1.0.03): Consolidated parameter settings; made some functions internal
@@ -31,6 +32,7 @@ This script takes a .fasta file listing peptide sequences of interest and calls 
 * 2018-10-22 (Version 0.2.00): Github version tracking begins. Vectorized some operations to get rid of for loops.
 ----------------------------------------------------------------------
 # Guide
+* install with `devtools::install_github("brandonsie/EpitopeFinder")`
 * all-in-one script can be executed with function `epitopeFinder()`
 * to use the provided "example" data, you can run `epitopeFinder(proj.id = "example", e.thresh = 1, g.method = "any")`. This example also has the wrapper function `epFindExample()`
 
