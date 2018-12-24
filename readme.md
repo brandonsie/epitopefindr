@@ -1,7 +1,7 @@
 # EpitopeFinder: Minimal Overlaps from BLAST Alignments 
 Version: 1.0.06  
 Date: December 23, 2018  
-Concept: Ben Larman, Brandon Sie, Daniel Monaco
+Concept: Ben Larman, Brandon Sie, Daniel Monaco  
 Author: Brandon Sie  (contact: brandonsie at gmail)  
 
 # Pipeline Overview: 
