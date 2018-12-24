@@ -32,9 +32,9 @@ This script takes a .fasta file listing peptide sequences of interest and calls 
 # Guide
 
 * all-in-one script can be executed with function `epitopeFinder()`
-* to use the provided "example" data, you can run `epitopeFinder(proj.id = "example", e.thresh = 1, g.method = "any")`. This example also has the wrapper function `epFindExample()`
+* to use the provided "example" data, you can run `epitopeFinder(proj.id = "example", e.thresh = 0.01, g.method = "any")`.
 
-`epitopeFinder` calls a few core functions in order:
+`epitopeFinder()` calls a few core functions in order:
 1. `epSetupDirectory`,`epSetupPeptides`, and `epSetupBLAST` perform preparatory tidying steps and call blastp from BLAST+ to identify alignments among input peptides.
 2. `pbCycleBLAST` cycles through each input peptide to find the overlap of its alignment with other peptides from the input. Nested within a call to `pbCycleBLAST` are calls to `epitopeBLAST`, `indexEpitopes`. 
 3. `trimEpitopes` performs a second pass through the identified sequences to tidy alignments.
