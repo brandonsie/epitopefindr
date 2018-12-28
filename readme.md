@@ -1,6 +1,6 @@
 # EpitopeFinder: Minimal Overlaps from BLAST Alignments 
 
-
+<center>
 <img src="https://raw.githubusercontent.com/brandonsie/brandonsie.github.io/master/docs/epf-logo2.png" 
          alt="logo" width="200px" height="200px">  
      
@@ -8,7 +8,7 @@ Version: 1.0.06
 Date: December 23, 2018  
 Concept: Ben Larman, Brandon Sie, Daniel Monaco  
 Author: Brandon Sie  (contact: brandonsie at gmail)  
-
+</center>  
 # Pipeline Overview: 
 The purpose of this package is to describe the alignments among a set of peptide sequences by reporting the overlaps of each peptide's alignments to other peptides in the set. One can imagine inputting a list of peptides enriched by immunoprecipitation to identify corresponding epitopes. 
 
