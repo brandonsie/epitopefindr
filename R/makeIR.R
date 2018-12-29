@@ -10,5 +10,5 @@ makeIR <- function(df){
 
   } else{df <- data.frame(df)}
 
-  IRanges(df[, 1], df[, 2])
+  IRanges::IRanges(df[, 1], df[, 2])
 }

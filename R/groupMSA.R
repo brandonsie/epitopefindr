@@ -48,12 +48,12 @@ groupMSA <- function(trim.groups = FALSE, make.png = FALSE){
       gnames <- substr(norig[,1],1,k)
 
       #shorten long names
-      n.long <- str_length(norig[,1]) > k
+      n.long <- stringr::str_length(norig[,1]) > k
       gnames[n.long] <- paste0(gnames[n.long],".")
 
       #pad short names
-      n.short <- str_length(norig[,1]) <= k
-      gnames[n.short] <- str_pad(gnames[n.short],width=k+1,side="right",pad=".")
+      n.short <- stringr::str_length(norig[,1]) <= k
+      gnames[n.short] <- stringr::str_pad(gnames[n.short],width=k+1,side="right",pad=".")
 
       #append start & end positions
       gpos <- paste(norig[,2],norig[,3],sep = ".")

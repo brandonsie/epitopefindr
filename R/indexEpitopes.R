@@ -14,7 +14,7 @@ indexEpitopes <- function(blast.index){
 
   pos0 <- pos00
   pos1 <- data.table::setnames(data.frame(matrix(nrow = 0, ncol = 2)), names(pos00))
-  df <- data.frame(findOverlaps(makeIR(pos00), minoverlap = 7))
+  df <- IRanges::findOverlaps(makeIR(pos00), minoverlap = 7) %>% data.frame
   prev <- matrix(nrow = nrow(pos00), ncol = 1)
 
   # == == == == == Run overlap identification cycle == =
@@ -70,7 +70,7 @@ indexEpitopes <- function(blast.index){
   }
 
   # Tidy up new overlap table
-  posN <- (countOverlaps(makeIR(pos00), makeIR(pos1), minoverlap = 7)) == 0
+  posN <- (IRanges::countOverlaps(makeIR(pos00), makeIR(pos1), minoverlap = 7)) == 0
   w1 <- paste("CAUTION:",
               "indexEpitopes/posN len > 0 for index", blast.index$qID[1])
   if(length(posN[posN == TRUE])>0) {print(w1)}
