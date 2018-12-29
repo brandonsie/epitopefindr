@@ -1,10 +1,6 @@
-# EpitopeFinder: Minimal Overlaps from BLAST Alignments 
-
-<img src="https://raw.githubusercontent.com/brandonsie/brandonsie.github.io/master/docs/epf-logo2.png" 
-         alt="logo" width="200px" height="200px">  
-     
-Version: 1.0.06  
-Date: December 23, 2018  
+# epitopefindr: Minimal Overlaps from BLAST Alignments 
+Version: 1.1  
+Date: December 29, 2018  
 Concept: Ben Larman, Brandon Sie, Daniel Monaco  
 Author: Brandon Sie  (contact: brandonsie at gmail)  
 
@@ -18,11 +14,12 @@ The purpose of this package is to describe the alignments among a set of peptide
 # Setup:
 1. Install [R (version 3.4.2+)](https://www.r-project.org/).  
 2. Install [BLAST+ (version 2.7.1+)](https://blast.ncbi.nlm.nih.gov/Blast.cgi?PAGE_TYPE=BlastDocs&DOC_TYPE=Download).
-3. In R console, execute `devtools::install_github("brandonsie/EpitopeFinder")`, then `library(EpitopeFinder)`
-4. Call `epitopeFinder(proj.id = [name of your .fasta file])` Output data will be written to `EpitopeFinder/output/`.
+3. In R console, execute `devtools::install_github("brandonsie/epitopefindr")`, then `library(epitopefindr)`
+4. Call `epFind(proj.id = [name of your .fasta file])` Output data will be written to `EpitopeFinder/output/`.
 
 ----------------------------------------------------------------------
 # Changelog
+* 2018-12-29 (Version 1.1.00): Massive documentation overhaul. Finally using roxygen, no more global assignments, etc.
 * 2018-12-23 (Version 1.0.06): Converted project to package (not yet fully documented)  
 * 2018-11-08 (Version 1.0.05): Updated some default settings and R environment management
 * 2018-11-01 (Version 1.0.04): Added .printSignpost function to tidy epitopeFinder() contents
@@ -35,10 +32,9 @@ The purpose of this package is to describe the alignments among a set of peptide
 ----------------------------------------------------------------------
 # Guide
 
-* all-in-one script can be executed with function `epitopeFinder()`
-* to use the provided "example" data, you can run `epitopeFinder(proj.id = "example", e.thresh = 0.01, g.method = "any")`.
+* all-in-one script can be executed with function `epFind()`
 
-`epitopeFinder()` calls a few core functions in order:
+`epFind()` calls a few core functions in order:
 1. `epSetupDirectory`,`epSetupPeptides`, and `epSetupBLAST` perform preparatory tidying steps and call blastp from BLAST+ to identify alignments among input peptides.
 2. `pbCycleBLAST` cycles through each input peptide to find the overlap of its alignment with other peptides from the input. Nested within a call to `pbCycleBLAST` are calls to `epitopeBLAST`, `indexEpitopes`. 
 3. `trimEpitopes` performs a second pass through the identified sequences to tidy alignments.
