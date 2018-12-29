@@ -23,7 +23,6 @@ Collate:
     'epSetupPeptides.R'
     'epitopeBLAST.R'
     'filterBLAST.R'
-    'freadSF.R'
     'glAssign.R'
     'glGet.R'
     'glParamAssign.R'
@@ -63,5 +62,6 @@ Imports:
     rBLAST,
     readr,
     microseq,
-    hellno,
-    pdftools
+    pdftools,
+    IRanges,
+    S4Vectors

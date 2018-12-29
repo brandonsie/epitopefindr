@@ -18,4 +18,7 @@
 #' @import pdftools
 #' @import rBLAST
 #' @import readr
+#' @import microseq
+#' @import pdftools
+#' @import IRanges
 NULL

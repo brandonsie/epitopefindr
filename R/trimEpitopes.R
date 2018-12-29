@@ -11,7 +11,7 @@ trimEpitopes <- function(path, tofilter = FALSE){
   gl <- c("blast.id3","output.dir")
   for(i in gl){assign(i,glParamGet(i))}
 
-  blast.main <- freadSF(blast.id3)
+  blast.main <- data.table::fread(blast.id3)
   blast.main %<>% prepareBLAST(tofilter)
  glAssign("blast.main", blast.main)
 

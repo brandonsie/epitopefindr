@@ -14,7 +14,7 @@ outputTable <- function(){
 
   ## load singletons
   spath <- paste0(output.dir, "epitopes/singletons.csv")
-  sing <- freadSF(spath)
+  sing <- data.table::fread(spath)
   sf <- data.frame(ID = paste(sing$qID, sing$qStart, sing$qEnd, sep="."),
                    Seq = sing$qSeq)
 

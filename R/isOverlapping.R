@@ -11,7 +11,7 @@
 
 isOverlapping <- function(pattern, table, almin = 7){
 
-  opos <- findOverlaps(makeIR(pattern), makeIR(table),
-                       minoverlap = almin) %>% subjectHits
+  opos <- IRanges::findOverlaps(makeIR(pattern), makeIR(table),
+                       minoverlap = almin) %>% (S4Vectors::subjectHits)
   return(opos)
 }

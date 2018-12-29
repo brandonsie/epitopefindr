@@ -20,7 +20,7 @@ decipherGaps <- function(blast){
     sfrag <- with(bl.i,substr(sSeq,sStart,sEnd))
 
     msabl <- capture.output(msa::msa(c(qfrag,sfrag) %>%
-                                  as.character %>% AAStringSet))
+                                  as.character %>% (Biostrings::AAStringSet)))
     msabl <- msabl[(1:2)+length(msabl)-3]
     msagap <- gsub("\\[\\d\\] ","",msabl)
 

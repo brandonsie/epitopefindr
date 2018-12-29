@@ -9,12 +9,12 @@ epSetupBLAST <- function(){
   #check for previously written blast table and only re-compute if not present
   if(file.exists(blast.id2)){
     print(paste("Loading existing blast table from", blast.id2))
-    blast.main <- freadSF(blast.id2)
+    blast.main <- data.table::fread(blast.id2)
 
   } else {
     if(file.exists(blast.id1)){
       print(paste("Loading existing blast table from", blast.id1))
-      blast.path <- freadSF(blast.id1)
+      blast.path <- data.table::fread(blast.id1)
     } else{
       print("Blasting starting sequences against each other...")
       blast.path <- data.table::data.table(selfBLASTaa(path)) #blast seq against eachother
