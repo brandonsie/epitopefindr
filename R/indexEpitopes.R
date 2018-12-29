@@ -99,7 +99,7 @@ indexEpitopes <- function(blast.index){
                                       blast.main$sStart == blast.index$qStart[i] &
                                       blast.main$sEnd == blast.index$qEnd[i]]
 
-      pos <- c(qpos, spos) %>% na.omit %>% as.numeric
+      pos <- c(qpos, spos) %>% (stats::na.omit) %>% as.numeric
 
 
       if(length(pos)>0){

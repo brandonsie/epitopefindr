@@ -15,9 +15,9 @@ filterBLAST <- function(input){ #remove singletons
   if(!dir.exists(epath)) dir.create(epath)
   if(file.exists(spath)){
     sing <- fread(spath, data.table=FALSE)
-    write.csv(rbind(s,sing) %>% unique, spath, row.names = FALSE)
+    utils::write.csv(rbind(s,sing) %>% unique, spath, row.names = FALSE)
   }
-  write.csv(s, spath, row.names = FALSE)
+  utils::write.csv(s, spath, row.names = FALSE)
 
 
   return(filter)

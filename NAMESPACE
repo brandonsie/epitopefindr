@@ -3,6 +3,7 @@
 export(cycleBLAST)
 export(dbCleanup)
 export(epFind)
+export(epSetupDirectory)
 export(epitopeBLAST)
 export(groupMSA)
 export(indexEpitopes)

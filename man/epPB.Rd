@@ -5,7 +5,7 @@
 \title{epPB, short of epitope progress bar, calls utils::txtProgressBar with some
 standardized parameters to reduce redundancy.}
 \usage{
-epPB(low, high)
+epPB(min, max)
 }
 \arguments{
 \item{min}{txtProgressBar minimum value}

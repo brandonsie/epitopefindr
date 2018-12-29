@@ -7,6 +7,13 @@ Setup epitopefinder directory paths}
 \usage{
 epSetupDirectory(proj.id, e.thresh, g.method)
 }
+\arguments{
+\item{proj.id}{Name of peptide cohort.}
+
+\item{e.thresh}{Maximum allowed e-value for BLAST alignment to be considered.}
+
+\item{g.method}{Grouping method "any" or "all". See ?indexGroups}
+}
 \description{
 epSetupDirectory
 Setup epitopefinder directory paths

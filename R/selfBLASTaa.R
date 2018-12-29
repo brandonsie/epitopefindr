@@ -7,5 +7,5 @@ selfBLASTaa <- function(path){
   rBLAST::makeblastdb(path, dbtype="prot")
   blastdb <- rBLAST::blast(path, type="blastp")
   blastseq <- Biostrings::readAAStringSet(path)
-  blastpred <- predict(blastdb, blastseq)
+  blastpred <- stats::predict(blastdb, blastseq)
 }

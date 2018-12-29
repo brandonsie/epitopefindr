@@ -10,7 +10,7 @@
 cycleBLAST <- function(path, pb, n, verbose = FALSE){
 
   if(n > 0){ # n counts down to zero
-    setTxtProgressBar(pb, -n) #update progress bar in console
+    utils::setTxtProgressBar(pb, -n) #update progress bar in console
 
     #Optionally print time at each iteration for debugging / speed optimization
     if(verbose == TRUE) {print(paste(Sys.time(), path, "start"))}
@@ -22,7 +22,7 @@ cycleBLAST <- function(path, pb, n, verbose = FALSE){
       path <- epitopeBLAST(path, verbose)
       glParamAssign("path", path)
       path <- glParamGet("path")
-      n <- n - 1 # -sum(!(grepl("\\.", names(epitopesI))))
+      n <- n - 1
 
       path <- cycleBLAST(path, pb, n)
     }

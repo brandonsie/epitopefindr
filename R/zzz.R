@@ -2,7 +2,7 @@
 #' Set stringsAsFactors FALSE for epitopefindr
 
 #Initialize Envrionment
-epitopefindrEnv <- new.env(parent = parent.env(environment()))
+epitopefindrEnv <- new.env()
 
 .onload <- function(libname, pkgname){
   options(stringsAsFactors = FALSE)

@@ -1,5 +1,9 @@
 #' epSetupDirectory
 #' Setup epitopefinder directory paths
+#' @param proj.id Name of peptide cohort.
+#' @param e.thresh Maximum allowed e-value for BLAST alignment to be considered.
+#' @param g.method Grouping method "any" or "all". See ?indexGroups
+#' @export
 
 epSetupDirectory <- function(proj.id, e.thresh, g.method){
 

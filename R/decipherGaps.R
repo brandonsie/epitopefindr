@@ -12,14 +12,14 @@ decipherGaps <- function(blast){
 
   for(i in gpos){
     pbcount %<>% +1
-    setTxtProgressBar(pb, pbcount)
+    utils::setTxtProgressBar(pb, pbcount)
 
     #run pairwise alignment
     bl.i <- blast[i,]
     qfrag <- with(bl.i,substr(qSeq,qStart,qEnd))
     sfrag <- with(bl.i,substr(sSeq,sStart,sEnd))
 
-    msabl <- capture.output(msa::msa(c(qfrag,sfrag) %>%
+    msabl <- utils::capture.output(msa::msa(c(qfrag,sfrag) %>%
                                   as.character %>% (Biostrings::AAStringSet)))
     msabl <- msabl[(1:2)+length(msabl)-3]
     msagap <- gsub("\\[\\d\\] ","",msabl)

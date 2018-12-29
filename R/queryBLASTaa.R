@@ -9,5 +9,5 @@ queryBLASTaa <- function(query, db){
   rBLAST::makeblastdb(db, dbtype="prot")
   blastdb <- rBLAST::blast(db, type="blastp")
   blastseq <- Biostrings::readAAStringSet(query)
-  blastpred <- predict(blastdb, blastseq)
+  blastpred <- stats::predict(blastdb, blastseq)
 }

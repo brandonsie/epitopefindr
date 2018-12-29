@@ -19,7 +19,6 @@ groupMSA <- function(trim.groups = FALSE, make.png = FALSE){
   if(num < 1){break}
 
   for(i in 1:num){
-    # setTxtProgressBar(pb, i)
     group <- Biostrings::readAAStringSet(paste0(gpath, "group", i, ".fasta"))
     group %<>% unmergeFastaDuplicates
 
@@ -33,7 +32,7 @@ groupMSA <- function(trim.groups = FALSE, make.png = FALSE){
 
         gpath <- paste0(output.dir, "groups/group", i, "_msa.fasta")
         microseq::writeFasta(mf, gpath)
-        mt <-  microseq::msaTrim(readFasta(gpath), 0, 0)
+        mt <-  microseq::msaTrim(microseq::readFasta(gpath), 0, 0)
 
         #convert back to seqinr fasta file
         tpath <- paste0(output.dir, "groups/group", i, "_trim.fasta")

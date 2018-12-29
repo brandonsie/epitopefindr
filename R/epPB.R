@@ -6,7 +6,7 @@
 #'
 #' @importFrom utils txtProgressBar
 
-epPB <- function(low,high){
-  txtProgressBar(min = low, max = high, initial = low,
+epPB <- function(min,max){
+  txtProgressBar(min = min, max = max, initial = min,
                  char = "=", width = NA, style = 3, file = "")
 }
