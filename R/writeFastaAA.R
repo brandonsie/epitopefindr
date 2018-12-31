@@ -3,6 +3,7 @@
 #'
 #' @param input Data frame or AAStringSet to write to fasta file.
 #' @param fpath Directory path to write fasta file to.
+#' @export
 
 writeFastaAA <- function(input, fpath){
 

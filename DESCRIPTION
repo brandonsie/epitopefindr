@@ -44,6 +44,7 @@ Collate:
     'queryBLASTaa.R'
     'removeSmallAln.R'
     'selfBLASTaa.R'
+    'threshBLAST.R'
     'tidyBLAST.R'
     'tidyFasta.R'
     'trimEpitopes.R'
