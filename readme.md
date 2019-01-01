@@ -23,8 +23,7 @@ The purpose of this package is to describe the alignments among a set of peptide
 
 * all-in-one script can be executed with function `epFind()`. This wrapper is added for convenience, but a [GNU Make](https://www.gnu.org/software/make/) style workflow is recommended. An example implementation with Richfitz's [remake](https://github.com/richfitz/remake) is a planned upcoming development aim.
 
-`epFind()` calls a few core functions in order:
-1. `epSetupDirectory`,`epSetupPeptides`, and `epSetupBLAST` perform preparatory tidying steps and call blastp from BLAST+ to identify alignments among input peptides.
+1. Prepare an `AAStringSet` object of peptides as described in the [Biostrings documentation](http://web.mit.edu/~r/current/arch/i386_linux26/lib/R/library/Biostrings/html/XStringSet-class.html).
 2. `pbCycleBLAST` cycles through each input peptide to find the overlap of its alignment with other peptides from the input. Nested within a call to `pbCycleBLAST` are calls to `epitopeBLAST`, `indexEpitopes`. 
 3. `trimEpitopes` performs a second pass through the identified sequences to tidy alignments.
 4. `indexGroups` collects trimmed sequences into aligning groups
