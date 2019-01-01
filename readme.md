@@ -1,7 +1,7 @@
 # EpitopeFinder (R package name: epitopefindr)
 ## Minimal Overlaps from BLAST Alignments 
-Version: 1.1.00  
-Date: December 29, 2018  
+Version: 1.1.01  
+Date: January 1, 2019  
 Concept: Ben Larman, Brandon Sie, Daniel Monaco  
 Author: Brandon Sie  (contact: brandonsie at gmail)  
 
@@ -29,16 +29,3 @@ The purpose of this package is to describe the alignments among a set of peptide
 4. `indexGroups` collects trimmed sequences into aligning groups
 5. `groupMSA` creates a multiple sequence alignment motif logo for each group
 6. `outputTable` creates a spreadsheet summarizing identified sequences and epitope groups
-
-----------------------------------------------------------------------
-# Changelog
-* 2018-12-29 (Version 1.1.00): Massive documentation overhaul. Finally using roxygen, no more global assignments, etc.
-* 2018-12-23 (Version 1.0.06): Converted project to package (not yet fully documented)  
-* 2018-11-08 (Version 1.0.05): Updated some default settings and R environment management
-* 2018-11-01 (Version 1.0.04): Added .printSignpost function to tidy epitopeFinder() contents
-* 2018-10-31 (Version 1.0.03): Consolidated parameter settings; made some functions internal
-* 2018-10-30 (Version 1.0.02): Bugfix re output table seq_tile column
-* 2018-10-26 (Version 1.0.01): Bugfix re fasta file peptide naming (gsub commas etc.)
-* 2018-10-23 (Version 1.0.00): Bugfix re: alignment gap removal; UX polishing.
-* 2018-10-23 (Version 0.2.10): Output directory bugfixes.
-* 2018-10-22 (Version 0.2.00): Github version tracking begins. Vectorized some operations to get rid of for loops.
