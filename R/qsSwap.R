@@ -1,6 +1,7 @@
 #' qsSwap
 #' Swap query and subject data from a BLAST table.
 #' @param blast.in Input blast table to be swapped.
+#' @export
 
 qsSwap <- function(blast.in){
   #to force blast table to be symmetrical, swap subject and query info

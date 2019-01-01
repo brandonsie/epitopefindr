@@ -1,14 +1,14 @@
 #' prepareBLAST
 #' Call series of functions to standardize BLAST table for computation.
-#' @param blast.thresh Input tidied BLAST table.
-#' @param tofilter Logical whether or not to call blast.filter, which is only
+#' @param blast Input tidied BLAST table.
+#' @param fasta AAstringset object of fasta sequences.
+#' @param tofilter Logical whether or not to call filterBLAST, which is only
 #' necessary during initial setup.
+#' @export
 
-prepareBLAST <- function(blast.thresh, tofilter=TRUE){
+prepareBLAST <- function(blast, fasta, tofilter=TRUE){
   #
-  path0 <- glParamGet("path0")
-  fasta <- Biostrings::readAAStringSet(path0)
-  blast.merge <- rbind(blast.thresh, qsSwap(blast.thresh)) %>% unique
+  blast.merge <- rbind(blast, qsSwap(blast)) %>% unique
   if(nrow(blast.merge)==0){return(blast.merge)}
   blast.tidy <- tidyBLAST(blast.merge, fasta) #update col names, <7aa, gaps
 

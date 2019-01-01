@@ -4,6 +4,7 @@
 #'
 #' @param blast Input BLAST table.
 #' @param minsize Minimum length of alignment to keep.
+#' @export
 
 removeSmallAln <- function(blast, minsize = 7){
   #

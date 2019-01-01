@@ -6,10 +6,10 @@
 Remove singletons, sequneces with no non-self alignments,
 from BLAST alignment table.}
 \usage{
-filterBLAST(input)
+filterBLAST(blast)
 }
 \arguments{
-\item{input}{BLAST alignment table from which to remove singletons.}
+\item{blast}{BLAST alignment table from which to remove singletons.}
 }
 \description{
 filterBLAST

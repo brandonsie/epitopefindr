@@ -1,44 +1,45 @@
 #' groupMSA
 #' Generate pdf multiple sequence alignment logos for identified aligning groups.
-#' @param trim.groups Logical whether or not to apply msaTrim to edges of logos.
+#' @param groups Table of final peptides and pre-calculated groupings.
+#' @param mpath Direcotry to write sequence alignment files.
+#' @param trim.groups Logical whether or not to apply msaTrim to edges of logos. Not implemented.
 #' @param make.png Locial whether or not to convert PDF output to PNG.
 #' @export
 
-groupMSA <- function(trim.groups = FALSE, make.png = FALSE){
+groupMSA <- function(groups, mpath = "intermediate_files/msa/",
+                     trim.groups = FALSE, make.png = FALSE){
 
   #setup output paths and directories
-  output.dir <- glParamGet("output.dir")
-  gpath <- paste0(output.dir, "groups/")
-  mpath <- paste0(output.dir, "msa/")
   cpath <- paste0(mpath,"consensusSequences.txt")
   if(!dir.exists(mpath)) {dir.create(mpath)}
   if(file.exists(cpath)) {file.remove(cpath)}
 
   #loop through each group
-  num <- list.files(gpath) %>% (readr::parse_number) %>% max
+  num <- max(groups$Group)
   if(num < 1){break}
 
   for(i in 1:num){
-    group <- Biostrings::readAAStringSet(paste0(gpath, "group", i, ".fasta"))
+    group <- AAStringSet(groups$Seq[groups$Group == i])
+    names(group) <- groups$ID[groups$Group == i]
     group %<>% unmergeFastaDuplicates
 
     if(length(group)>1){
 
-      if(trim.groups){ #optionally trim groups using microseq package
-        mg <- msa::msa(group)
-        mf <- data.frame(Header = names(as.character(mg)),
-                         Sequence = as.character(mg) %>% as.vector,
-                         stringsAsFactors = FALSE)
-
-        gpath <- paste0(output.dir, "groups/group", i, "_msa.fasta")
-        microseq::writeFasta(mf, gpath)
-        mt <-  microseq::msaTrim(microseq::readFasta(gpath), 0, 0)
-
-        #convert back to seqinr fasta file
-        tpath <- paste0(output.dir, "groups/group", i, "_trim.fasta")
-        seqinr::write.fasta(mt$Sequence %>% as.list, mt$Header, tpath)
-        group <- Biostrings::readAAStringSet(tpath)
-      }
+      # if(trim.groups){ #optionally trim groups using microseq package
+      #   mg <- msa::msa(group)
+      #   mf <- data.frame(Header = names(as.character(mg)),
+      #                    Sequence = as.character(mg) %>% as.vector,
+      #                    stringsAsFactors = FALSE)
+      #
+      #   gpath <- paste0(output.dir, "groups/group", i, "_msa.fasta")
+      #   microseq::writeFasta(mf, gpath)
+      #   mt <-  microseq::msaTrim(microseq::readFasta(gpath), 0, 0)
+      #
+      #   #convert back to seqinr fasta file
+      #   tpath <- paste0(output.dir, "groups/group", i, "_trim.fasta")
+      #   seqinr::write.fasta(mt$Sequence %>% as.list, mt$Header, tpath)
+      #   group <- Biostrings::readAAStringSet(tpath)
+      # }
 
       # == == == == == normalize peptide name length == == == == ==
       k = 50 #characters from peptide name to use
@@ -79,7 +80,7 @@ groupMSA <- function(trim.groups = FALSE, make.png = FALSE){
 
       #print msa logo
       msa::msaPrettyPrint(mg, output="tex", file = tname,
-                     askForOverwrite=FALSE, paperWidth = 8,
+                     askForOverwrite=FALSE, paperWidth = 10,
                      paperHeight = msa.height)
 
       #convert tex to pdf

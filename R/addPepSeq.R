@@ -5,7 +5,7 @@
 #' @param fasta Fasta file with relevant peptide names and amino acid sequences.
 
 addPepSeq <- function(blast, fasta){
-  if(class(fasta) == "character") fasta <- Biostrings::readAAStringSet(fasta)
+  if(class(fasta) == "character"){fasta <- Biostrings::readAAStringSet(fasta)}
   fdf <- data.frame(id = names(fasta), seq = fasta %>% as.character,
                     stringsAsFactors = FALSE)
 

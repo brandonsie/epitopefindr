@@ -6,10 +6,10 @@
 Update BLAST table positions to reflect smaller intervals when a subinterval
 has been determined as the minimal overlap of alignments to a peptide.}
 \usage{
-trimEpitopes(path, tofilter = FALSE)
+trimEpitopes(data, tofilter = FALSE)
 }
 \arguments{
-\item{path}{Path to current fasta file.}
+\item{data}{List containing BLAST table and fasta file and index peptide order to process.}
 
 \item{tofilter}{Binary whether or not to filter BLAST table entries.}
 }

@@ -5,12 +5,10 @@
 \title{tidyFasta
 remove filler sequences after "." stop codon and cterminal "*"}
 \usage{
-tidyFasta(input, name)
+tidyFasta(input)
 }
 \arguments{
 \item{input}{Untidy fasta.}
-
-\item{name}{Filename to write tidy fasta file.}
 }
 \description{
 tidyFasta

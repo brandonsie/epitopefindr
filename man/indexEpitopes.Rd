@@ -7,10 +7,12 @@ For a specified index peptide, identify the maximal intervals that represent
 the consensus overlap of reported BLAST alignments to that peptide. Update
 the BLAST table accordingly.}
 \usage{
-indexEpitopes(blast.index)
+indexEpitopes(blast, index)
 }
 \arguments{
-\item{blast.index}{Name of index peptide to process.}
+\item{blast}{BLAST alignment table to process.}
+
+\item{index}{Name of index peptide to process.}
 }
 \description{
 indexEpitopes

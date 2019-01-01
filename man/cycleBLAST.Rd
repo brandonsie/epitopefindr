@@ -6,16 +6,19 @@
 Repeatedly call epitopeBLAST to iterate through all index peptides
 until all peptides are converted to trimmed epitopes.}
 \usage{
-cycleBLAST(path, pb, n, verbose = FALSE)
+cycleBLAST(data, pb, n, verbose = FALSE)
 }
 \arguments{
-\item{path}{Path to current fasta file.}
+\item{data}{List of BLAST alignment table and fastra file to process.}
 
 \item{pb}{txtProgressBar object to update}
 
 \item{n}{Value to update txtProgressBar object.}
 
 \item{verbose}{Logical whether or not to print status updates to console.}
+}
+\value{
+List data containing modified BLAST alignment table and fasta file.
 }
 \description{
 cycleBLAST

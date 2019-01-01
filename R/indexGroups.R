@@ -1,6 +1,7 @@
 #' indexGroups
 #' Group trimmed sequences into aligning groups
-#' @param path Path to fasta file with trimmed sequences.
+#' @param blast BLAST alignment table to process.
+#' @param fasta Epitope sequence AAStringset object to process.
 #' @param mode Grouping method. "any" creates a smaller number of groups, with
 #' individual groups tending to have more members, such that in each group,
 #' each member must align with at least 1 "any" of the other members. "all"
@@ -9,30 +10,21 @@
 #' other members.
 #' @export
 
-indexGroups <- function(path, mode="any"){
-
-  gl <- c("blast.id4","output.dir")
-  for(i in gl){assign(i,glParamGet(i))}
-
-  blast.main <- fread(blast.id4, data.table=FALSE)
-  glAssign("blast.main",blast.main)
+indexGroups <- function(blast, fasta, mode="any"){
 
   # == == == == == A. Load final epitope list and blast table(s). == =
-  epitopes <- Biostrings::readAAStringSet(path) %>% unmergeFastaDuplicates
-
-  #use global blast table
-  blast.main <- glGet("blast.main")
-  blast.main <- blast.main[blast.main$qEnd-blast.main$qStart >= 6 &
-                             blast.main$sEnd-blast.main$sStart >= 6, ]
+  epitopes <- unmergeFastaDuplicates(fasta)
+  blast <- blast[blast$qEnd-blast$qStart >= 6 &
+                             blast$sEnd-blast$sStart >= 6, ]
 
   # == == == == == B. For each epitope, find aligning epitopes. == =
 
-  #define data frame from blast.main that represents each epitope's alignments
-  b.simp <- data.table::setnames(data.frame(matrix(ncol=2, nrow=nrow(blast.main))), c("q", "s"))
-  b.simp$q <- sapply(1:nrow(blast.main), function(x){
-    paste(blast.main[x, c("qID", "qStart", "qEnd")], collapse=".")})
-  b.simp$s <- sapply(1:nrow(blast.main), function(x){
-    paste(blast.main[x, c("sID", "sStart", "sEnd")], collapse=".")})
+  #define data frame from blast that represents each epitope's alignments
+  b.simp <- data.table::setnames(data.frame(matrix(ncol=2, nrow=nrow(blast))), c("q", "s"))
+  b.simp$q <- sapply(1:nrow(blast), function(x){
+    paste(blast[x, c("qID", "qStart", "qEnd")], collapse=".")})
+  b.simp$s <- sapply(1:nrow(blast), function(x){
+    paste(blast[x, c("sID", "sStart", "sEnd")], collapse=".")})
   b.simp <- b.simp[b.simp$q %in% names(epitopes) &
                      b.simp$s %in% names(epitopes), ] %>% unique
 
@@ -100,8 +92,8 @@ indexGroups <- function(path, mode="any"){
 
     #define data frame to keep track of each epitope's alignments
     #populate ep.align$Align with lists of aligning epitopes based on b.simp
-    ep.align <- data.table::setnames(data.frame(matrix(ncol=2, nrow=length(epitopes))),
-                         c("Ep", "Align"))
+    ep.align <- data.table::setnames(
+      data.frame(matrix(ncol=2, nrow=length(epitopes))),c("Ep", "Align"))
     ep.align$Ep <- names(epitopes)
     for(i in 1:nrow(ep.align)){
       ep.align$Align[i] <-
@@ -130,15 +122,25 @@ indexGroups <- function(path, mode="any"){
   } #end "any"
 
 
-  # == == == == == D. Write groups to new fasta files. == =
-  gpath <- paste0(output.dir, "groups/")
-  if(!dir.exists(gpath)) dir.create(gpath)
+  # == == == == == D. Write groups information to table == =
+
+  output <- data.frame(ID = names(epitopes), Seq = as.character(epitopes),
+                       Group = NA)
   for(i in 1:length(groups)){
-    ep <- epitopes[names(epitopes) %in% (groups[i] %>% unlist)]
-    ID <- names(ep); Seq <- as.character(ep)
-    gdf <- data.frame(ID, Seq)
-    writeFastaAA(gdf, paste0(gpath, "group", i, ".fasta"))
+    output$Group[output$ID %in% groups[[i]]] <- i
   }
-  print(paste(length(groups), "groups identified."))
-  return(length(groups))
+
+  return(output)
+
+  # #old writing individual group files to path
+  # gpath <- "groups/"
+  # if(!dir.exists(gpath)) dir.create(gpath)
+  # for(i in 1:length(groups)){
+  #   ep <- epitopes[names(epitopes) %in% (groups[i] %>% unlist)]
+  #   ID <- names(ep); Seq <- as.character(ep)
+  #   gdf <- data.frame(ID, Seq)
+  #   writeFastaAA(gdf, paste0(gpath, "group", i, ".fasta"))
+  # }
+  # print(paste(length(groups), "groups identified."))
+  # return(length(groups))
 }

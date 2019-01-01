@@ -5,10 +5,12 @@
 \title{indexGroups
 Group trimmed sequences into aligning groups}
 \usage{
-indexGroups(path, mode = "any")
+indexGroups(blast, fasta, mode = "any")
 }
 \arguments{
-\item{path}{Path to fasta file with trimmed sequences.}
+\item{blast}{BLAST alignment table to process.}
+
+\item{fasta}{Epitope sequence AAStringset object to process.}
 
 \item{mode}{Grouping method. "any" creates a smaller number of groups, with
 individual groups tending to have more members, such that in each group,

@@ -5,10 +5,12 @@
 \title{pbCycleBLAST
 Initialize a txtProgressBar object with which to call cycleBLAST.}
 \usage{
-pbCycleBLAST(path, ncycles = "max")
+pbCycleBLAST(blast, fasta, ncycles = "max")
 }
 \arguments{
-\item{path}{Path to current fasta file to pass to cycleBLAST.}
+\item{blast}{BLAST alignment table to process.}
+
+\item{fasta}{Fasta file of peptide sequences to process.}
 
 \item{ncycles}{Number of cycles of cycleBLAST to perform.}
 }

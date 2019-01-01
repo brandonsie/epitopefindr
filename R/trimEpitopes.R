@@ -1,60 +1,63 @@
 #' trimEpitopes
 #' Update BLAST table positions to reflect smaller intervals when a subinterval
 #' has been determined as the minimal overlap of alignments to a peptide.
-#' @param path Path to current fasta file.
+#' @param data List containing BLAST table and fasta file and index peptide order to process.
 #' @param tofilter Binary whether or not to filter BLAST table entries.
 #' @export
 
-trimEpitopes <- function(path, tofilter = FALSE){
+trimEpitopes <- function(data, tofilter = FALSE){
 
-  #load some data from global environment
-  gl <- c("blast.id3","output.dir")
-  for(i in gl){assign(i,glParamGet(i))}
+  blast <- data[[1]]
+  fasta <- data[[2]]
+  index.order <- data[[3]]
 
-  blast.main <- data.table::fread(blast.id3)
-  blast.main %<>% prepareBLAST(tofilter)
- glAssign("blast.main", blast.main)
-
-  index.order <- fread(paste0(output.dir,"epitopes/indexOrder.txt"),
-                       header = FALSE)
-
-
+  blast %<>% rbind(qsSwap(blast)) %>% unique
+  blast %<>% removeSmallAln()
 
   #update blast table in reverse order
-  pb <- epPB(1,nrow(index.order))
-  for(i in nrow(index.order):1){
-    utils::setTxtProgressBar(pb,nrow(index.order)-i)
-    blast.main <- data.table::as.data.table(glGet("blast.main"))
+  pb <- epPB(1,length(index.order))
+  for(i in length(index.order):1){
+    utils::setTxtProgressBar(pb,length(index.order)-i)
     index <- index.order[i] %>% as.character
 
     # print(i)
     # print(index)
+    blast.backup <- blast
 
     blast.index <- rbind(
-      blast.main[blast.main$qID==index,-"nAlign"],
-      qsSwap(blast.main[blast.main$sID==index,-"nAlign"])) %>% unique
-    blast.backup <- blast.main
+      blast[blast$qID==index,-"nAlign"],
+      qsSwap(blast[blast$sID==index,-"nAlign"])) %>% unique %>%
+      numAlignments
+
 
     if(nrow(blast.index)>0){
-      indexEpitopes(as.data.frame(blast.index))
+      #input full blast and index name. output modified blast and index epitopes
+      indexData <- indexEpitopes(blast, index)
+      blast <- indexData[[1]]
     }
   }
   close(pb)
 
 
-  blast.main <- glGet("blast.main")
-
   #output
-  mpath <- paste0(output.dir, "epitopes/final_epitopes.fasta")
-  finalep <- blast.main[order(blast.main$qID,blast.main$qStart,blast.main$qEnd),
+  # mpath <- "final_epitopes.fasta"
+  finalep <- blast[order(blast$qID,blast$qStart,blast$qEnd),
                         c("qID", "qStart", "qEnd", "qSeq")] %>% unique
   finalep$Seq <- sapply(1:nrow(finalep), function(x){
     substr(finalep$qSeq[x], finalep$qStart[x], finalep$qEnd[x])
   })
   finalep$ID <- paste(finalep$qID, finalep$qStart, finalep$qEnd, sep=".")
-  writeFastaAA(finalep %>% mergeFastaDuplicates, mpath)
+  finalep %<>% mergeFastaDuplicates
   print(paste(nrow(finalep),"epitope sequences identified."))
+  # writeFastaAA(finalep, mpath)
 
-  glParamAssign("path", mpath)
-  return(mpath)
+
+  final.stringset <- Biostrings::AAStringSet(finalep$Seq)
+  names(final.stringset) <- finalep$ID
+
+  # writeFastaAA(final.stringset,"testfinalep.fasta")
+
+  outputData <- list(blast = blast, fasta = final.stringset)
+
+  return(outputData)
 }

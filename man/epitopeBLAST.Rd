@@ -6,12 +6,12 @@
 Identifies next index peptide, calls indexEpitopes to parse alignments to
 that index peptide, and updates BLAST table accordingly.}
 \usage{
-epitopeBLAST(path, verbose = FALSE)
+epitopeBLAST(data)
 }
 \arguments{
-\item{path}{Path to current fasta file of sequences to process.}
+\item{data}{List with BLAST alignment table and fasta file of peptides.}
 
-\item{verbose}{Logical of whether or not to print status updates to console.}
+\item{fasta}{Fasta file of sequences to process.}
 }
 \description{
 epitopeBLAST

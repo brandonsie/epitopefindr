@@ -2,10 +2,16 @@
 #' For a specified index peptide, identify the maximal intervals that represent
 #' the consensus overlap of reported BLAST alignments to that peptide. Update
 #' the BLAST table accordingly.
-#' @param blast.index Name of index peptide to process.
+#' @param blast BLAST alignment table to process.
+#' @param index Name of index peptide to process.
 #' @export
 
-indexEpitopes <- function(blast.index){
+indexEpitopes <- function(blast, index){
+
+  blast.index <- rbind(
+    blast[blast$qID==index,-"nAlign"],
+    qsSwap(blast[blast$sID==index,-"nAlign"])) %>% unique
+
   # == == == == == A. Set up data frames. == =
   pos00 <- blast.index[, c("qStart", "qEnd")] %>% unique %>% data.frame #
   pos00 <- pos00[(pos00$qEnd - pos00$qStart > 5), ]
@@ -77,27 +83,26 @@ indexEpitopes <- function(blast.index){
   pos1 <- rbind(pos1, pos00[posN, ]) %>% unique
   gpos <- pos1
 
-  # == == == == == C. Update blast.main. == =
-  #amend blast.main positions to be trimmed to corresponding overlap index ep
+  # == == == == == C. Update blast. == =
+  #amend blast positions to be trimmed to corresponding overlap index ep
 
-  blast.main <- glGet("blast.main")
   for(i in 1:nrow(blast.index)){ #for each
     if(gpos[gpos$qStart == blast.index$qStart[i] &
             gpos$qEnd == blast.index$qEnd[i],] %>% nrow == 0){
       #ignore exact matches
 
-      qpos <- c(1:nrow(blast.main))[blast.main$qID == blast.index$qID[i] &
-                                      blast.main$sID == blast.index$sID[i] &
-                                      blast.main$qStart == blast.index$qStart[i] &
-                                      blast.main$qEnd == blast.index$qEnd[i] &
-                                      blast.main$sStart == blast.index$sStart[i] &
-                                      blast.main$sEnd == blast.index$sEnd[i]]
-      spos <- c(1:nrow(blast.main))[blast.main$qID == blast.index$sID[i] &
-                                      blast.main$sID == blast.index$qID[i] &
-                                      blast.main$qStart == blast.index$sStart[i] &
-                                      blast.main$qEnd == blast.index$sEnd[i] &
-                                      blast.main$sStart == blast.index$qStart[i] &
-                                      blast.main$sEnd == blast.index$qEnd[i]]
+      qpos <- c(1:nrow(blast))[blast$qID == blast.index$qID[i] &
+                                      blast$sID == blast.index$sID[i] &
+                                      blast$qStart == blast.index$qStart[i] &
+                                      blast$qEnd == blast.index$qEnd[i] &
+                                      blast$sStart == blast.index$sStart[i] &
+                                      blast$sEnd == blast.index$sEnd[i]]
+      spos <- c(1:nrow(blast))[blast$qID == blast.index$sID[i] &
+                                      blast$sID == blast.index$qID[i] &
+                                      blast$qStart == blast.index$sStart[i] &
+                                      blast$qEnd == blast.index$sEnd[i] &
+                                      blast$sStart == blast.index$qStart[i] &
+                                      blast$sEnd == blast.index$qEnd[i]]
 
       pos <- c(qpos, spos) %>% (stats::na.omit) %>% as.numeric
 
@@ -112,30 +117,29 @@ indexEpitopes <- function(blast.index){
 
 
           #update so that multiple rows are made for each j that aligns
-          b.add <- blast.main[pos,]
+          b.add <- blast[pos,]
           for(p in 1:length(pos)){
             b.add[p,"qStart"] %<>% + dstart
             b.add[p,"qEnd"] %<>% + dend
             b.add[p,"sStart"] %<>% + dstart
             b.add[p,"sEnd"] %<>% + dend
           }
-          blast.main <- rbind(blast.main, b.add)
+          blast <- rbind(blast, b.add)
 
 
         }
 
         #then remove original qpos spos rows
-        blast.main <- blast.main[-pos, ] %>% unique
+        blast <- blast[-pos, ] %>% unique
 
       }
     }
   }
 
-  blast.main %<>% removeSmallAln
-  blast.main <- blast.main[!duplicated(
-    blast.main[,c("qID","sID","qStart","qEnd","sStart","sEnd")]),]
-  blast.main %<>% numAlignments()
-  glAssign("blast.main", blast.main)
+  blast %<>% removeSmallAln
+  blast <- blast[!duplicated(
+    blast[,c("qID","sID","qStart","qEnd","sStart","sEnd")]),]
+  blast %<>% numAlignments()
 
   # == == == == == D. Convert to epitope sequences & output. == =
   indexep <- data.frame(ID=character(), Seq=character())
@@ -143,9 +147,10 @@ indexEpitopes <- function(blast.index){
     ID <- paste(blast.index$qID[1] %>% as.character,
                 gpos[i, 1], gpos[i, 2], sep=".")
     Seq <- blast.index$qSeq[1] %>% substr(gpos[i, 1], gpos[i, 2])
-    indexep %<>% rbind(data.table::setnames(as.data.frame(t(c(ID, Seq))), names(indexep)))
+    indexep %<>% rbind(data.table::setnames(as.data.frame(t(c(ID, Seq))), names(indexep))) %>% as.data.frame
   }
 
-  return(indexep)
+  data <- list(blast = blast, indexep = indexep)
+  return(data)
 
 } #end indexEpitopes

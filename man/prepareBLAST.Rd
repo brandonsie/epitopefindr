@@ -5,12 +5,14 @@
 \title{prepareBLAST
 Call series of functions to standardize BLAST table for computation.}
 \usage{
-prepareBLAST(blast.thresh, tofilter = TRUE)
+prepareBLAST(blast, fasta, tofilter = TRUE)
 }
 \arguments{
-\item{blast.thresh}{Input tidied BLAST table.}
+\item{blast}{Input tidied BLAST table.}
 
-\item{tofilter}{Logical whether or not to call blast.filter, which is only
+\item{fasta}{AAstringset object of fasta sequences.}
+
+\item{tofilter}{Logical whether or not to call filterBLAST, which is only
 necessary during initial setup.}
 }
 \description{

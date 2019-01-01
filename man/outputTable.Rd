@@ -5,7 +5,18 @@
 \title{outputTable
 Generates spreadsheet of reportable data on identified minimal alignments.}
 \usage{
-outputTable()
+outputTable(blast, fasta.initial, groups, msacs, filename)
+}
+\arguments{
+\item{blast}{BLAST alignment table to report.}
+
+\item{fasta.initial}{Starting peptide sequences as AAStringSet.}
+
+\item{groups}{Groups table of final epitopes to report.}
+
+\item{msacs}{MSA consensus sequences for each group in order.}
+
+\item{filename}{Output table filename to write.}
 }
 \description{
 outputTable

@@ -1,23 +1,23 @@
 #' filterBLAST
 #' Remove singletons, sequneces with no non-self alignments,
 #' from BLAST alignment table.
-#' @param input BLAST alignment table from which to remove singletons.
+#' @param blast BLAST alignment table from which to remove singletons.
+#' @export
 
-filterBLAST <- function(input){ #remove singletons
-  output.dir <- glParamGet("output.dir")
-  epath <- paste0(output.dir, "epitopes/")
-  spath <- paste0(epath, "singletons.csv")
+filterBLAST <- function(blast){ #remove singletons
+  # if(is.null(output.dir)){
+  #   spath <- "singletons.csv"
+  # } else{spath <- paste0(output.dir,"singletons.csv")}
 
   #remove self alignments
-  filter <- input[(input$qID != input$sID) | (grepl("\\.", input$qID)), ]
-  s <- setdiff(input, filter)
-  s <- s[!(s$qID %in% filter$qID), ]
-  if(!dir.exists(epath)) dir.create(epath)
-  if(file.exists(spath)){
-    sing <- fread(spath, data.table=FALSE)
-    utils::write.csv(rbind(s,sing) %>% unique, spath, row.names = FALSE)
-  }
-  utils::write.csv(s, spath, row.names = FALSE)
+  filter <- blast[(blast$qID != blast$sID) | (grepl("\\.", blast$qID)), ]
+  # s <- setdiff(blast, filter)
+  # s <- s[!(s$qID %in% filter$qID), ]
+  # if(file.exists(spath)){
+  #   sing <- fread(spath, data.table=FALSE)
+  #   utils::write.csv(rbind(s,sing) %>% unique, spath, row.names = FALSE)
+  # }
+  # utils::write.csv(s, spath, row.names = FALSE)
 
 
   return(filter)

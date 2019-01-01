@@ -2,9 +2,9 @@
 #' remove filler sequences after "." stop codon and cterminal "*"
 #'
 #' @param input Untidy fasta.
-#' @param name Filename to write tidy fasta file.
+#' @export
 
-tidyFasta <- function(input, name){
+tidyFasta <- function(input){
 
   if(class(input) == "character"){
     name <- input
@@ -25,6 +25,10 @@ tidyFasta <- function(input, name){
 
   fasta.df$Seq %<>% gsub("\\*", "", .)
 
-  seqinr::write.fasta(as.list(fasta.df$Seq), fasta.df$ID, name)
-  output <- Biostrings::readAAStringSet(name)
+  # seqinr::write.fasta(as.list(fasta.df$Seq), fasta.df$ID, name)
+  # output <- Biostrings::readAAStringSet(name)
+
+  output <- Biostrings::AAStringSet(fasta.df$Seq)
+  names(output) <- fasta.df$ID
+  return(output)
 }

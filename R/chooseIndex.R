@@ -7,7 +7,7 @@
 #' suggest the peptide with the fewest or most alignments, respectively.
 #' @return Peptide name.
 
-chooseIndex <- function(input, method="min"){
+chooseIndex <- function(input, method = "min"){
 
 
   #list of remaining full peptide sequences

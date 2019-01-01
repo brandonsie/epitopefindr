@@ -5,20 +5,24 @@
 #'
 #' @param input XStringSet object to collapse.
 #' @param sep Delimiter to place between names.
+#' @export
 
 mergeFastaDuplicates <- function(input, sep = "__"){
 
+  options(stringsAsFactors = FALSE)
   if(class(input)[1] == "AAStringSet"){
     input <- data.frame(ID = names(input), Seq = as.character(input))
   }
+  output <- unique(input)
+  output$ID %<>% as.character
+  output$Seq %<>% as.character
 
-  input <- unique(input)
-  if(sum(duplicated(input$Seq))>0){
-    dup <- input$Seq[duplicated(input$Seq)] %>% unique
+  if(sum(duplicated(output$Seq))>0){
+    dup <- output$Seq[duplicated(output$Seq)] %>% unique
     for(i in 1:length(dup)){
-      input$ID[input$Seq == dup[i]] %<>% paste(collapse=sep)}
-    input <- input[!duplicated(input$Seq), ]
+      output$ID[output$Seq == dup[i]] %<>% paste(collapse=sep)}
+    output <- output[!duplicated(output$Seq), ]
   }
-  rownames(input) <- c(1:nrow(input))
-  return(input)
+  rownames(output) <- c(1:nrow(output))
+  return(output)
 }

@@ -1,36 +1,38 @@
 #' outputTable
 #' Generates spreadsheet of reportable data on identified minimal alignments.
+#' @param blast BLAST alignment table to report.
+#' @param fasta.initial Starting peptide sequences as AAStringSet.
+#' @param groups Groups table of final epitopes to report.
+#' @param msacs MSA consensus sequences for each group in order.
+#' @param filename Output table filename to write.
 #' @export
 
-outputTable <- function(){
-  gl <- c("output.dir","proj.id","path","path0","blast.id4","e.thresh","g.method")
-  for(i in gl){assign(i,glParamGet(i))}
+outputTable <- function(blast, fasta.initial, groups,
+                        msacs, filename){
 
 
   #load epitope info
-  epitopes <- Biostrings::readAAStringSet(path) %>% unmergeFastaDuplicates
-  ep <- data.frame(ID = names(epitopes), Seq = as.character(epitopes))
-  original <- Biostrings::readAAStringSet(path0)
+  original <- fasta.initial
 
-  ## load singletons
-  spath <- paste0(output.dir, "epitopes/singletons.csv")
-  sing <- data.table::fread(spath)
-  sf <- data.frame(ID = paste(sing$qID, sing$qStart, sing$qEnd, sep="."),
-                   Seq = sing$qSeq)
+  #get peptide names for which meaningful alignments were found
+  ep_peptides <- gsub("\\.[0-9]+\\.[0-9]+","",groups$ID) %>% unique
+
+  #(!) bookmark setup data frames
+  sing <- original[!(names(original) %in% ep_peptides)]
+  si <- data.frame(ID = paste(names(sing), 1, (as.character(sing) %>% nchar),
+                              sep = "."), Seq = as.character(sing),
+                   Group = "NA")
 
   #merge epitopes and singletons
-  full <- rbind(ep, sf); rownames(full) <- c(1:nrow(full))
+  full <- rbind(groups, si); rownames(full) <- c(1:nrow(full))
   # haspipe <- ifelse(length(grep("\\|",full$ID)) > 0,TRUE,FALSE)
 
-  #load msa consensus sequences
-  cpath <- paste0(output.dir,"msa/consensusSequences.txt")
-  cseqs <- gsub("-","",readLines(cpath))
 
   #define and start populating output table
-  cnames <- c("gene", "tile", "start", "end", "seq_ep", "seq_tile",
-              "grpnum", "grpname","grpsize","msaconsensus")
-  output <- data.table::setnames(data.frame(matrix("NA", nrow=nrow(full),
-                                       ncol=length(cnames))), cnames)
+  cnames <- c("gene", "tile", "start", "end", "ep_seq", "tile_seq",
+              "group_number", "group_name","group_size","msaconsensus")
+  output <- data.frame(matrix("NA", nrow=nrow(full), ncol=length(cnames))) %>%
+    data.table::setnames(cnames)
 
   for(i in 1:nrow(output)){
     if(full$ID[i] %>% grepl("\\|",.)){
@@ -41,29 +43,40 @@ outputTable <- function(){
   output[, c("tile", "start", "end")] <- strsplit(output$tile, "\\.") %>%
     unlist %>% as.vector %>% matrix(nrow=3) %>% t
   output[,"start"] %<>% as.numeric; output[,"end"] %<>% as.numeric
-  output$seq_ep <- full$Seq %>% as.character
+  output$ep_seq <- full$Seq %>% as.character
 
   for(i in 1:nrow(output)){
-    output$seq_tile[i] <- original[
+    output$tile_seq[i] <- original[
       strsplit(full$ID[i],"\\.") %>% unlist %>% magrittr::extract(1)] %>%
       as.character
   }
 
-  #load group info
-  gpath <- paste0(output.dir, "groups/")
-  gmax <- list.files(gpath) %>% (readr::parse_number) %>% max
+  #Group Info: group number, group name, msa cosnensus sequence
+  output$group_number <- full$Group
+  gmax <- max(groups$Group)
   for(i in 1:gmax){
-    gi <- Biostrings::readAAStringSet(paste0(gpath, "group", i, ".fasta"))
-    gn <- paste(names(gi), collapse="__")
-
-    output$grpnum[full$ID %in% names(gi)] %<>% paste(i, sep=", ")
-    output$grpsize[full$ID %in% names(gi)] %<>% paste(length(gi), sep=", ")
-    output$grpname[full$ID %in% names(gi)] <- gn
+    gnames <- groups$ID[groups$Group == i]
+    gname <- paste(gnames, collapse = "__")
+    output$group_name[output$group_number == i] <- gname
+    output$group_size[output$group_number == i] <- length(gnames)
   }
-  output$grpnum <- gsub("NA, ", "", output$grpnum)
-  output$grpsize <- gsub("NA, ", "", output$grpsize)
 
-  output$msaconsensus <- suppressWarnings(cseqs[output$grpnum %>% as.numeric])
+  # #(!) output table lost support for "all" grouping here
+  # #load group info
+  # gpath <- paste0(output.dir, "groups/")
+  # gmax <- list.files(gpath) %>% (readr::parse_number) %>% max
+  # for(i in 1:gmax){
+  #   gi <- Biostrings::readAAStringSet(paste0(gpath, "group", i, ".fasta"))
+  #   gn <- paste(names(gi), collapse="__")
+  #
+  #   output$group_number[full$ID %in% names(gi)] %<>% paste(i, sep=", ")
+  #   output$group_size[full$ID %in% names(gi)] %<>% paste(length(gi), sep=", ")
+  #   output$group_name[full$ID %in% names(gi)] <- gn
+  # }
+  # output$group_number <- gsub("NA, ", "", output$group_number)
+  # output$group_size <- gsub("NA, ", "", output$group_size)
+
+  output$msaconsensus <- suppressWarnings(msacs[output$group_number %>% as.numeric])
 
 
   # sort
@@ -71,8 +84,6 @@ outputTable <- function(){
                           as.numeric(output$start),
                           as.numeric(output$end))),]
 
-  opath <- paste0(output.dir, proj.id,"_e-",e.thresh,"_g-",g.method,
-                  "_outputTable.csv")
-  fwrite(output, opath)
+  fwrite(output, filename)
 
 }
