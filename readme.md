@@ -16,7 +16,6 @@ The purpose of this package is to describe the alignments among a set of peptide
 1. Install [R (version 3.4.2+)](https://www.r-project.org/).  
 2. Install [BLAST+ (version 2.7.1+)](https://blast.ncbi.nlm.nih.gov/Blast.cgi?PAGE_TYPE=BlastDocs&DOC_TYPE=Download).
 3. In R console, execute `devtools::install_github("brandonsie/epitopefindr")`, then `library(epitopefindr)`
-4. Call `epFind(proj.id = [name of your .fasta file])` Output data will be written to `EpitopeFinder/output/`.
 
 ----------------------------------------------------------------------
 # Guide
