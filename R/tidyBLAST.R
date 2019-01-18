@@ -7,7 +7,7 @@
 tidyBLAST <- function(blast, fasta){
   blast %<>% organizeBLAST() #output table housekeeping (column names, etc.)
   blast %<>% numAlignments() #Add number of alignments per peptide
-  blast %<>% addPepSeq(fasta) #add amino acid sequences (tile & align)
+  blast %<>% addPepSeq(blast, fasta) #add amino acid sequences (tile & align)
   blast %<>% decipherGaps() #split gapped alignments into smaller ungapped
   blast %<>% removeSmallAln() #remove alignmens smaller than 7 aa
   return(blast)

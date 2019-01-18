@@ -19,12 +19,18 @@ outputTable <- function(blast, fasta.initial, groups,
 
   #(!) bookmark setup data frames
   sing <- original[!(names(original) %in% ep_peptides)]
-  si <- data.frame(ID = paste(names(sing), 1, (as.character(sing) %>% nchar),
-                              sep = "."), Seq = as.character(sing),
-                   Group = "NA")
+  if(length(sing) == 0){
+    full <- groups
+  } else{
+    si <- data.frame(ID = paste(names(sing), 1, (as.character(sing) %>% nchar),
+                                sep = "."), Seq = as.character(sing),
+                     Group = "NA")
+    full <- rbind(groups, si)
+  }
+  rownames(full) <- c(1:nrow(full))
+
 
   #merge epitopes and singletons
-  full <- rbind(groups, si); rownames(full) <- c(1:nrow(full))
   # haspipe <- ifelse(length(grep("\\|",full$ID)) > 0,TRUE,FALSE)
 
 

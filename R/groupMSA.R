@@ -80,7 +80,7 @@ groupMSA <- function(groups, mpath = "intermediate_files/msa/",
 
       #print msa logo
       msa::msaPrettyPrint(mg, output="tex", file = tname,
-                     askForOverwrite=FALSE, paperWidth = 10,
+                     askForOverwrite=FALSE, paperWidth = 12,
                      paperHeight = msa.height)
 
       #convert tex to pdf
@@ -96,8 +96,15 @@ groupMSA <- function(groups, mpath = "intermediate_files/msa/",
                               dpi = 300,verbose=FALSE)
       }
 
+
+
       #cleanup working directory
       file.remove(list.files()[grep("\\.aux|\\.log",list.files())])
     }
   }
+
+  #merge pdfs
+  staplr::staple_pdf(input_directory = mpath,
+                     output_filepath = paste0(mpath,"msa.pdf"))
+
 }

@@ -66,4 +66,5 @@ Imports:
     IRanges,
     S4Vectors,
     Biostrings,
-    utils
+    utils,
+    staplr
