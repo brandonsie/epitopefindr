@@ -15,11 +15,21 @@ The purpose of this package is to describe the alignments among a set of peptide
 # Setup:
 1. Install [R (version 3.4.2+)](https://www.r-project.org/).  
 2. Install [BLAST+ (version 2.7.1+)](https://blast.ncbi.nlm.nih.gov/Blast.cgi?PAGE_TYPE=BlastDocs&DOC_TYPE=Download).
-3. In R console, execute `devtools::install_github("brandonsie/epitopefindr")`, then `library(epitopefindr)`
-
+3. Install some required non-CRAN packages:
+``` r  
+devtools::install_github("mhahsler/rBLAST") # requires install.packages(devtools)  
+if (!requireNamespace("BiocManager"))
+    install.packages("BiocManager")
+BiocManager::install()
+BiocManager::install(c("Biostrings", "EBImage", "IRanges", "msa", "S4Vectors"))
+```
+4. In R console, execute: 
+``` r  
+devtools::install_github("brandonsie/epitopefindr")
+library(epitopefindr)
+```  
 ----------------------------------------------------------------------
 # Guide
-
 
 1. Prepare an `AAStringSet` object of peptides as described in the [Biostrings documentation](http://web.mit.edu/~r/current/arch/i386_linux26/lib/R/library/Biostrings/html/XStringSet-class.html).
 2. For now, try calling epFind2() to run a typical epitopeFindr pipeline. A make-style implementation is an upcoming development goal.  
