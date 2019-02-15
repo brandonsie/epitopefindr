@@ -17,7 +17,10 @@ The purpose of this package is to describe the alignments among a set of peptide
 2. Install [BLAST+ (version 2.7.1+)](https://blast.ncbi.nlm.nih.gov/Blast.cgi?PAGE_TYPE=BlastDocs&DOC_TYPE=Download).
 3. Install some required non-CRAN packages:
 ``` r  
+# Install rBLAST from Github
 devtools::install_github("mhahsler/rBLAST") # requires install.packages(devtools)  
+
+# Install Bioconductor packages
 if (!requireNamespace("BiocManager"))
     install.packages("BiocManager")
 BiocManager::install()
