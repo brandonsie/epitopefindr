@@ -3,6 +3,7 @@
 export(cycleBLAST)
 export(dbCleanup)
 export(epFind)
+export(epFind2)
 export(epSetupDirectory)
 export(epitopeBLAST)
 export(filterBLAST)
