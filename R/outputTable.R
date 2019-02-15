@@ -90,6 +90,6 @@ outputTable <- function(blast, fasta.initial, groups,
                           as.numeric(output$start),
                           as.numeric(output$end))),]
 
-  fwrite(output, filename)
+  data.table::fwrite(output, filename)
 
 }
