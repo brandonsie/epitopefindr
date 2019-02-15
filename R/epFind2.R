@@ -6,7 +6,7 @@
 #' @param e.thresh Maximum e-value to consider from BLASTp alignments of 'data'.
 #' @param g.method Grouping method of alignments. Either 'any' or 'all'.
 #' @param aln.size Minimum length of alignment to consider from BLASTp alignments of 'data'.
-
+#' @export
 # (!) aln size not yet implemented
 
 epFind2 <- function(data = NULL, output.dir = NULL,

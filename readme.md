@@ -1,7 +1,7 @@
 # EpitopeFinder (R package name: epitopefindr)
 ## Minimal Overlaps from BLAST Alignments 
-Version: 1.1.01  
-Date: January 1, 2019  
+Version: 1.1.02  
+Date: February 15, 2019  
 Concept: Ben Larman, Brandon Sie, Daniel Monaco  
 Author: Brandon Sie  (contact: brandonsie at gmail)  
 
@@ -20,11 +20,12 @@ The purpose of this package is to describe the alignments among a set of peptide
 ----------------------------------------------------------------------
 # Guide
 
-* An implementation with Richfitz's [remake](https://github.com/richfitz/remake) is a planned upcoming development aim.
 
 1. Prepare an `AAStringSet` object of peptides as described in the [Biostrings documentation](http://web.mit.edu/~r/current/arch/i386_linux26/lib/R/library/Biostrings/html/XStringSet-class.html).
-2. `pbCycleBLAST` cycles through each input peptide to find the overlap of its alignment with other peptides from the input. Nested within a call to `pbCycleBLAST` are calls to `epitopeBLAST`, `indexEpitopes`. 
-3. `trimEpitopes` performs a second pass through the identified sequences to tidy alignments.
-4. `indexGroups` collects trimmed sequences into aligning groups
-5. `groupMSA` creates a multiple sequence alignment motif logo for each group
-6. `outputTable` creates a spreadsheet summarizing identified sequences and epitope groups
+2. For now, try calling epFind2() to run a typical epitopeFindr pipeline. * A make-style implementation is an upcoming development goal.
+
+  * `pbCycleBLAST` cycles through each input peptide to find the overlap of its alignment with other peptides from the input. Nested within a call to `pbCycleBLAST` are calls to `epitopeBLAST`, `indexEpitopes`. 
+  * `trimEpitopes` performs a second pass through the identified sequences to tidy alignments.
+  * `indexGroups` collects trimmed sequences into aligning groups
+  * `groupMSA` creates a multiple sequence alignment motif logo for each group
+  * `outputTable` creates a spreadsheet summarizing identified sequences and epitope groups

@@ -17,6 +17,7 @@ Collate:
     'dbCleanup.R'
     'decipherGaps.R'
     'epFind.R'
+    'epFind2.R'
     'epPB.R'
     'epSetupBLAST.R'
     'epSetupDirectory.R'
