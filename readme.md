@@ -13,7 +13,7 @@ The purpose of this package is to describe the alignments among a set of peptide
 ![workflow](https://brandonsie.github.io/docs/EpitopeFindRWorkflow.png)
 
 # Setup:
-1. Install [R (version 3.4.2+)](https://www.r-project.org/).  
+1. Install [R (version 3.5+)](https://www.r-project.org/).  
 2. Install [BLAST+ (version 2.7.1+)](https://blast.ncbi.nlm.nih.gov/Blast.cgi?PAGE_TYPE=BlastDocs&DOC_TYPE=Download).
 3. In R console, execute: 
 ``` r  
@@ -23,7 +23,6 @@ devtools::install_github("mhahsler/rBLAST") # requires install.packages(devtools
 # Install Bioconductor packages
 if (!requireNamespace("BiocManager"))
     install.packages("BiocManager")
-BiocManager::install()
 BiocManager::install(c("Biostrings", "EBImage", "IRanges", "msa", "S4Vectors"))
 
 # Install epitopefindr
