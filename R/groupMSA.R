@@ -19,7 +19,7 @@ groupMSA <- function(groups, mpath = "intermediate_files/msa/",
   if(num < 1){break}
 
   for(i in 1:num){
-    group <- AAStringSet(groups$Seq[groups$Group == i])
+    group <- Biostrings::AAStringSet(groups$Seq[groups$Group == i])
     names(group) <- groups$ID[groups$Group == i]
     group %<>% unmergeFastaDuplicates
 
