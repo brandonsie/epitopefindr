@@ -1,5 +1,4 @@
-# EpitopeFinder 
-### R package name: epitopefindr
+# EpitopeFinder (R package name: epitopefindr)
 ## Minimal Overlaps from BLAST Alignments 
 Version: 1.1.13  
 Date: February 17, 2019  
