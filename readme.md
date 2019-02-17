@@ -35,6 +35,8 @@ library(epitopefindr)
 
 1. Prepare an `AAStringSet` object of peptides as described in the [Biostrings documentation](http://web.mit.edu/~r/current/arch/i386_linux26/lib/R/library/Biostrings/html/XStringSet-class.html).
 2. For now, try calling `epFind2()` to run a typical epitopeFindr pipeline. A make-style implementation is an upcoming development goal.  
+
+A brief summary of the functions called by `epFind2`:
   * `pbCycleBLAST` cycles through each input peptide to find the overlap of its alignment with other peptides from the input. Nested within a call to `pbCycleBLAST` are calls to `epitopeBLAST`, `indexEpitopes`. 
   * `trimEpitopes` performs a second pass through the identified sequences to tidy alignments.
   * `indexGroups` collects trimmed sequences into aligning groups
