@@ -41,8 +41,9 @@ epFind2 <- function(data = NULL, output.dir = NULL, verbose = TRUE, pdftk = TRUE
   # Prepare sequences
 
   if(verbose){
-    cat(format(Sys.time(), "%R"),
-        "Step 1 of 6: Preparing BLAST alignment data from input sequences.")
+    cat("\n", format(Sys.time(), "%R"),
+        "Step 1 of 6: Preparing BLAST alignment data from input sequences.",
+        "\n")
   }
 
   fasta1 <- tidyFasta(data)
@@ -65,8 +66,9 @@ epFind2 <- function(data = NULL, output.dir = NULL, verbose = TRUE, pdftk = TRUE
   # Process alignment overlaps
 
   if(verbose){
-    cat(format(Sys.time(), "%R"),
-        "Step 2 of 6: Simplifying alignments to minimal number of overlapping intervals.")
+    cat("\n", format(Sys.time(), "%R"),
+        "Step 2 of 6: Simplifying alignments to minimal number of overlapping intervals.",
+        "\n")
   }
 
   blast4fasta <- pbCycleBLAST(blast3, fasta1)
@@ -78,8 +80,8 @@ epFind2 <- function(data = NULL, output.dir = NULL, verbose = TRUE, pdftk = TRUE
   writeFastaAA(fasta4, f4.path)
 
   if(verbose){
-    cat(format(Sys.time(), "%R"),
-        "Step 3 of 6: Trimming interval sequences.")
+    cat("\n", format(Sys.time(), "%R"),
+        "Step 3 of 6: Trimming interval sequences.", "\n")
   }
   blast5fasta <- trimEpitopes(blast4fasta)
   blast5 <- blast5fasta[[1]]
@@ -90,16 +92,16 @@ epFind2 <- function(data = NULL, output.dir = NULL, verbose = TRUE, pdftk = TRUE
   writeFastaAA(fasta5, f5.path)
 
   if(verbose){
-    cat(format(Sys.time(), "%R"),
-        "Step 4 of 6: Grouping aligning sequences.")
+    cat("\n", format(Sys.time(), "%R"),
+        "Step 4 of 6: Grouping aligning sequences.", "\n")
   }
   groups <- indexGroups(blast5, fasta5, mode = g.method)
   g.path <- paste0(temp.dir, "groups.csv")
   data.table::fwrite(groups, g.path)
 
   if(verbose){
-    cat(format(Sys.time(), "%R"),
-        "Step 5 of 6: Generating multiple sequence alignment logos.")
+    cat("\n", format(Sys.time(), "%R"),
+        "Step 5 of 6: Generating multiple sequence alignment logos.", "\n")
   }
 
   m.path <- paste0(temp.dir, "msa/")
@@ -107,8 +109,8 @@ epFind2 <- function(data = NULL, output.dir = NULL, verbose = TRUE, pdftk = TRUE
   groupMSA(groups, m.path, pdftk)
 
   if(verbose){
-    cat(format(Sys.time(), "%R"),
-        "Step 6 of 6: Preparing output files.")
+    cat("\n", format(Sys.time(), "%R"),
+        "Step 6 of 6: Preparing output files.", "\n")
   }
 
   if(pdftk){file.copy(paste0(m.path,"msa.pdf"), paste0(output.dir,"/msa.pdf"))}

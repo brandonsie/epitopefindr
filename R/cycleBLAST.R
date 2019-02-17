@@ -13,9 +13,9 @@
 cycleBLAST <- function(data, pb, n, verbose = FALSE){
 
   options(stringsAsFactors = FALSE)
-  if(n > 0){ # n counts down to zero
-    utils::setTxtProgressBar(pb, -n) #update progress bar in console
 
+  utils::setTxtProgressBar(pb, -n) #update progress bar in console
+  if(n > 0){ # n counts down to zero
     #Optionally print time at each iteration for debugging / speed optimization
     if(verbose == TRUE) {print(paste(Sys.time(), path, "start"))}
 
