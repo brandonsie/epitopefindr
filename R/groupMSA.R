@@ -2,11 +2,12 @@
 #' Generate pdf multiple sequence alignment logos for identified aligning groups.
 #' @param groups Table of final peptides and pre-calculated groupings.
 #' @param mpath Direcotry to write sequence alignment files.
+#' @param pdftk Logical whether or not to use staplr and pdftk to merge individual msa pdfs.
 #' @param trim.groups Logical whether or not to apply msaTrim to edges of logos. Not implemented.
 #' @param make.png Locial whether or not to convert PDF output to PNG.
 #' @export
 
-groupMSA <- function(groups, mpath = "intermediate_files/msa/",
+groupMSA <- function(groups, mpath = "intermediate_files/msa/", pdftk = TRUE,
                      trim.groups = FALSE, make.png = FALSE){
 
   #setup output paths and directories
@@ -16,7 +17,7 @@ groupMSA <- function(groups, mpath = "intermediate_files/msa/",
 
   #loop through each group
   num <- max(groups$Group)
-  if(num < 1){break}
+  if(num < 1){stop("Error: no input groups specified.")}
 
   for(i in 1:num){
     group <- Biostrings::AAStringSet(groups$Seq[groups$Group == i])
@@ -104,7 +105,9 @@ groupMSA <- function(groups, mpath = "intermediate_files/msa/",
   }
 
   #merge pdfs
-  staplr::staple_pdf(input_directory = mpath,
-                     output_filepath = paste0(mpath,"msa.pdf"))
+  if(pdftk){
+    staplr::staple_pdf(input_directory = mpath,
+                       output_filepath = paste0(mpath,"msa.pdf"))
+  }
 
 }

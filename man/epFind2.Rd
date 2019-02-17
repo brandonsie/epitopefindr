@@ -5,17 +5,21 @@
 \title{epFind2
 New all-in-one function to call the major steps of epitopefindr.}
 \usage{
-epFind2(data = NULL, output.dir = NULL, e.thresh = 0.01,
-  g.method = "any", aln.size = 7)
+epFind2(data = NULL, output.dir = NULL, verbose = TRUE,
+  pdftk = TRUE, e.thresh = 0.01, g.method = "any", aln.size = 7)
 }
 \arguments{
 \item{data}{Biostrings::AAStringset input sequences to search for epitopes, or path to corresponding .fasta file.}
 
 \item{output.dir}{Directory to which output files should be written.}
 
+\item{verbose}{Logical to print progress updates.}
+
+\item{pdftk}{Logical whether or not to merge msa pdfs using staplr and pdftk}
+
 \item{e.thresh}{Maximum e-value to consider from BLASTp alignments of 'data'.}
 
-\item{g.method}{Grouping method of alignments. Either 'any' or 'all'.}
+\item{g.method}{Grouping method of alignments. Either 'any' or 'all'. See ?indexGroups}
 
 \item{aln.size}{Minimum length of alignment to consider from BLASTp alignments of 'data'.}
 }

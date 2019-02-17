@@ -5,13 +5,15 @@
 \title{groupMSA
 Generate pdf multiple sequence alignment logos for identified aligning groups.}
 \usage{
-groupMSA(groups, mpath = "intermediate_files/msa/",
+groupMSA(groups, mpath = "intermediate_files/msa/", pdftk = TRUE,
   trim.groups = FALSE, make.png = FALSE)
 }
 \arguments{
 \item{groups}{Table of final peptides and pre-calculated groupings.}
 
 \item{mpath}{Direcotry to write sequence alignment files.}
+
+\item{pdftk}{Logical whether or not to use staplr and pdftk to merge individual msa pdfs.}
 
 \item{trim.groups}{Logical whether or not to apply msaTrim to edges of logos. Not implemented.}
 

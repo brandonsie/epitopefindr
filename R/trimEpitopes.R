@@ -17,7 +17,7 @@ trimEpitopes <- function(data, tofilter = FALSE){
   #update blast table in reverse order
   pb <- epPB(1,length(index.order))
   for(i in length(index.order):1){
-    utils::setTxtProgressBar(pb,length(index.order)-i)
+    utils::setTxtProgressBar(pb,length(index.order)-(i-1))
     index <- index.order[i] %>% as.character
 
     # print(i)

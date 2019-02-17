@@ -3,13 +3,15 @@
 #'
 #' @param data Biostrings::AAStringset input sequences to search for epitopes, or path to corresponding .fasta file.
 #' @param output.dir Directory to which output files should be written.
+#' @param verbose Logical to print progress updates.
+#' @param pdftk Logical whether or not to merge msa pdfs using staplr and pdftk
 #' @param e.thresh Maximum e-value to consider from BLASTp alignments of 'data'.
-#' @param g.method Grouping method of alignments. Either 'any' or 'all'.
+#' @param g.method Grouping method of alignments. Either 'any' or 'all'. See ?indexGroups
 #' @param aln.size Minimum length of alignment to consider from BLASTp alignments of 'data'.
 #' @export
 # (!) aln size not yet implemented
 
-epFind2 <- function(data = NULL, output.dir = NULL,
+epFind2 <- function(data = NULL, output.dir = NULL, verbose = TRUE, pdftk = TRUE,
                     e.thresh = 0.01, g.method = "any", aln.size = 7){
 
   # ----------------------------------------------------------------------------
@@ -38,6 +40,11 @@ epFind2 <- function(data = NULL, output.dir = NULL,
   # ----------------------------------------------------------------------------
   # Prepare sequences
 
+  if(verbose){
+    cat(format(Sys.time(), "%R"),
+        "Step 1 of 6: Preparing BLAST alignment data from input sequences.")
+  }
+
   fasta1 <- tidyFasta(data)
   f1.path <- paste0(temp.dir,"fasta1.fasta")
   writeFastaAA(fasta1, f1.path)
@@ -55,7 +62,12 @@ epFind2 <- function(data = NULL, output.dir = NULL,
   data.table::fwrite(blast3, b3.path)
 
   # ----------------------------------------------------------------------------
-  # Processrocess alignment overlaps
+  # Process alignment overlaps
+
+  if(verbose){
+    cat(format(Sys.time(), "%R"),
+        "Step 2 of 6: Simplifying alignments to minimal number of overlapping intervals.")
+  }
 
   blast4fasta <- pbCycleBLAST(blast3, fasta1)
   blast4 <- blast4fasta[[1]]
@@ -65,6 +77,10 @@ epFind2 <- function(data = NULL, output.dir = NULL,
   f4.path <- paste0(temp.dir, "fasta4.fasta")
   writeFastaAA(fasta4, f4.path)
 
+  if(verbose){
+    cat(format(Sys.time(), "%R"),
+        "Step 3 of 6: Trimming interval sequences.")
+  }
   blast5fasta <- trimEpitopes(blast4fasta)
   blast5 <- blast5fasta[[1]]
   fasta5 <- blast5fasta[[2]]
@@ -73,14 +89,29 @@ epFind2 <- function(data = NULL, output.dir = NULL,
   f5.path <- paste0(temp.dir, "fasta5.fasta")
   writeFastaAA(fasta5, f5.path)
 
+  if(verbose){
+    cat(format(Sys.time(), "%R"),
+        "Step 4 of 6: Grouping aligning sequences.")
+  }
   groups <- indexGroups(blast5, fasta5, mode = g.method)
   g.path <- paste0(temp.dir, "groups.csv")
   data.table::fwrite(groups, g.path)
 
+  if(verbose){
+    cat(format(Sys.time(), "%R"),
+        "Step 5 of 6: Generating multiple sequence alignment logos.")
+  }
+
   m.path <- paste0(temp.dir, "msa/")
   if(!dir.exists(m.path)){dir.create(m.path)}
-  groupMSA(groups, m.path)
-  file.copy(paste0(m.path,"msa.pdf"), paste0(output.dir,"/msa.pdf"))
+  groupMSA(groups, m.path, pdftk)
+
+  if(verbose){
+    cat(format(Sys.time(), "%R"),
+        "Step 6 of 6: Preparing output files.")
+  }
+
+  if(pdftk){file.copy(paste0(m.path,"msa.pdf"), paste0(output.dir,"/msa.pdf"))}
 
 
   msa.cs <- readLines(paste0(m.path,"consensusSequences.txt"))

@@ -1,7 +1,7 @@
 # EpitopeFinder (R package name: epitopefindr)
 ## Minimal Overlaps from BLAST Alignments 
-Version: 1.1.11  
-Date: February 15, 2019  
+Version: 1.1.12  
+Date: February 17, 2019  
 Concept: Ben Larman, Brandon Sie, Daniel Monaco  
 Author: Brandon Sie  (contact: brandonsie at gmail)  
 
