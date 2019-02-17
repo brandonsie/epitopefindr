@@ -27,6 +27,7 @@ BiocManager::install(c("Biostrings", "EBImage", "IRanges", "msa", "S4Vectors"))
 if(!requireNamespace("devtools")) install.packages("devtools")
 devtools::install_github("mhahsler/rBLAST")  
 devtools::install_github("brandonsie/epitopefindr")
+
 library(epitopefindr)
 ```
 ----------------------------------------------------------------------
