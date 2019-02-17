@@ -40,3 +40,4 @@ library(epitopefindr)
   * `indexGroups` collects trimmed sequences into aligning groups
   * `groupMSA` creates a multiple sequence alignment motif logo for each group
   * `outputTable` creates a spreadsheet summarizing identified sequences and epitope groups
+
