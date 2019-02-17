@@ -18,15 +18,15 @@ The purpose of this package is to describe the alignments among a set of peptide
 3. Install [pdftk](https://www.pdflabs.com/tools/pdftk-server/).  
 4. In R console, execute: 
 ``` r  
-# Install rBLAST from Github
-devtools::install_github("mhahsler/rBLAST") # requires install.packages(devtools)  
 
 # Install Bioconductor packages
 if (!requireNamespace("BiocManager"))
     install.packages("BiocManager")
 BiocManager::install(c("Biostrings", "EBImage", "IRanges", "msa", "S4Vectors"))
 
-# Install epitopefindr
+# Install Github packages
+# requires devtools package from CRAN `install.packages(devtools)`
+devtools::install_github("mhahsler/rBLAST")  
 devtools::install_github("brandonsie/epitopefindr")
 library(epitopefindr)
 ```
