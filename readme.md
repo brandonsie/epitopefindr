@@ -14,8 +14,9 @@ The purpose of this package is to describe the alignments among a set of peptide
 
 # Setup:
 1. Install [R (version 3.5+)](https://www.r-project.org/).  
-2. Install [BLAST+ (version 2.7.1+)](https://blast.ncbi.nlm.nih.gov/Blast.cgi?PAGE_TYPE=BlastDocs&DOC_TYPE=Download).
-3. In R console, execute: 
+2. Install [BLAST+ (version 2.7.1+)](https://blast.ncbi.nlm.nih.gov/Blast.cgi?PAGE_TYPE=BlastDocs&DOC_TYPE=Download).  
+3. Install [pdftk](https://www.pdflabs.com/tools/pdftk-server/).  
+4. In R console, execute: 
 ``` r  
 # Install rBLAST from Github
 devtools::install_github("mhahsler/rBLAST") # requires install.packages(devtools)  
