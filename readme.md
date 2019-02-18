@@ -5,8 +5,6 @@ Date: February 17, 2019
 Concept: Ben Larman, Brandon Sie, Daniel Monaco  
 Author: Brandon Sie  (contact: brandonsie at gmail)  
 
-![logo](https://brandonsie.github.io/docs/epf-logo2.png|width=100)
-
 <img src="https://brandonsie.github.io/docs/epf-logo2.png" width="200" height="200" />
 
 # Pipeline Overview: 
