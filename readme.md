@@ -5,7 +5,9 @@ Date: February 17, 2019
 Concept: Ben Larman, Brandon Sie, Daniel Monaco  
 Author: Brandon Sie  (contact: brandonsie at gmail)  
 
-![logo](https://brandonsie.github.io/docs/epf-logo2.png)
+![logo](https://brandonsie.github.io/docs/epf-logo2.png|width=100)
+
+<img src="https://brandonsie.github.io/docs/epf-logo2.png" width="200" height="200" />
 
 # Pipeline Overview: 
 The purpose of this package is to describe the alignments among a set of peptide sequences by reporting the overlaps of each peptide's alignments to other peptides in the set. One can imagine inputting a list of peptides enriched by immunoprecipitation to identify corresponding epitopes. 
