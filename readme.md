@@ -35,6 +35,7 @@ if(!requireNamespace("devtools")) install.packages("devtools")
 devtools::install_github("mhahsler/rBLAST")  
 devtools::install_github("brandonsie/epitopefindr")
 
+# Load & attach
 library(epitopefindr)
 ```
 ----------------------------------------------------------------------
