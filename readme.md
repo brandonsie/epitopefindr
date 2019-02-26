@@ -1,13 +1,10 @@
 # `epitopefindr`: Minimal Overlaps from BLAST Alignments 
 
 
-
-
-
 |  |  |
 | --- | --- |
-| Version:  | 1.1.13 |
-| Date: | February 17, 2019 |
+| Version:  | 1.1.14 |
+| Date: | February 26, 2019 |
 | Concept: | Ben Larman, Brandon Sie, Daniel Monaco  |
 | Author: | Brandon Sie  (contact: brandonsie at gmail)   |
 
@@ -28,7 +25,7 @@ The purpose of this package is to describe the alignments among a set of peptide
 
 # Install Bioconductor packages
 if (!requireNamespace("BiocManager")) install.packages("BiocManager")
-BiocManager::install(c("Biostrings", "EBImage", "IRanges", "msa", "S4Vectors"))
+BiocManager::install(c("Biostrings", "IRanges", "msa", "S4Vectors"))
 
 # Install Github packages
 if(!requireNamespace("devtools")) install.packages("devtools")

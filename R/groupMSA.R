@@ -4,7 +4,7 @@
 #' @param mpath Direcotry to write sequence alignment files.
 #' @param pdftk Logical whether or not to use staplr and pdftk to merge individual msa pdfs.
 #' @param trim.groups Logical whether or not to apply msaTrim to edges of logos. Not implemented.
-#' @param make.png Locial whether or not to convert PDF output to PNG.
+#' @param make.png Depreciated. Locial whether or not to convert PDF output to PNG.
 #' @export
 
 groupMSA <- function(groups, mpath = "intermediate_files/msa/", pdftk = TRUE,
@@ -90,12 +90,12 @@ groupMSA <- function(groups, mpath = "intermediate_files/msa/", pdftk = TRUE,
       file.remove(paste0("msa-",i,".pdf"))
       file.remove(tname)
 
-      #optionally convert pdf to png
-      if(make.png){
-        iname <- paste0(mpath,"msa-",i,"_1.png")
-        pdftools::pdf_convert(pname, format = "png", filenames = iname,
-                              dpi = 300,verbose=FALSE)
-      }
+      # #optionally convert pdf to png
+      # if(make.png){
+      #   iname <- paste0(mpath,"msa-",i,"_1.png")
+      #   pdftools::pdf_convert(pname, format = "png", filenames = iname,
+      #                         dpi = 300,verbose=FALSE)
+      # }
 
 
 

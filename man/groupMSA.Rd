@@ -17,7 +17,7 @@ groupMSA(groups, mpath = "intermediate_files/msa/", pdftk = TRUE,
 
 \item{trim.groups}{Logical whether or not to apply msaTrim to edges of logos. Not implemented.}
 
-\item{make.png}{Locial whether or not to convert PDF output to PNG.}
+\item{make.png}{Depreciated. Locial whether or not to convert PDF output to PNG.}
 }
 \description{
 groupMSA
