@@ -1,4 +1,4 @@
-# `epitopefindr`: Minimal Overlaps from BLAST Alignments 
+# epitopefindr: Minimal Overlaps from BLAST Alignments 
 
 
 |  |  |
