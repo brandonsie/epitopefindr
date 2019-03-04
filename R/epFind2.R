@@ -41,7 +41,7 @@ epFind2 <- function(data = NULL, output.dir = NULL, verbose = TRUE, pdftk = TRUE
   # Prepare sequences
 
   if(verbose){
-    cat("\n", format(Sys.time(), "%R"),
+    cat("\n", format(Sys.time(), "%R:%S"),
         "Step 1 of 6: Preparing BLAST alignment data from input sequences.",
         "\n")
   }
@@ -66,7 +66,7 @@ epFind2 <- function(data = NULL, output.dir = NULL, verbose = TRUE, pdftk = TRUE
   # Process alignment overlaps
 
   if(verbose){
-    cat("\n", format(Sys.time(), "%R"),
+    cat("\n", "[", format(Sys.time(), "%R:%S"), "]",
         "Step 2 of 6: Simplifying alignments to minimal number of overlapping intervals.",
         "\n")
   }
@@ -80,7 +80,7 @@ epFind2 <- function(data = NULL, output.dir = NULL, verbose = TRUE, pdftk = TRUE
   writeFastaAA(fasta4, f4.path)
 
   if(verbose){
-    cat("\n", format(Sys.time(), "%R"),
+    cat("\n", format(Sys.time(), "%R:%S"),
         "Step 3 of 6: Trimming interval sequences.", "\n")
   }
   blast5fasta <- trimEpitopes(blast4fasta)
@@ -92,7 +92,7 @@ epFind2 <- function(data = NULL, output.dir = NULL, verbose = TRUE, pdftk = TRUE
   writeFastaAA(fasta5, f5.path)
 
   if(verbose){
-    cat("\n", format(Sys.time(), "%R"),
+    cat("\n", format(Sys.time(), "%R:%S"),
         "Step 4 of 6: Grouping aligning sequences.", "\n")
   }
   groups <- indexGroups(blast5, fasta5, mode = g.method)
@@ -100,7 +100,7 @@ epFind2 <- function(data = NULL, output.dir = NULL, verbose = TRUE, pdftk = TRUE
   data.table::fwrite(groups, g.path)
 
   if(verbose){
-    cat("\n", format(Sys.time(), "%R"),
+    cat("\n", format(Sys.time(), "%R:%S"),
         "Step 5 of 6: Generating multiple sequence alignment logos.", "\n")
   }
 
@@ -109,15 +109,17 @@ epFind2 <- function(data = NULL, output.dir = NULL, verbose = TRUE, pdftk = TRUE
   groupMSA(groups, m.path, pdftk)
 
   if(verbose){
-    cat("\n", format(Sys.time(), "%R"),
+    cat("\n", format(Sys.time(), "%R:%S"),
         "Step 6 of 6: Preparing output files.", "\n")
   }
 
   if(pdftk){file.copy(paste0(m.path,"msa.pdf"), paste0(output.dir,"/msa.pdf"))}
-
+  file.copy(paste0(temp.dir, "blast5.csv"), paste0(output.dir,"final_alignments.csv"))
 
   msa.cs <- readLines(paste0(m.path,"consensusSequences.txt"))
-  o.path <- paste0(output.dir,"/epitopeReport.csv")
-  outputTable(blast5, fasta1, groups, msa.cs, o.path)
+  k.path <- paste0(output.dir,"/epitopeKey.csv")
+  s.path <- paste0(output.dir,"/epitopeSummary.csv")
+  outputTable(blast5, fasta1, groups, msa.cs, k.path, s.path)
+
 
 }

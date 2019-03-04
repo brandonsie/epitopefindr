@@ -3,10 +3,11 @@
 
 |  |  |
 | --- | --- |
-| Version:  | 1.1.14 |
-| Date: | February 26, 2019 |
+| Version:  | 1.1.15 |
+| Date: | March 4, 2019 |
 | Concept: | Ben Larman, Brandon Sie, Daniel Monaco  |
-| Author: | Brandon Sie  (contact: brandonsie at gmail)   |
+| Authors: | Brandon Sie, Athena Chen  |
+| Contact: | brandonsie at gmail  |
 
 # Pipeline Overview: 
 The purpose of this package is to describe the alignments among a set of peptide sequences by reporting the overlaps of each peptide's alignments to other peptides in the set. One can imagine inputting a list of peptides enriched by immunoprecipitation (e.g. by [PhIP-seq](https://www.nature.com/articles/s41596-018-0025-6)) to identify corresponding epitopes. 

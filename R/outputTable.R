@@ -4,11 +4,12 @@
 #' @param fasta.initial Starting peptide sequences as AAStringSet.
 #' @param groups Groups table of final epitopes to report.
 #' @param msacs MSA consensus sequences for each group in order.
-#' @param filename Output table filename to write.
+#' @param key_filename Epitope Key table filename to write.
+#' @param summary_filename Epitope Summary table filename to write.
 #' @export
 
 outputTable <- function(blast, fasta.initial, groups,
-                        msacs, filename){
+                        msacs, key_filename, summary_filename){
 
 
   #load epitope info
@@ -35,18 +36,23 @@ outputTable <- function(blast, fasta.initial, groups,
 
 
   #define and start populating output table
-  cnames <- c("gene", "tile", "start", "end", "ep_seq", "tile_seq",
-              "group_number", "group_name","group_size","msaconsensus")
+  cnames <- c("id", "start", "end", "ep_seq", "tile_seq",
+              "group_number", "group_name","group_size","msa_consensus")
   output <- data.frame(matrix("NA", nrow=nrow(full), ncol=length(cnames))) %>%
     data.table::setnames(cnames)
 
-  for(i in 1:nrow(output)){
-    if(full$ID[i] %>% grepl("\\|",.)){
-      output[i,c("gene","tile")] <- strsplit(full$ID[i],"\\|") %>% unlist
-    } else{output[i,c("gene","tile")] <- full$ID[i]}
-  }
+  # old when gene and tile were separate columns. now just id
+  # for(i in 1:nrow(output)){
+  #   if(full$ID[i] %>% grepl("\\|",.)){
+  #     output[i,c("gene","tile")] <- strsplit(full$ID[i],"\\|") %>% unlist
+  #   } else{output[i,c("gene","tile")] <- full$ID[i]}
+  # }
+#
+#   output[, c("tile", "start", "end")] <- strsplit(output$tile, "\\.") %>%
+#     unlist %>% as.vector %>% matrix(nrow=3) %>% t
 
-  output[, c("tile", "start", "end")] <- strsplit(output$tile, "\\.") %>%
+  output$id <- full$ID
+  output[, c("id", "start", "end")] <- strsplit(output$id, "\\.") %>%
     unlist %>% as.vector %>% matrix(nrow=3) %>% t
   output[,"start"] %<>% as.numeric; output[,"end"] %<>% as.numeric
   output$ep_seq <- full$Seq %>% as.character
@@ -82,14 +88,41 @@ outputTable <- function(blast, fasta.initial, groups,
   # output$group_number <- gsub("NA, ", "", output$group_number)
   # output$group_size <- gsub("NA, ", "", output$group_size)
 
-  output$msaconsensus <- suppressWarnings(msacs[output$group_number %>% as.numeric])
+  output$msa_consensus <- suppressWarnings(msacs[output$group_number %>% as.numeric])
 
 
   # sort
-  output <- output[(order(output$gene,output$tile,
+  output <- output[(order(output$id,
                           as.numeric(output$start),
                           as.numeric(output$end))),]
+  # output <- output[(order(output$gene,output$tile,
+  #                         as.numeric(output$start),
+  #                         as.numeric(output$end))),]
 
-  data.table::fwrite(output, filename)
+  #old output format
+  # data.table::fwrite(output, "outputTable.csv")
+
+  epitope_key <- unique(output[, c("group_number",
+                                   "group_size",
+                                   "msa_consensus")]) %>% na.omit
+  epitope_key <- epitope_key[order(epitope_key$group_number),]
+
+  epitope_summary <- output %>%
+    dplyr::mutate(position = paste0(start, "_", end)) %>%
+    dplyr::mutate(id_group = paste0(id, "_", group_number)) %>%
+    stats::aggregate(position ~ id_group, data = ., FUN = function(x){
+      paste(x, collapse = "_")}) %>%
+    dplyr::mutate(id = (
+      strsplit(id_group, "_") %>% unlist %>% matrix(nrow = 2) %>% t %>%
+        magrittr::extract(,1))) %>%
+    dplyr::mutate(group_number = (
+      strsplit(id_group, "_") %>% unlist %>% matrix(nrow = 2) %>% t %>%
+        magrittr::extract(,2))) %>%
+    dplyr::select(id, position, group_number) %>%
+    tidyr::spread(group_number, position)
+
+
+  data.table::fwrite(epitope_key, key_filename)
+  data.table::fwrite(epitope_summary, summary_filename)
 
 }
