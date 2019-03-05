@@ -2,12 +2,10 @@
 % Please edit documentation in R/epSetupBLAST.R
 \name{epSetupBLAST}
 \alias{epSetupBLAST}
-\title{epSetupBLAST
-Run BLASTp on input peptides against each other & pre-process for use}
+\title{epSetupBLAST}
 \usage{
 epSetupBLAST()
 }
 \description{
-epSetupBLAST
 Run BLASTp on input peptides against each other & pre-process for use
 }

@@ -1,9 +1,12 @@
 #' indexEpitopes
+#'
 #' For a specified index peptide, identify the maximal intervals that represent
 #' the consensus overlap of reported BLAST alignments to that peptide. Update
 #' the BLAST table accordingly.
+#'
 #' @param blast BLAST alignment table to process.
 #' @param index Name of index peptide to process.
+#'
 #' @export
 
 indexEpitopes <- function(blast, index){

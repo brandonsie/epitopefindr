@@ -1,4 +1,5 @@
 #' epFind2
+#'
 #' New all-in-one function to call the major steps of epitopefindr.
 #'
 #' @param data Biostrings::AAStringset input sequences to search for epitopes, or path to corresponding .fasta file.
@@ -7,9 +8,9 @@
 #' @param pdftk Logical whether or not to merge msa pdfs using staplr and pdftk
 #' @param e.thresh Maximum e-value to consider from BLASTp alignments of 'data'.
 #' @param g.method Grouping method of alignments. Either 'any' or 'all'. See ?indexGroups
-#' @param aln.size Minimum length of alignment to consider from BLASTp alignments of 'data'.
+#' @param aln.size Not yet implemented. Minimum length of alignment to consider from BLASTp alignments of 'data'.
+#'
 #' @export
-# (!) aln size not yet implemented
 
 epFind2 <- function(data = NULL, output.dir = NULL, verbose = TRUE, pdftk = TRUE,
                     e.thresh = 0.01, g.method = "any", aln.size = 7){

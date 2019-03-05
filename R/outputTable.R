@@ -1,11 +1,14 @@
 #' outputTable
+#'
 #' Generates spreadsheet of reportable data on identified minimal alignments.
+#'
 #' @param blast BLAST alignment table to report.
 #' @param fasta.initial Starting peptide sequences as AAStringSet.
 #' @param groups Groups table of final epitopes to report.
 #' @param msacs MSA consensus sequences for each group in order.
 #' @param key_filename Epitope Key table filename to write.
 #' @param summary_filename Epitope Summary table filename to write.
+#'
 #' @export
 
 outputTable <- function(blast, fasta.initial, groups,

@@ -2,8 +2,7 @@
 % Please edit documentation in R/chooseIndex.R
 \name{chooseIndex}
 \alias{chooseIndex}
-\title{Identifies which of a set of remaining peptides from a blast
-alignment table should serve as the next index peptide.}
+\title{chooseIndex}
 \usage{
 chooseIndex(input, method = "min")
 }

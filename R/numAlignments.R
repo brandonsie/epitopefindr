@@ -1,4 +1,5 @@
 #' numAlignments
+#'
 #' Add/update column to blast table listing # of alignments per query sequence.
 #'
 #' @param input BLAST table to update with number of alignments per peptide.

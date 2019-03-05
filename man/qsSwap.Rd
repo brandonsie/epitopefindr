@@ -2,8 +2,7 @@
 % Please edit documentation in R/qsSwap.R
 \name{qsSwap}
 \alias{qsSwap}
-\title{qsSwap
-Swap query and subject data from a BLAST table.}
+\title{qsSwap}
 \usage{
 qsSwap(blast.in)
 }
@@ -11,6 +10,5 @@ qsSwap(blast.in)
 \item{blast.in}{Input blast table to be swapped.}
 }
 \description{
-qsSwap
 Swap query and subject data from a BLAST table.
 }

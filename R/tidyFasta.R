@@ -1,7 +1,9 @@
-#'tidyFasta
+#' tidyFasta
+#'
 #' remove filler sequences after "." stop codon and cterminal "*"
 #'
 #' @param input Untidy fasta.
+#'
 #' @export
 
 tidyFasta <- function(input){

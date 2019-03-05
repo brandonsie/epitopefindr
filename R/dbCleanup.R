@@ -1,7 +1,10 @@
 #' dbCleanup
+#'
 #' Directory management for epitopefindr
+#'
 #' @param relocate.input Logical whether to move input fasta file to new location.
 #' @param relocate.dir Directory into which to move files if relocate.input == TRUE.
+#'
 #' @export
 
 dbCleanup <- function(relocate.input = FALSE, relocate.dir){

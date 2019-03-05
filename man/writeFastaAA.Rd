@@ -2,8 +2,7 @@
 % Please edit documentation in R/writeFastaAA.R
 \name{writeFastaAA}
 \alias{writeFastaAA}
-\title{writeFastaAA
-Takes data frame with $Seq and $ID or AAStringSet and writes fasta file}
+\title{writeFastaAA}
 \usage{
 writeFastaAA(input, fpath)
 }
@@ -13,6 +12,5 @@ writeFastaAA(input, fpath)
 \item{fpath}{Directory path to write fasta file to.}
 }
 \description{
-writeFastaAA
 Takes data frame with $Seq and $ID or AAStringSet and writes fasta file
 }

@@ -2,8 +2,7 @@
 % Please edit documentation in R/queryBLASTaa.R
 \name{queryBLASTaa}
 \alias{queryBLASTaa}
-\title{queryBLASTaa
-BLAST query sequence against a database of sequences.}
+\title{queryBLASTaa}
 \usage{
 queryBLASTaa(query, db)
 }
@@ -13,6 +12,5 @@ queryBLASTaa(query, db)
 \item{db}{Path to fasta file of database sequences.}
 }
 \description{
-queryBLASTaa
 BLAST query sequence against a database of sequences.
 }

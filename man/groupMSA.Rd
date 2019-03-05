@@ -2,8 +2,7 @@
 % Please edit documentation in R/groupMSA.R
 \name{groupMSA}
 \alias{groupMSA}
-\title{groupMSA
-Generate pdf multiple sequence alignment logos for identified aligning groups.}
+\title{groupMSA}
 \usage{
 groupMSA(groups, mpath = "intermediate_files/msa/", pdftk = TRUE,
   trim.groups = FALSE, make.png = FALSE)
@@ -20,6 +19,5 @@ groupMSA(groups, mpath = "intermediate_files/msa/", pdftk = TRUE,
 \item{make.png}{Depreciated. Locial whether or not to convert PDF output to PNG.}
 }
 \description{
-groupMSA
 Generate pdf multiple sequence alignment logos for identified aligning groups.
 }

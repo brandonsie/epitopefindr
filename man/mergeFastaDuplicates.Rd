@@ -2,10 +2,7 @@
 % Please edit documentation in R/mergeFastaDuplicates.R
 \name{mergeFastaDuplicates}
 \alias{mergeFastaDuplicates}
-\title{mergeFastaDuplicates
-If two fasta entries have the same sequence, keep only one copy of the
-sequence but concatenante the name to be Name1__Name2; __ can be replaced
-with delimiter of choice.}
+\title{mergeFastaDuplicates}
 \usage{
 mergeFastaDuplicates(input, sep = "__")
 }
@@ -15,7 +12,6 @@ mergeFastaDuplicates(input, sep = "__")
 \item{sep}{Delimiter to place between names.}
 }
 \description{
-mergeFastaDuplicates
 If two fasta entries have the same sequence, keep only one copy of the
 sequence but concatenante the name to be Name1__Name2; __ can be replaced
 with delimiter of choice.

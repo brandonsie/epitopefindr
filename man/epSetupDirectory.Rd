@@ -2,8 +2,7 @@
 % Please edit documentation in R/epSetupDirectory.R
 \name{epSetupDirectory}
 \alias{epSetupDirectory}
-\title{epSetupDirectory
-Setup epitopefinder directory paths}
+\title{epSetupDirectory}
 \usage{
 epSetupDirectory(proj.id, e.thresh, g.method)
 }
@@ -15,6 +14,5 @@ epSetupDirectory(proj.id, e.thresh, g.method)
 \item{g.method}{Grouping method "any" or "all". See ?indexGroups}
 }
 \description{
-epSetupDirectory
 Setup epitopefinder directory paths
 }

@@ -2,12 +2,10 @@
 % Please edit documentation in R/epSetupPeptides.R
 \name{epSetupPeptides}
 \alias{epSetupPeptides}
-\title{epSetupPeptides
-Tidy input peptide sequences.}
+\title{epSetupPeptides}
 \usage{
 epSetupPeptides()
 }
 \description{
-epSetupPeptides
 Tidy input peptide sequences.
 }

@@ -2,8 +2,7 @@
 % Please edit documentation in R/printSignpost.R
 \name{printSignpost}
 \alias{printSignpost}
-\title{printSignpost
-Some status updates that can be printed if verbose == TRUE.}
+\title{printSignpost}
 \usage{
 printSignpost(step.num, ... = NA)
 }
@@ -13,6 +12,5 @@ printSignpost(step.num, ... = NA)
 \item{...}{Extra parameters to past into step.num 0.}
 }
 \description{
-printSignpost
 Some status updates that can be printed if verbose == TRUE.
 }

@@ -2,8 +2,7 @@
 % Please edit documentation in R/glGet.R
 \name{glGet}
 \alias{glGet}
-\title{glGet
-Retrieve data from global environment, e.g. from previous glAssign call.}
+\title{glGet}
 \usage{
 glGet(name)
 }
@@ -11,6 +10,5 @@ glGet(name)
 \item{name}{Varable to retrieve.}
 }
 \description{
-glGet
 Retrieve data from global environment, e.g. from previous glAssign call.
 }

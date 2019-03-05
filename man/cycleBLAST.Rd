@@ -2,9 +2,7 @@
 % Please edit documentation in R/cycleBLAST.R
 \name{cycleBLAST}
 \alias{cycleBLAST}
-\title{cycleBLAST
-Repeatedly call epitopeBLAST to iterate through all index peptides
-until all peptides are converted to trimmed epitopes.}
+\title{cycleBLAST}
 \usage{
 cycleBLAST(data, pb, n, verbose = FALSE)
 }
@@ -21,7 +19,6 @@ cycleBLAST(data, pb, n, verbose = FALSE)
 List data containing modified BLAST alignment table and fasta file.
 }
 \description{
-cycleBLAST
 Repeatedly call epitopeBLAST to iterate through all index peptides
 until all peptides are converted to trimmed epitopes.
 }

@@ -1,7 +1,10 @@
 #' printSignpost
+#'
 #' Some status updates that can be printed if verbose == TRUE.
+#'
 #' @param step.num Numerif reference of which step to display status for.
 #' @param ... Extra parameters to past into step.num 0.
+#'
 #' @export
 
 printSignpost <- function(step.num, ... = NA){

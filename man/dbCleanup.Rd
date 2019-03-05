@@ -2,8 +2,7 @@
 % Please edit documentation in R/dbCleanup.R
 \name{dbCleanup}
 \alias{dbCleanup}
-\title{dbCleanup
-Directory management for epitopefindr}
+\title{dbCleanup}
 \usage{
 dbCleanup(relocate.input = FALSE, relocate.dir)
 }
@@ -13,6 +12,5 @@ dbCleanup(relocate.input = FALSE, relocate.dir)
 \item{relocate.dir}{Directory into which to move files if relocate.input == TRUE.}
 }
 \description{
-dbCleanup
 Directory management for epitopefindr
 }

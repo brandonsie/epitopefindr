@@ -1,7 +1,10 @@
 #' filterBLAST
+#'
 #' Remove singletons, sequneces with no non-self alignments,
 #' from BLAST alignment table.
+#'
 #' @param blast BLAST alignment table from which to remove singletons.
+#'
 #' @export
 
 filterBLAST <- function(blast){ #remove singletons

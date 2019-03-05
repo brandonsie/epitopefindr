@@ -2,12 +2,10 @@
 % Please edit documentation in R/outputFiles.R
 \name{outputFiles}
 \alias{outputFiles}
-\title{outputFiles
-Generates some output files to report from the epitope search.}
+\title{outputFiles}
 \usage{
 outputFiles()
 }
 \description{
-outputFiles
 Generates some output files to report from the epitope search.
 }

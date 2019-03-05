@@ -1,4 +1,5 @@
 #' glParamGet
+#'
 #' Special case of glGet to retrieve a value from object gl.params.
 #'
 #' @param name Variable to retrieve.

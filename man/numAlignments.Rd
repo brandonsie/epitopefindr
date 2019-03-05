@@ -2,8 +2,7 @@
 % Please edit documentation in R/numAlignments.R
 \name{numAlignments}
 \alias{numAlignments}
-\title{numAlignments
-Add/update column to blast table listing # of alignments per query sequence.}
+\title{numAlignments}
 \usage{
 numAlignments(input)
 }
@@ -11,6 +10,5 @@ numAlignments(input)
 \item{input}{BLAST table to update with number of alignments per peptide.}
 }
 \description{
-numAlignments
 Add/update column to blast table listing # of alignments per query sequence.
 }

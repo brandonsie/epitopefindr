@@ -1,10 +1,12 @@
-#` chooseIndex
+#' chooseIndex
+#'
 #' Identifies which of a set of remaining peptides from a blast
 #' alignment table should serve as the next index peptide.
 #'
 #' @param input Data frame with BLAST alignments.
 #' @param method Either "min" or "max": instructs whether chooseIndex should
 #' suggest the peptide with the fewest or most alignments, respectively.
+#'
 #' @return Peptide name.
 
 chooseIndex <- function(input, method = "min"){

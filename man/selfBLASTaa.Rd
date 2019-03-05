@@ -2,8 +2,7 @@
 % Please edit documentation in R/selfBLASTaa.R
 \name{selfBLASTaa}
 \alias{selfBLASTaa}
-\title{selfBLASTaa
-Run BLASTp on amino acid sequences against themselves.}
+\title{selfBLASTaa}
 \usage{
 selfBLASTaa(path)
 }
@@ -11,6 +10,5 @@ selfBLASTaa(path)
 \item{path}{Path to fasta file of amino acid sequences to BLAST.}
 }
 \description{
-selfBLASTaa
 Run BLASTp on amino acid sequences against themselves.
 }

@@ -1,4 +1,5 @@
 #' glAssign
+#'
 #' Quick wrapper function for assigning data to global environment
 #'
 #' @param name Identifier for object.

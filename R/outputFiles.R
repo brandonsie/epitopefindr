@@ -1,4 +1,5 @@
 #' outputFiles
+#'
 #' Generates some output files to report from the epitope search.
 #'
 #' @export

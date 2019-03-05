@@ -1,5 +1,7 @@
 #' indexGroups
+#'
 #' Group trimmed sequences into aligning groups
+#'
 #' @param blast BLAST alignment table to process.
 #' @param fasta Epitope sequence AAStringset object to process.
 #' @param mode Grouping method. "any" creates a smaller number of groups, with
@@ -8,6 +10,7 @@
 #' creates a larger number of groups, with individual groups tending to have
 #' fewer members, wuch taht in each group, each member must align with "all"
 #' other members.
+#'
 #' @export
 
 indexGroups <- function(blast, fasta, mode="any"){

@@ -1,4 +1,5 @@
 #' epSetupBLAST
+#'
 #' Run BLASTp on input peptides against each other & pre-process for use
 
 epSetupBLAST <- function(){

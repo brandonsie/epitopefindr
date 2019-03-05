@@ -2,8 +2,7 @@
 % Please edit documentation in R/tidyBLAST.R
 \name{tidyBLAST}
 \alias{tidyBLAST}
-\title{tidyBLAST
-Call a series of functions to tidy raw BLAST alignment table for use.}
+\title{tidyBLAST}
 \usage{
 tidyBLAST(blast, fasta)
 }
@@ -14,6 +13,5 @@ tidyBLAST(blast, fasta)
 with peptide sequences.}
 }
 \description{
-tidyBLAST
 Call a series of functions to tidy raw BLAST alignment table for use.
 }

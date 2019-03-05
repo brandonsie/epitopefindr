@@ -1,5 +1,7 @@
 #' organizeBLAST
+#'
 #' Rename unwieldy columns from rBLAST output table.
+#'
 #' @param input Input default BLAST table.
 
 organizeBLAST <- function(input){

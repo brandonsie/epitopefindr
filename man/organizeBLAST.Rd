@@ -2,8 +2,7 @@
 % Please edit documentation in R/organizeBLAST.R
 \name{organizeBLAST}
 \alias{organizeBLAST}
-\title{organizeBLAST
-Rename unwieldy columns from rBLAST output table.}
+\title{organizeBLAST}
 \usage{
 organizeBLAST(input)
 }
@@ -11,6 +10,5 @@ organizeBLAST(input)
 \item{input}{Input default BLAST table.}
 }
 \description{
-organizeBLAST
 Rename unwieldy columns from rBLAST output table.
 }

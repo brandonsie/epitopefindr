@@ -2,8 +2,7 @@
 % Please edit documentation in R/pbCycleBLAST.R
 \name{pbCycleBLAST}
 \alias{pbCycleBLAST}
-\title{pbCycleBLAST
-Initialize a txtProgressBar object with which to call cycleBLAST.}
+\title{pbCycleBLAST}
 \usage{
 pbCycleBLAST(blast, fasta, ncycles = "max")
 }
@@ -15,6 +14,5 @@ pbCycleBLAST(blast, fasta, ncycles = "max")
 \item{ncycles}{Number of cycles of cycleBLAST to perform.}
 }
 \description{
-pbCycleBLAST
 Initialize a txtProgressBar object with which to call cycleBLAST.
 }

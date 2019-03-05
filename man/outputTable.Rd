@@ -2,8 +2,7 @@
 % Please edit documentation in R/outputTable.R
 \name{outputTable}
 \alias{outputTable}
-\title{outputTable
-Generates spreadsheet of reportable data on identified minimal alignments.}
+\title{outputTable}
 \usage{
 outputTable(blast, fasta.initial, groups, msacs, key_filename,
   summary_filename)
@@ -22,6 +21,5 @@ outputTable(blast, fasta.initial, groups, msacs, key_filename,
 \item{summary_filename}{Epitope Summary table filename to write.}
 }
 \description{
-outputTable
 Generates spreadsheet of reportable data on identified minimal alignments.
 }

@@ -1,5 +1,7 @@
 #' decipherGaps
+#'
 #' Split gapped BLAST alignments into smaller ungapped alignments.
+#'
 #' @param blast Input gapped BLAST alignment table to ungap.
 
 decipherGaps <- function(blast){

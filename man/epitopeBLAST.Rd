@@ -2,9 +2,7 @@
 % Please edit documentation in R/epitopeBLAST.R
 \name{epitopeBLAST}
 \alias{epitopeBLAST}
-\title{epitopeBLAST
-Identifies next index peptide, calls indexEpitopes to parse alignments to
-that index peptide, and updates BLAST table accordingly.}
+\title{epitopeBLAST}
 \usage{
 epitopeBLAST(data)
 }
@@ -14,7 +12,6 @@ epitopeBLAST(data)
 \item{fasta}{Fasta file of sequences to process.}
 }
 \description{
-epitopeBLAST
 Identifies next index peptide, calls indexEpitopes to parse alignments to
 that index peptide, and updates BLAST table accordingly.
 }

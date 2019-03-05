@@ -2,8 +2,7 @@
 % Please edit documentation in R/glAssign.R
 \name{glAssign}
 \alias{glAssign}
-\title{glAssign
-Quick wrapper function for assigning data to global environment}
+\title{glAssign}
 \usage{
 glAssign(name, data)
 }
@@ -13,6 +12,5 @@ glAssign(name, data)
 \item{data}{Corresponding information.}
 }
 \description{
-glAssign
 Quick wrapper function for assigning data to global environment
 }

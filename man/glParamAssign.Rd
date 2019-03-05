@@ -2,8 +2,7 @@
 % Please edit documentation in R/glParamAssign.R
 \name{glParamAssign}
 \alias{glParamAssign}
-\title{glParamAssign
-Special case of glAssign to update a parameter in a table called gl.params.}
+\title{glParamAssign}
 \usage{
 glParamAssign(name, data)
 }
@@ -13,6 +12,5 @@ glParamAssign(name, data)
 \item{data}{ID of value to populate second column "value" of gl.params}
 }
 \description{
-glParamAssign
 Special case of glAssign to update a parameter in a table called gl.params.
 }

@@ -2,9 +2,7 @@
 % Please edit documentation in R/threshBLAST.R
 \name{threshBLAST}
 \alias{threshBLAST}
-\title{threshBLAST
-Subset initial BLAST alignbment table to only include alignments below a
-specified e-value threshold.}
+\title{threshBLAST}
 \usage{
 threshBLAST(blast, e.thresh)
 }
@@ -14,7 +12,6 @@ threshBLAST(blast, e.thresh)
 \item{e.thresh}{Maximum e-value threshold to retain.}
 }
 \description{
-threshBLAST
 Subset initial BLAST alignbment table to only include alignments below a
 specified e-value threshold.
 }

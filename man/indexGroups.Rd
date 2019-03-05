@@ -2,8 +2,7 @@
 % Please edit documentation in R/indexGroups.R
 \name{indexGroups}
 \alias{indexGroups}
-\title{indexGroups
-Group trimmed sequences into aligning groups}
+\title{indexGroups}
 \usage{
 indexGroups(blast, fasta, mode = "any")
 }
@@ -20,6 +19,5 @@ fewer members, wuch taht in each group, each member must align with "all"
 other members.}
 }
 \description{
-indexGroups
 Group trimmed sequences into aligning groups
 }

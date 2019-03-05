@@ -2,8 +2,7 @@
 % Please edit documentation in R/epPB.R
 \name{epPB}
 \alias{epPB}
-\title{epPB, short of epitope progress bar, calls utils::txtProgressBar with some
-standardized parameters to reduce redundancy.}
+\title{epPB}
 \usage{
 epPB(min, max)
 }
@@ -13,6 +12,6 @@ epPB(min, max)
 \item{max}{txtProgressBar maximum value}
 }
 \description{
-epPB, short of epitope progress bar, calls utils::txtProgressBar with some
+Short for epitope progress bar, epPB calls utils::txtProgressBar with some
 standardized parameters to reduce redundancy.
 }

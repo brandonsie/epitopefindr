@@ -2,8 +2,7 @@
 % Please edit documentation in R/glParamGet.R
 \name{glParamGet}
 \alias{glParamGet}
-\title{glParamGet
-Special case of glGet to retrieve a value from object gl.params.}
+\title{glParamGet}
 \usage{
 glParamGet(name)
 }
@@ -11,6 +10,5 @@ glParamGet(name)
 \item{name}{Variable to retrieve.}
 }
 \description{
-glParamGet
 Special case of glGet to retrieve a value from object gl.params.
 }

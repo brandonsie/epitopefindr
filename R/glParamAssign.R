@@ -1,4 +1,5 @@
 #' glParamAssign
+#'
 #' Special case of glAssign to update a parameter in a table called gl.params.
 #'
 #' @param name ID of variable to populate first column "param" of gl.params

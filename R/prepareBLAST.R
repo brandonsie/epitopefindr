@@ -1,9 +1,12 @@
 #' prepareBLAST
+#'
 #' Call series of functions to standardize BLAST table for computation.
+#'
 #' @param blast Input tidied BLAST table.
 #' @param fasta AAstringset object of fasta sequences.
 #' @param tofilter Logical whether or not to call filterBLAST, which is only
 #' necessary during initial setup.
+#'
 #' @export
 
 prepareBLAST <- function(blast, fasta, tofilter=TRUE){

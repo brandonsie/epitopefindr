@@ -1,8 +1,11 @@
 #' pbCycleBLAST
+#'
 #' Initialize a txtProgressBar object with which to call cycleBLAST.
+#'
 #' @param blast BLAST alignment table to process.
 #' @param fasta Fasta file of peptide sequences to process.
 #' @param ncycles Number of cycles of cycleBLAST to perform.
+#'
 #' @export
 
 pbCycleBLAST <- function(blast, fasta, ncycles="max"){

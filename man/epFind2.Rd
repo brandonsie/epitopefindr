@@ -2,8 +2,7 @@
 % Please edit documentation in R/epFind2.R
 \name{epFind2}
 \alias{epFind2}
-\title{epFind2
-New all-in-one function to call the major steps of epitopefindr.}
+\title{epFind2}
 \usage{
 epFind2(data = NULL, output.dir = NULL, verbose = TRUE,
   pdftk = TRUE, e.thresh = 0.01, g.method = "any", aln.size = 7)
@@ -21,9 +20,8 @@ epFind2(data = NULL, output.dir = NULL, verbose = TRUE,
 
 \item{g.method}{Grouping method of alignments. Either 'any' or 'all'. See ?indexGroups}
 
-\item{aln.size}{Minimum length of alignment to consider from BLASTp alignments of 'data'.}
+\item{aln.size}{Not yet implemented. Minimum length of alignment to consider from BLASTp alignments of 'data'.}
 }
 \description{
-epFind2
 New all-in-one function to call the major steps of epitopefindr.
 }

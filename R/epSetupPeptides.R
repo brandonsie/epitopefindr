@@ -1,4 +1,5 @@
 #' epSetupPeptides
+#'
 #' Tidy input peptide sequences.
 
 epSetupPeptides <- function(){

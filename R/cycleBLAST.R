@@ -1,11 +1,14 @@
 #' cycleBLAST
+#'
 #' Repeatedly call epitopeBLAST to iterate through all index peptides
 #' until all peptides are converted to trimmed epitopes.
+#'
 #' @param data List of BLAST alignment table and fastra file to process.
 #' @param pb txtProgressBar object to update
 #' @param n Value to update txtProgressBar object.
 #' @param verbose Logical whether or not to print status updates to console.
 #' @return List data containing modified BLAST alignment table and fasta file.
+#'
 #' @export
 
 

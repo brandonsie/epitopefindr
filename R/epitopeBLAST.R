@@ -1,8 +1,11 @@
 #' epitopeBLAST
+#'
 #' Identifies next index peptide, calls indexEpitopes to parse alignments to
 #' that index peptide, and updates BLAST table accordingly.
+#'
 #' @param data List with BLAST alignment table and fasta file of peptides.
 #' @param fasta Fasta file of sequences to process.
+#'
 #' @export
 
 epitopeBLAST <- function(data){
