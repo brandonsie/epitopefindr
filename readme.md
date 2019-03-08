@@ -53,7 +53,8 @@ _(These are not essential to `epitopefindr`, but are used to generate pretty ali
 epFind2(<AAStringSet or path to .fasta file>, <path to directory to write output files>)
 
 # Without pdflatex or pdftk
-epFind2(<AAStringSet or path to .fasta file>, <path to directory to write output files>, pdflatex = FALSE, pdftk = FALSE)
+epFind2(<AAStringSet or path to .fasta file>, <path to directory to write output files>, 
+        pdflatex = FALSE, pdftk = FALSE)
 
 # More stringent e-value threshold
 epFind2(<AAStringSet or path to .fasta file>, <path to directory to write output files>, e.thresh = 0.0001)
