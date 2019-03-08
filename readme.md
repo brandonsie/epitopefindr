@@ -44,12 +44,18 @@ _(These programs are not essential to `epitopefindr`, but are used to generate p
 ----------------------------------------------------------------------
 # Guide
 
-1. Prepare an `AAStringSet` object of peptides (identifier + sequence) as described in the [Biostrings documentation](http://web.mit.edu/~r/current/arch/i386_linux26/lib/R/library/Biostrings/html/XStringSet-class.html) OR prepare a fasta file with equivalent information.
-2. Try calling `epFind2(<AAStringSet or path to .fasta file>, <path to directory to write output files>)` to run a typical epitopefindr pipeline. 
-    * If you haven't installed a Tex distribution and/or pdftk, please also include parameters `pdflatex = FALSE` and/or `pdftk = FALSE`, respectively, in your `epFind2()` call. For example: 
+1. Prepare a [FASTA file](https://zhanglab.ccmb.med.umich.edu/FASTA/) with peptide names and sequences, or prepare an `AAStringSet` object of peptides (identifier + sequence) as described in the [Biostrings documentation] (http://web.mit.edu/~r/current/arch/i386_linux26/lib/R/library/Biostrings/html/XStringSet-class.html). Either of these can be fed as the first input parameter to `epFind2`.
+2. To run a typical `epitopefindr` pipeline, try calling `epFind2`:
 ``` r 
+# Basic call
+epFind2(<AAStringSet or path to .fasta file>, <path to directory to write output files>)
+
+# Without pdflatex or pdftk
 epFind2(<path to .fasta file>, <path to directory to write output files>, pdflatex = FALSE, pdftk = FALSE)
-````
+
+# More stringent e-value threshold
+epFind2(<AAStringSet or path to .fasta file>, <path to directory to write output files>, e.thresh = 0.0001)
+``` 
 
 A brief summary of the functions called by `epFind2`:
   * `pbCycleBLAST` cycles through each input peptide to find the overlap of its alignment with other peptides from the input. Nested within a call to `pbCycleBLAST` are calls to `epitopeBLAST`, `indexEpitopes`. 
