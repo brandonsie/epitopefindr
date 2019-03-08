@@ -3,8 +3,8 @@
 
 |  |  |
 | --- | --- |
-| Version:  | 1.1.16 |
-| Date: | March 5, 2019 |
+| Version:  | 1.1.17 |
+| Date: | March 8, 2019 |
 | Concept: | Ben Larman, Brandon Sie, Daniel Monaco  |
 | Authors: | Brandon Sie, Athena Chen  |
 | Contact: | brandonsie at gmail  |
@@ -20,9 +20,7 @@ The purpose of this package is to describe the alignments among a set of peptide
 # Setup:
 1. Install [R (version 3.5+)](https://www.r-project.org/).  
 2. Install [BLAST+ (version 2.7.1+)](https://blast.ncbi.nlm.nih.gov/Blast.cgi?PAGE_TYPE=BlastDocs&DOC_TYPE=Download).  
-3. Install a TeX distribution with `pdflatex`. (e.g. [MiKTeX (version 2.9+)](https://miktex.org))
-4. Install [pdftk (version 2.02+)](https://www.pdflabs.com/tools/pdftk-server/). _(Optional; only used to combine individual sequence alignment logo pdfs into a single file.)_  
-5. In R console, execute: 
+3. In R console, execute: 
 ``` r  
 
 # Install Bioconductor packages
@@ -37,11 +35,16 @@ devtools::install_github("brandonsie/epitopefindr")
 # Load & attach
 library(epitopefindr)
 ```
+## Optional/recommended additional setup:
+_(These programs are not essential to `epitopefindr`, but are used to generate pretty alignment logo PDFs.)_
+4. Install a TeX distribution with `pdflatex`. (e.g. [MiKTeX (version 2.9+)](https://miktex.org)). _(Optional; used to convert multiple sequence alignment TeX files to PDF.)_
+5. Install [pdftk (version 2.02+)](https://www.pdflabs.com/tools/pdftk-server/). _(Optional; used to merge individual PDFs into a single file.)_  
 ----------------------------------------------------------------------
 # Guide
 
 1. Prepare an `AAStringSet` object of peptides (identifier + sequence) as described in the [Biostrings documentation](http://web.mit.edu/~r/current/arch/i386_linux26/lib/R/library/Biostrings/html/XStringSet-class.html) OR prepare a fasta file with equivalent information.
-2. For now, try calling `epFind2(<AAStringSet or path to .fasta file>, <path to directory to write output files>)` to run a typical epitopefindr pipeline. A make-style implementation is an upcoming development goal.  
+2. Try calling `epFind2(<AAStringSet or path to .fasta file>, <path to directory to write output files>)` to run a typical epitopefindr pipeline. 
+    * If you haven't installed a Tex distribution and/or pdftk, please also include parameters `pdflatex = FALSE` and/or `pdftk = FALSE`, respectively, in your `epFind2()` call. For example `epFind2(<path to .fasta file>, <path to directory to write output files>, pdflatex = FALSE, pdftk = FALSE)`
 
 A brief summary of the functions called by `epFind2`:
   * `pbCycleBLAST` cycles through each input peptide to find the overlap of its alignment with other peptides from the input. Nested within a call to `pbCycleBLAST` are calls to `epitopeBLAST`, `indexEpitopes`. 

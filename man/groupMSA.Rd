@@ -4,13 +4,14 @@
 \alias{groupMSA}
 \title{groupMSA}
 \usage{
-groupMSA(groups, mpath = "intermediate_files/msa/", pdftk = TRUE,
-  trim.groups = FALSE, make.png = FALSE)
+groupMSA(groups, mpath = "intermediate_files/msa/", pdflatex = TRUE,
+  pdftk = TRUE, trim.groups = FALSE, make.png = FALSE)
 }
 \arguments{
 \item{groups}{Table of final peptides and pre-calculated groupings.}
 
-\item{mpath}{Direcotry to write sequence alignment files.}
+\item{mpath}{Direcotry to write sequence alignment files.
+#' @param pdflatex Logical whether or not to produce PDF LaTeX figures using pdflatex}
 
 \item{pdftk}{Logical whether or not to use staplr and pdftk to merge individual msa pdfs.}
 

@@ -5,7 +5,8 @@
 \title{epFind2}
 \usage{
 epFind2(data = NULL, output.dir = NULL, verbose = TRUE,
-  pdftk = TRUE, e.thresh = 0.01, g.method = "any", aln.size = 7)
+  pdflatex = TRUE, pdftk = TRUE, e.thresh = 0.01, g.method = "any",
+  aln.size = 7)
 }
 \arguments{
 \item{data}{Biostrings::AAStringset input sequences to search for epitopes, or path to corresponding .fasta file.}
@@ -13,6 +14,8 @@ epFind2(data = NULL, output.dir = NULL, verbose = TRUE,
 \item{output.dir}{Directory to which output files should be written.}
 
 \item{verbose}{Logical to print progress updates.}
+
+\item{pdflatex}{Logical whether or not to produce PDF LaTeX figures using pdflatex}
 
 \item{pdftk}{Logical whether or not to merge msa pdfs using staplr and pdftk}
 

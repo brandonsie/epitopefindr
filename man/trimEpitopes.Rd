@@ -2,9 +2,7 @@
 % Please edit documentation in R/trimEpitopes.R
 \name{trimEpitopes}
 \alias{trimEpitopes}
-\title{trimEpitopes
-Update BLAST table positions to reflect smaller intervals when a subinterval
-has been determined as the minimal overlap of alignments to a peptide.}
+\title{trimEpitopes}
 \usage{
 trimEpitopes(data, tofilter = FALSE)
 }
@@ -14,7 +12,6 @@ trimEpitopes(data, tofilter = FALSE)
 \item{tofilter}{Binary whether or not to filter BLAST table entries.}
 }
 \description{
-trimEpitopes
 Update BLAST table positions to reflect smaller intervals when a subinterval
 has been determined as the minimal overlap of alignments to a peptide.
 }

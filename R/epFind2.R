@@ -5,6 +5,7 @@
 #' @param data Biostrings::AAStringset input sequences to search for epitopes, or path to corresponding .fasta file.
 #' @param output.dir Directory to which output files should be written.
 #' @param verbose Logical to print progress updates.
+#' @param pdflatex Logical whether or not to produce PDF LaTeX figures using pdflatex
 #' @param pdftk Logical whether or not to merge msa pdfs using staplr and pdftk
 #' @param e.thresh Maximum e-value to consider from BLASTp alignments of 'data'.
 #' @param g.method Grouping method of alignments. Either 'any' or 'all'. See ?indexGroups
@@ -12,7 +13,8 @@
 #'
 #' @export
 
-epFind2 <- function(data = NULL, output.dir = NULL, verbose = TRUE, pdftk = TRUE,
+epFind2 <- function(data = NULL, output.dir = NULL, verbose = TRUE,
+                    pdflatex = TRUE, pdftk = TRUE,
                     e.thresh = 0.01, g.method = "any", aln.size = 7){
 
   # ----------------------------------------------------------------------------
@@ -30,6 +32,10 @@ epFind2 <- function(data = NULL, output.dir = NULL, verbose = TRUE, pdftk = TRUE
   # read 'data' if input path to .fasta file
   if(class(data)[1] == "character"){
     data <- Biostrings::readAAStringSet(data)
+  }
+
+  if(length(data) == 0){
+    stop("Error: epfind2: zero peptides input to data parameter.")
   }
 
   # setup directories
@@ -54,15 +60,25 @@ epFind2 <- function(data = NULL, output.dir = NULL, verbose = TRUE, pdftk = TRUE
   blast1 <- selfBLASTaa(f1.path)
   b1.path <- paste0(temp.dir, "blast1.csv")
   data.table::fwrite(blast1, b1.path)
+  if(nrow(blast1) == 0){
+    stop("Error: epfind2: no BLAST alignments found among input peptides.")
+  }
 
   blast2 <- threshBLAST(blast1, e.thresh)
   b2.path <- paste0(temp.dir, "blast2.csv")
   data.table::fwrite(blast2, b2.path)
+  if(nrow(blast2) == 0){
+    stop(paste(
+      "Error: epfind2: no BLAST alignments with e value below:", e.thresh))
+  }
 
   blast3 <- prepareBLAST(blast2, fasta1)
   b3.path <- paste0(temp.dir, "blast3.csv")
   data.table::fwrite(blast3, b3.path)
-
+  if(nrow(blast3) == 0){
+    stop(paste(
+      "Error: epfind2: no BLAST alignments after removing self-alignments."))
+  }
   # ----------------------------------------------------------------------------
   # Process alignment overlaps
 
@@ -107,7 +123,7 @@ epFind2 <- function(data = NULL, output.dir = NULL, verbose = TRUE, pdftk = TRUE
 
   m.path <- paste0(temp.dir, "msa/")
   if(!dir.exists(m.path)){dir.create(m.path)}
-  groupMSA(groups, m.path, pdftk)
+  groupMSA(groups, m.path, pdflatex, pdftk)
 
   if(verbose){
     cat("\n", format(Sys.time(), "%R:%S"),

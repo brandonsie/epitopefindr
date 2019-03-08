@@ -9,6 +9,7 @@
 #' @return XStringSet object modified so that a single entries with delimited
 #' names are replaced with multiple entries with identical sequences and
 #' unmerged names.
+#'
 #' @export
 
 unmergeFastaDuplicates <- function(input, sep = "__"){

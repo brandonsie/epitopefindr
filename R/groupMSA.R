@@ -4,13 +4,15 @@
 #'
 #' @param groups Table of final peptides and pre-calculated groupings.
 #' @param mpath Direcotry to write sequence alignment files.
+#' #' @param pdflatex Logical whether or not to produce PDF LaTeX figures using pdflatex
 #' @param pdftk Logical whether or not to use staplr and pdftk to merge individual msa pdfs.
 #' @param trim.groups Logical whether or not to apply msaTrim to edges of logos. Not implemented.
 #' @param make.png Depreciated. Locial whether or not to convert PDF output to PNG.
 #'
 #' @export
 
-groupMSA <- function(groups, mpath = "intermediate_files/msa/", pdftk = TRUE,
+groupMSA <- function(groups, mpath = "intermediate_files/msa/",
+                     pdflatex = TRUE, pdftk = TRUE,
                      trim.groups = FALSE, make.png = FALSE){
 
   #setup output paths and directories
@@ -88,27 +90,30 @@ groupMSA <- function(groups, mpath = "intermediate_files/msa/", pdftk = TRUE,
                      paperHeight = msa.height)
 
       #convert tex to pdf
-      tools::texi2pdf(tname, clean=TRUE)
-      file.copy(paste0("msa-",i,".pdf"),pname)
-      file.remove(paste0("msa-",i,".pdf"))
-      file.remove(tname)
-
-      # #optionally convert pdf to png
-      # if(make.png){
-      #   iname <- paste0(mpath,"msa-",i,"_1.png")
-      #   pdftools::pdf_convert(pname, format = "png", filenames = iname,
-      #                         dpi = 300,verbose=FALSE)
-      # }
+      if(pdflatex){
+        tools::texi2pdf(tname, clean=TRUE)
+        file.copy(paste0("msa-",i,".pdf"),pname)
+        file.remove(paste0("msa-",i,".pdf"))
+        file.remove(tname)
 
 
+        # #optionally convert pdf to png
+        # if(make.png){
+        #   iname <- paste0(mpath,"msa-",i,"_1.png")
+        #   pdftools::pdf_convert(pname, format = "png", filenames = iname,
+        #                         dpi = 300,verbose=FALSE)
+        # }
 
-      #cleanup working directory
-      file.remove(list.files()[grep("\\.aux|\\.log",list.files())])
+
+        #cleanup working directory
+        file.remove(list.files()[grep("\\.aux|\\.log",list.files())])
+
+      }
     }
   }
 
   #merge pdfs
-  if(pdftk){
+  if(pdflatex & pdftk){
     staplr::staple_pdf(input_directory = mpath,
                        output_filepath = paste0(mpath,"msa.pdf"))
   }
