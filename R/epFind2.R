@@ -48,7 +48,7 @@ epFind2 <- function(data = NULL, output.dir = NULL, verbose = TRUE,
   # Prepare sequences
 
   if(verbose){
-    cat("\n", format(Sys.time(), "%R:%S"),
+    cat("\n", "[", format(Sys.time(), "%R:%S"), "]",
         "Step 1 of 6: Preparing BLAST alignment data from input sequences.",
         "\n")
   }
@@ -97,7 +97,7 @@ epFind2 <- function(data = NULL, output.dir = NULL, verbose = TRUE,
   writeFastaAA(fasta4, f4.path)
 
   if(verbose){
-    cat("\n", format(Sys.time(), "%R:%S"),
+    cat("\n", "[", format(Sys.time(), "%R:%S"), "]",
         "Step 3 of 6: Trimming interval sequences.", "\n")
   }
   blast5fasta <- trimEpitopes(blast4fasta)
@@ -109,7 +109,7 @@ epFind2 <- function(data = NULL, output.dir = NULL, verbose = TRUE,
   writeFastaAA(fasta5, f5.path)
 
   if(verbose){
-    cat("\n", format(Sys.time(), "%R:%S"),
+    cat("\n", "[", format(Sys.time(), "%R:%S"), "]",
         "Step 4 of 6: Grouping aligning sequences.", "\n")
   }
   groups <- indexGroups(blast5, fasta5, mode = g.method)
@@ -117,7 +117,7 @@ epFind2 <- function(data = NULL, output.dir = NULL, verbose = TRUE,
   data.table::fwrite(groups, g.path)
 
   if(verbose){
-    cat("\n", format(Sys.time(), "%R:%S"),
+    cat("\n", "[", format(Sys.time(), "%R:%S"), "]",
         "Step 5 of 6: Generating multiple sequence alignment logos.", "\n")
   }
 
@@ -126,7 +126,7 @@ epFind2 <- function(data = NULL, output.dir = NULL, verbose = TRUE,
   groupMSA(groups, m.path, pdflatex, pdftk)
 
   if(verbose){
-    cat("\n", format(Sys.time(), "%R:%S"),
+    cat("\n", "[", format(Sys.time(), "%R:%S"), "]",
         "Step 6 of 6: Preparing output files.", "\n")
   }
 
