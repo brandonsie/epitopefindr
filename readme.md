@@ -38,7 +38,7 @@ library(epitopefindr)
 
 
 ## Optional/recommended additional setup: 
-_(These programs are not essential to `epitopefindr`, but are used to generate pretty alignment logo PDFs.)_  
+_(These programs are not essential to `epitopefindr`, but are used to generate pretty alignment logo PDFs from the alignment data.)_  
 1. Install a TeX distribution with `pdflatex`. (e.g. [MiKTeX (version 2.9+)](https://miktex.org)). _(Optional; used to convert multiple sequence alignment TeX files to PDF.)_
 2. Install [pdftk (version 2.02+)](https://www.pdflabs.com/tools/pdftk-server/). _(Optional; used to merge individual PDFs into a single file.)_  
 ----------------------------------------------------------------------
