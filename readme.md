@@ -44,7 +44,9 @@ _(These programs are not essential to `epitopefindr`, but are used to generate p
 ----------------------------------------------------------------------
 # Guide
 
-1. Prepare a [FASTA file](https://zhanglab.ccmb.med.umich.edu/FASTA/) with peptide names and sequences, or prepare an `AAStringSet` object of peptides (identifier + sequence) as described in the [Biostrings documentation] (http://web.mit.edu/~r/current/arch/i386_linux26/lib/R/library/Biostrings/html/XStringSet-class.html). Either of these can be fed as the first input parameter to `epFind2`.
+1. Prepare a list of your peptides of interest using one of the following two methods. Either of these can be fed as the first input parameter to `epFind2`.  
+    * Make a [FASTA file](https://zhanglab.ccmb.med.umich.edu/FASTA/) with peptide names and sequences.
+    * Make an `AAStringSet` object of peptides (identifier + sequence) as described in the [Biostrings documentation](http://web.mit.edu/~r/current/arch/i386_linux26/lib/R/library/Biostrings/html/XStringSet-class.html). 
 2. To run a typical `epitopefindr` pipeline, try calling `epFind2`:
 ``` r 
 # Basic call
