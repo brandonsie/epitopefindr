@@ -17,7 +17,7 @@ filterBLAST <- function(blast){ #remove singletons
   # s <- setdiff(blast, filter)
   # s <- s[!(s$qID %in% filter$qID), ]
   # if(file.exists(spath)){
-  #   sing <- fread(spath, data.table=FALSE)
+  #   sing <- data.table::fread(spath, data.table=FALSE)
   #   utils::write.csv(rbind(s,sing) %>% unique, spath, row.names = FALSE)
   # }
   # utils::write.csv(s, spath, row.names = FALSE)

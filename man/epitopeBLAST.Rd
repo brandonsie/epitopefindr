@@ -4,12 +4,12 @@
 \alias{epitopeBLAST}
 \title{epitopeBLAST}
 \usage{
-epitopeBLAST(data)
+epitopeBLAST(data, aln.size)
 }
 \arguments{
 \item{data}{List with BLAST alignment table and fasta file of peptides.}
 
-\item{fasta}{Fasta file of sequences to process.}
+\item{aln.size}{Minimum length of alignment to consider from BLASTp alignments of 'data'.}
 }
 \description{
 Identifies next index peptide, calls indexEpitopes to parse alignments to

@@ -4,12 +4,14 @@
 \alias{pbCycleBLAST}
 \title{pbCycleBLAST}
 \usage{
-pbCycleBLAST(blast, fasta, ncycles = "max")
+pbCycleBLAST(blast, fasta, aln.size, ncycles = "max")
 }
 \arguments{
 \item{blast}{BLAST alignment table to process.}
 
 \item{fasta}{Fasta file of peptide sequences to process.}
+
+\item{aln.size}{Minimum length of alignment to consider from BLASTp alignments of 'data'.}
 
 \item{ncycles}{Number of cycles of cycleBLAST to perform.}
 }

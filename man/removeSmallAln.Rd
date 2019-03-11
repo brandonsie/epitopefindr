@@ -4,12 +4,12 @@
 \alias{removeSmallAln}
 \title{removeSmallAln}
 \usage{
-removeSmallAln(blast, minsize = 7)
+removeSmallAln(blast, aln.size)
 }
 \arguments{
 \item{blast}{Input BLAST table.}
 
-\item{minsize}{Minimum length of alignment to keep.}
+\item{aln.size}{Minimum length of alignment to keep.}
 }
 \description{
 Delete rows in blast table for which the alignment is fewer than 7aa or

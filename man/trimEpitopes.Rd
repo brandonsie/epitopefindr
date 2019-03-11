@@ -4,10 +4,12 @@
 \alias{trimEpitopes}
 \title{trimEpitopes}
 \usage{
-trimEpitopes(data, tofilter = FALSE)
+trimEpitopes(data, aln.size, tofilter = FALSE)
 }
 \arguments{
 \item{data}{List containing BLAST table and fasta file and index peptide order to process.}
+
+\item{aln.size}{Minimum length of alignment to consider from BLASTp alignments of 'data'.}
 
 \item{tofilter}{Binary whether or not to filter BLAST table entries.}
 }

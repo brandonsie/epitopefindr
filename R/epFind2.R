@@ -4,18 +4,27 @@
 #'
 #' @param data Biostrings::AAStringset input sequences to search for epitopes, or path to corresponding .fasta file.
 #' @param output.dir Directory to which output files should be written.
+#' @param e.thresh Maximum e-value to consider from BLASTp alignments of 'data'.
+#' @param g.method Grouping method of alignments. Either 'any' or 'all'. See ?indexGroups
+#' @param aln.size Minimum length of alignment to consider from BLASTp alignments of 'data'.
 #' @param verbose Logical to print progress updates.
 #' @param pdflatex Logical whether or not to produce PDF LaTeX figures using pdflatex
 #' @param pdftk Logical whether or not to merge msa pdfs using staplr and pdftk
-#' @param e.thresh Maximum e-value to consider from BLASTp alignments of 'data'.
-#' @param g.method Grouping method of alignments. Either 'any' or 'all'. See ?indexGroups
-#' @param aln.size Not yet implemented. Minimum length of alignment to consider from BLASTp alignments of 'data'.
+#' @param name.msa Filename for output merged pdf of msa logos.
+#' @param name.alignments Filename for output spreadsheet of peptide alignments.
+#' @param name.epitopekey Filename for output spreadhseet of epitopes per peptide.
+#' @param name.epitopesum Filename for output summary sheet of epitopes.
 #'
 #' @export
 
-epFind2 <- function(data = NULL, output.dir = NULL, verbose = TRUE,
-                    pdflatex = TRUE, pdftk = TRUE,
-                    e.thresh = 0.01, g.method = "any", aln.size = 7){
+epFind2 <- function(data = NULL, output.dir = NULL,
+                    e.thresh = 0.01, g.method = "any", aln.size = 7,
+                    verbose = TRUE, pdflatex = TRUE, pdftk = TRUE,
+                    name.msa = "msa.pdf",
+                    name.alignments = "finalAlignments.csv",
+                    name.epitopekey = "epitopeKey.csv",
+                    name.epitopesum = "epitopeSummary.csv"
+                    ){
 
   # ----------------------------------------------------------------------------
   # Check parameters
@@ -72,7 +81,7 @@ epFind2 <- function(data = NULL, output.dir = NULL, verbose = TRUE,
       "Error: epfind2: no BLAST alignments with e value below:", e.thresh))
   }
 
-  blast3 <- prepareBLAST(blast2, fasta1)
+  blast3 <- prepareBLAST(blast2, fasta1, aln.size)
   b3.path <- paste0(temp.dir, "blast3.csv")
   data.table::fwrite(blast3, b3.path)
   if(nrow(blast3) == 0){
@@ -88,7 +97,7 @@ epFind2 <- function(data = NULL, output.dir = NULL, verbose = TRUE,
         "\n")
   }
 
-  blast4fasta <- pbCycleBLAST(blast3, fasta1)
+  blast4fasta <- pbCycleBLAST(blast3, fasta1, aln.size)
   blast4 <- blast4fasta[[1]]
   fasta4 <- blast4fasta[[2]]
   b4.path <- paste0(temp.dir, "blast4.csv")
@@ -100,7 +109,7 @@ epFind2 <- function(data = NULL, output.dir = NULL, verbose = TRUE,
     cat("\n", "[", format(Sys.time(), "%R:%S"), "]",
         "Step 3 of 6: Trimming interval sequences.", "\n")
   }
-  blast5fasta <- trimEpitopes(blast4fasta)
+  blast5fasta <- trimEpitopes(blast4fasta, aln.size)
   blast5 <- blast5fasta[[1]]
   fasta5 <- blast5fasta[[2]]
   b5.path <- paste0(temp.dir, "blast5.csv")
@@ -112,7 +121,7 @@ epFind2 <- function(data = NULL, output.dir = NULL, verbose = TRUE,
     cat("\n", "[", format(Sys.time(), "%R:%S"), "]",
         "Step 4 of 6: Grouping aligning sequences.", "\n")
   }
-  groups <- indexGroups(blast5, fasta5, mode = g.method)
+  groups <- indexGroups(blast5, fasta5, mode = g.method, aln.size)
   g.path <- paste0(temp.dir, "groups.csv")
   data.table::fwrite(groups, g.path)
 
@@ -123,6 +132,7 @@ epFind2 <- function(data = NULL, output.dir = NULL, verbose = TRUE,
 
   m.path <- paste0(temp.dir, "msa/")
   if(!dir.exists(m.path)){dir.create(m.path)}
+  g.path <- paste0(temp.dir, "groups.csv")
   groupMSA(groups, m.path, pdflatex, pdftk)
 
   if(verbose){
@@ -130,12 +140,12 @@ epFind2 <- function(data = NULL, output.dir = NULL, verbose = TRUE,
         "Step 6 of 6: Preparing output files.", "\n")
   }
 
-  if(pdftk){file.copy(paste0(m.path,"msa.pdf"), paste0(output.dir,"/msa.pdf"))}
-  file.copy(paste0(temp.dir, "blast5.csv"), paste0(output.dir,"final_alignments.csv"))
+  if(pdftk){file.copy(paste0(m.path,"msa.pdf"), paste0(output.dir,"/", name.msa))}
+  file.copy(paste0(temp.dir, "blast5.csv"), paste0(output.dir, "/", name.alignments))
 
   msa.cs <- readLines(paste0(m.path,"consensusSequences.txt"))
-  k.path <- paste0(output.dir,"/epitopeKey.csv")
-  s.path <- paste0(output.dir,"/epitopeSummary.csv")
+  k.path <- paste0(output.dir,"/",name.epitopekey)
+  s.path <- paste0(output.dir,"/",name.epitopesum)
   outputTable(blast5, fasta1, groups, msa.cs, k.path, s.path)
 
 

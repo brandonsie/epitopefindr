@@ -4,11 +4,11 @@
 #' that index peptide, and updates BLAST table accordingly.
 #'
 #' @param data List with BLAST alignment table and fasta file of peptides.
-#' @param fasta Fasta file of sequences to process.
+#' @param aln.size Minimum length of alignment to consider from BLASTp alignments of 'data'.
 #'
 #' @export
 
-epitopeBLAST <- function(data){
+epitopeBLAST <- function(data, aln.size){
 
   options(stringsAsFactors = FALSE)
   blast <- data[[1]]
@@ -34,7 +34,7 @@ epitopeBLAST <- function(data){
   # write(index,ipath,append=TRUE)
 
 
-  newdata <- indexEpitopes(blast,index) #returns modified blast, index epitopes (indexep)
+  newdata <- indexEpitopes(blast, index, aln.size) #returns modified blast, index epitopes (indexep)
 
   # if(!exists("verbose")){verbose <- FALSE}
   # if(verbose == FALSE){

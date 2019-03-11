@@ -5,17 +5,18 @@
 #'
 #' @param data List containing BLAST table and fasta file and index peptide order to process.
 #' @param tofilter Binary whether or not to filter BLAST table entries.
+#' @param aln.size Minimum length of alignment to consider from BLASTp alignments of 'data'.
 #'
 #' @export
 
-trimEpitopes <- function(data, tofilter = FALSE){
+trimEpitopes <- function(data, aln.size, tofilter = FALSE){
 
   blast <- data[[1]]
   fasta <- data[[2]]
   index.order <- data[[3]]
 
   blast %<>% rbind(qsSwap(blast)) %>% unique
-  blast %<>% removeSmallAln()
+  blast %<>% removeSmallAln(aln.size)
 
   #update blast table in reverse order
   pb <- epPB(1,length(index.order))
@@ -35,7 +36,7 @@ trimEpitopes <- function(data, tofilter = FALSE){
 
     if(nrow(blast.index)>0){
       #input full blast and index name. output modified blast and index epitopes
-      indexData <- indexEpitopes(blast, index)
+      indexData <- indexEpitopes(blast, index, aln.size)
       blast <- indexData[[1]]
     }
   }

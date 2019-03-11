@@ -6,14 +6,16 @@
 #' @param data List of BLAST alignment table and fastra file to process.
 #' @param pb txtProgressBar object to update
 #' @param n Value to update txtProgressBar object.
+#' @param aln.size Minimum length of alignment to consider from BLASTp alignments of 'data'.
 #' @param verbose Logical whether or not to print status updates to console.
+#'
 #' @return List data containing modified BLAST alignment table and fasta file.
 #'
 #' @export
 
 
 
-cycleBLAST <- function(data, pb, n, verbose = FALSE){
+cycleBLAST <- function(data, pb, n, aln.size, verbose = FALSE){
 
   options(stringsAsFactors = FALSE)
 
@@ -29,10 +31,10 @@ cycleBLAST <- function(data, pb, n, verbose = FALSE){
 
     if(names(data[[2]]) %>% grepl("\\.", .) %>% mean < 1){
 
-      epData <- epitopeBLAST(data)
+      epData <- epitopeBLAST(data, aln.size)
       n <- n - 1
 
-      cycData <- cycleBLAST(epData, pb, n)
+      cycData <- cycleBLAST(epData, pb, n, aln.size)
     }
   } else{
     return(data)

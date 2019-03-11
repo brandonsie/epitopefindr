@@ -10,15 +10,16 @@
 #' creates a larger number of groups, with individual groups tending to have
 #' fewer members, wuch taht in each group, each member must align with "all"
 #' other members.
+#' @param aln.size Minimum length of alignment to consider from BLASTp alignments of 'data'.
 #'
 #' @export
 
-indexGroups <- function(blast, fasta, mode="any"){
+indexGroups <- function(blast, fasta, mode="any", aln.size){
 
   # == == == == == A. Load final epitope list and blast table(s). == =
   epitopes <- unmergeFastaDuplicates(fasta)
-  blast <- blast[blast$qEnd-blast$qStart >= 6 &
-                             blast$sEnd-blast$sStart >= 6, ]
+  blast <- blast[blast$qEnd-blast$qStart >= (aln.size - 1) &
+                             blast$sEnd-blast$sStart >= (aln.size - 1), ]
 
   # == == == == == B. For each epitope, find aligning epitopes. == =
 

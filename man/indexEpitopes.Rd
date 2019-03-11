@@ -4,12 +4,14 @@
 \alias{indexEpitopes}
 \title{indexEpitopes}
 \usage{
-indexEpitopes(blast, index)
+indexEpitopes(blast, index, aln.size)
 }
 \arguments{
 \item{blast}{BLAST alignment table to process.}
 
 \item{index}{Name of index peptide to process.}
+
+\item{aln.size}{Minimum length of alignment to consider from BLASTp alignments of 'data'.}
 }
 \description{
 For a specified index peptide, identify the maximal intervals that represent

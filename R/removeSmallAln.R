@@ -4,13 +4,13 @@
 #' other custom threshold.
 #'
 #' @param blast Input BLAST table.
-#' @param minsize Minimum length of alignment to keep.
+#' @param aln.size Minimum length of alignment to keep.
 #'
 #' @export
 
-removeSmallAln <- function(blast, minsize = 7){
+removeSmallAln <- function(blast, aln.size){
   #
-  toosmall <- (1:nrow(blast))[(blast$qEnd-blast$qStart) < minsize]
+  toosmall <- (1:nrow(blast))[(blast$qEnd-blast$qStart) < (aln.size - 1)]
   if(length(toosmall)>0){blast <- blast[-toosmall, ]}
   return(blast)
 }

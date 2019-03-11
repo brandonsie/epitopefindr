@@ -4,14 +4,14 @@
 \alias{isOverlapping}
 \title{isOverlapping}
 \usage{
-isOverlapping(pattern, table, almin = 7)
+isOverlapping(pattern, table, aln.size = 7)
 }
 \arguments{
 \item{pattern}{IR query pattern sequence positions.}
 
 \item{table}{IR reference table positions to check for overlap with pattern.}
 
-\item{almin}{Minimum allowable overlap considered valid.}
+\item{aln.size}{Minimum allowable overlap considered valid.}
 }
 \value{
 Positions in \code{table} that overlap.

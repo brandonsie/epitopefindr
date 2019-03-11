@@ -4,11 +4,12 @@
 #'
 #' @param blast BLAST alignment table to process.
 #' @param fasta Fasta file of peptide sequences to process.
+#' @param aln.size Minimum length of alignment to consider from BLASTp alignments of 'data'.
 #' @param ncycles Number of cycles of cycleBLAST to perform.
 #'
 #' @export
 
-pbCycleBLAST <- function(blast, fasta, ncycles="max"){
+pbCycleBLAST <- function(blast, fasta, aln.size, ncycles="max"){
   # == == == == == A. Initialize == == == == ==
   options(stringsAsFactors = FALSE)
   # == == == == == B. Count starting full peptides. == == == == ==
@@ -24,7 +25,7 @@ pbCycleBLAST <- function(blast, fasta, ncycles="max"){
   pb <- epPB(-n.pep,0)
 
   data <- list(blast = blast, fasta = fasta)
-  data %<>% cycleBLAST(pb, n.pep)
+  data %<>% cycleBLAST(pb, n.pep, aln.size)
 
   return(data)
 

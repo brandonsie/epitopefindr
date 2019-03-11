@@ -108,7 +108,7 @@ outputTable <- function(blast, fasta.initial, groups,
   epitope_key <- unique(output[, c("group_number",
                                    "group_size",
                                    "msa_consensus")]) %>% na.omit
-  epitope_key <- epitope_key[order(epitope_key$group_number),]
+  epitope_key <- epitope_key[order(as.numeric(epitope_key$group_number)),]
 
   epitope_summary <- output %>%
     dplyr::mutate(position = paste0(start, "_", end)) %>%
@@ -124,6 +124,12 @@ outputTable <- function(blast, fasta.initial, groups,
     dplyr::select(id, position, group_number) %>%
     tidyr::spread(group_number, position)
 
+  # # re-sort summary
+  # numeric.positions <- suppressWarnings(!(as.numeric(names(epitope_summary)) %>% is.na))
+  # group.numbers <- names(epitope_summary)[numeric.positions] %>% as.numeric
+  # to_re_sort <- epitope_summary[,numeric.positions]
+  # to_re_sort <- to_re_sort[,order(group.numbers)]
+  # epitope_summary[,numeric.positions] <- to_re_sort
 
   data.table::fwrite(epitope_key, key_filename)
   data.table::fwrite(epitope_summary, summary_filename)

@@ -4,12 +4,14 @@
 \alias{tidyBLAST}
 \title{tidyBLAST}
 \usage{
-tidyBLAST(blast, fasta)
+tidyBLAST(blast, fasta, aln.size)
 }
 \arguments{
 \item{blast}{Initial BLAST table to tidy.}
 
-\item{fasta}{Path to fasta sequences to reference to annotate BLAST table
+\item{fasta}{Path to fasta sequences to reference to annotate BLAST table}
+
+\item{aln.size}{Minimum length of alignment to consider from BLASTp alignments of 'data'.
 with peptide sequences.}
 }
 \description{

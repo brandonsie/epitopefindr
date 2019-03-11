@@ -14,6 +14,6 @@ outputFiles <- function(){
   p1 <- c("Project", "E Threshold", "Group Method")
   p2 <- c(proj.id, e.thresh, g.method)
   pc <- data.table::setnames(cbind(p1, p2) %>% data.frame, c("parameter", "value"))
-  fwrite(pc, paste0(output.dir, "parameters.txt"))
+  data.table::fwrite(pc, paste0(output.dir, "parameters.txt"))
 
 }

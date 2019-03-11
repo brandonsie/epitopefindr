@@ -10,8 +10,9 @@ groupMSA(groups, mpath = "intermediate_files/msa/", pdflatex = TRUE,
 \arguments{
 \item{groups}{Table of final peptides and pre-calculated groupings.}
 
-\item{mpath}{Direcotry to write sequence alignment files.
-#' @param pdflatex Logical whether or not to produce PDF LaTeX figures using pdflatex}
+\item{mpath}{Direcotry to write sequence alignment files.}
+
+\item{pdflatex}{Logical whether or not to produce PDF LaTeX figures using pdflatex}
 
 \item{pdftk}{Logical whether or not to use staplr and pdftk to merge individual msa pdfs.}
 

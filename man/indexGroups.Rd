@@ -4,7 +4,7 @@
 \alias{indexGroups}
 \title{indexGroups}
 \usage{
-indexGroups(blast, fasta, mode = "any")
+indexGroups(blast, fasta, mode = "any", aln.size)
 }
 \arguments{
 \item{blast}{BLAST alignment table to process.}
@@ -17,6 +17,8 @@ each member must align with at least 1 "any" of the other members. "all"
 creates a larger number of groups, with individual groups tending to have
 fewer members, wuch taht in each group, each member must align with "all"
 other members.}
+
+\item{aln.size}{Minimum length of alignment to consider from BLASTp alignments of 'data'.}
 }
 \description{
 Group trimmed sequences into aligning groups

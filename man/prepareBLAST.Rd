@@ -4,12 +4,14 @@
 \alias{prepareBLAST}
 \title{prepareBLAST}
 \usage{
-prepareBLAST(blast, fasta, tofilter = TRUE)
+prepareBLAST(blast, fasta, aln.size, tofilter = TRUE)
 }
 \arguments{
 \item{blast}{Input tidied BLAST table.}
 
 \item{fasta}{AAstringset object of fasta sequences.}
+
+\item{aln.size}{Minimum length of alignment to consider from BLASTp alignments of 'data'.}
 
 \item{tofilter}{Logical whether or not to call filterBLAST, which is only
 necessary during initial setup.}

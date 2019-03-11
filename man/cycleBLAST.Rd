@@ -4,7 +4,7 @@
 \alias{cycleBLAST}
 \title{cycleBLAST}
 \usage{
-cycleBLAST(data, pb, n, verbose = FALSE)
+cycleBLAST(data, pb, n, aln.size, verbose = FALSE)
 }
 \arguments{
 \item{data}{List of BLAST alignment table and fastra file to process.}
@@ -12,6 +12,8 @@ cycleBLAST(data, pb, n, verbose = FALSE)
 \item{pb}{txtProgressBar object to update}
 
 \item{n}{Value to update txtProgressBar object.}
+
+\item{aln.size}{Minimum length of alignment to consider from BLASTp alignments of 'data'.}
 
 \item{verbose}{Logical whether or not to print status updates to console.}
 }

@@ -4,7 +4,7 @@
 #'
 #' @param groups Table of final peptides and pre-calculated groupings.
 #' @param mpath Direcotry to write sequence alignment files.
-#' #' @param pdflatex Logical whether or not to produce PDF LaTeX figures using pdflatex
+#' @param pdflatex Logical whether or not to produce PDF LaTeX figures using pdflatex
 #' @param pdftk Logical whether or not to use staplr and pdftk to merge individual msa pdfs.
 #' @param trim.groups Logical whether or not to apply msaTrim to edges of logos. Not implemented.
 #' @param make.png Depreciated. Locial whether or not to convert PDF output to PNG.
@@ -15,6 +15,7 @@ groupMSA <- function(groups, mpath = "intermediate_files/msa/",
                      pdflatex = TRUE, pdftk = TRUE,
                      trim.groups = FALSE, make.png = FALSE){
 
+
   #setup output paths and directories
   cpath <- paste0(mpath,"consensusSequences.txt")
   if(!dir.exists(mpath)) {dir.create(mpath)}
@@ -24,7 +25,11 @@ groupMSA <- function(groups, mpath = "intermediate_files/msa/",
   num <- max(groups$Group)
   if(num < 1){stop("Error: no input groups specified.")}
 
+  pb <- epPB(0, num)
+
   for(i in 1:num){
+    utils::setTxtProgressBar(pb, i)
+
     group <- Biostrings::AAStringSet(groups$Seq[groups$Group == i])
     names(group) <- groups$ID[groups$Group == i]
     group %<>% unmergeFastaDuplicates
@@ -32,7 +37,7 @@ groupMSA <- function(groups, mpath = "intermediate_files/msa/",
     if(length(group)>1){
 
       # if(trim.groups){ #optionally trim groups using microseq package
-      #   mg <- msa::msa(group)
+      #   mg <- msa::msaClustalW(group)
       #   mf <- data.frame(Header = names(as.character(mg)),
       #                    Sequence = as.character(mg) %>% as.vector,
       #                    stringsAsFactors = FALSE)
@@ -67,22 +72,35 @@ groupMSA <- function(groups, mpath = "intermediate_files/msa/",
 
       # == == == == == perform sequence alignment == == == == ==
       # cat("\n")
-      mg <- msa::msa(group)
-      write(msa::msaConsensusSequence(mg),cpath,append=TRUE)
+      # mg <- msa::msaClustalW(group) #old way that caused gaps
+
+      #(!) bookmark new way
+      group.vector <- groups$Seq[groups$Group == i]
+      names(group.vector) <- groups$ID[groups$Group == i]
+      mg <- Biostrings::AAMultipleAlignment(group.vector, use.names = TRUE)
 
       #(!) temporary workaround to print partial info for large groups
       if(length(group)>130){
-        group <- group[1:130]
         print(paste("Warning: group trimmed:",i))
-        mg <- msa::msa(group)
+
+        # # old way
+        # group <- group[1:130]
+        # mg <- msa::msaClustalW(group)
+
+        # new way
+        group.vector <- group.vector[1:130]
+        mg <- Biostrings::AAMultipleAlignment(group.vector, use.names = TRUE)
+
       }
+
+      write(msa::msaConsensusSequence(mg),cpath,append=TRUE)
 
       #establish output file names for this group
       tname <- paste0(mpath,"msa-", i, ".tex")
       pname <- paste0(mpath,"msa-", i, ".pdf")
 
       # calculate fig height (inch). top margin 0.75, each line 0.14. key ~1.0?
-      msa.height <- 0.75 + 0.14*(length(group) + 1) + 1.3
+      msa.height <- 0.75 + 0.14*(length(group.vector) + 1) + 1.3
 
       #print msa logo
       msa::msaPrettyPrint(mg, output="tex", file = tname,

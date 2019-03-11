@@ -24,6 +24,5 @@
 #'
 #' @importFrom magrittr %>%
 #' @importFrom magrittr %<>%
-#' @importFrom msa msaClustalW
 #' @import data.table
 NULL

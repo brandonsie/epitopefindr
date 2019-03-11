@@ -6,10 +6,12 @@
 #'
 #' @param blast BLAST alignment table to process.
 #' @param index Name of index peptide to process.
+#' @param aln.size Minimum length of alignment to consider from BLASTp alignments of 'data'.
 #'
 #' @export
 
-indexEpitopes <- function(blast, index){
+indexEpitopes <- function(blast, index, aln.size){
+
 
   blast.index <- rbind(
     blast[blast$qID==index,-"nAlign"],
@@ -17,13 +19,13 @@ indexEpitopes <- function(blast, index){
 
   # == == == == == A. Set up data frames. == =
   pos00 <- blast.index[, c("qStart", "qEnd")] %>% unique %>% data.frame #
-  pos00 <- pos00[(pos00$qEnd - pos00$qStart > 5), ]
+  pos00 <- pos00[(pos00$qEnd - pos00$qStart >= (aln.size - 1)), ]
   pos00 <- pos00[order(pos00$qEnd, pos00$qStart), ]	#primary sort by qEnd!
   rownames(pos00) <- c(1:nrow(pos00))
 
   pos0 <- pos00
   pos1 <- data.table::setnames(data.frame(matrix(nrow = 0, ncol = 2)), names(pos00))
-  df <- IRanges::findOverlaps(makeIR(pos00), minoverlap = 7) %>% data.frame
+  df <- IRanges::findOverlaps(makeIR(pos00), minoverlap = aln.size) %>% data.frame
   prev <- matrix(nrow = nrow(pos00), ncol = 1)
 
   # == == == == == Run overlap identification cycle == =
@@ -31,7 +33,7 @@ indexEpitopes <- function(blast, index){
     #for each aln, starting with earliest end
     #get list of all overlaps, sorted by query then by start pos of subject
 
-    if ((pos0$qEnd[i] - pos0$qStart[i] > 5)) {
+    if ((pos0$qEnd[i] - pos0$qStart[i] >= (aln.size - 1))) {
       # == == == == == First Epitope == == == == ==
       if (i == 1) {
         #update sdf and psd. this must come after the .pre assignment
@@ -43,9 +45,9 @@ indexEpitopes <- function(blast, index){
         pos1 <- data.table::setnames(rbind(pos1, minep), names(pos00))
 
         # crop other alns that start before (earliest end-5) to start there
-        minst <- min(psd.new$qEnd) - 5
+        minst <- min(psd.new$qEnd) - (aln.size - 2)
         pos0$qStart[pos0$qStart < minst] <- minst
-        pos0[pos0$qEnd - pos0$qStart <= 5, ] <- c(0, 0) #remove from cropped
+        pos0[pos0$qEnd - pos0$qStart < (aln.size - 2), ] <- c(0, 0) #remove from cropped
 
       } else {
         # == == == == == Subsequent Epitopes == == == == ==
@@ -67,11 +69,11 @@ indexEpitopes <- function(blast, index){
           pos1 <- data.table::setnames(rbind(pos1, minep), names(pos00))
 
           # == == == == == crop alns that start before (end-5) == == == == ==
-          minst <- min(psd.new$qEnd) - 5
+          minst <- min(psd.new$qEnd) - (aln.size - 2)
           pos0$qStart[pos0$qStart < minst] <- minst
 
           #remove alignments with cropped length < 7 (incl earliest end aln)
-          pos0[pos0$qEnd - pos0$qStart <= 5, ] <- c(0, 0)
+          pos0[pos0$qEnd - pos0$qStart <= (aln.size - 2), ] <- c(0, 0)
 
         }
       }
@@ -79,7 +81,7 @@ indexEpitopes <- function(blast, index){
   }
 
   # Tidy up new overlap table
-  posN <- (IRanges::countOverlaps(makeIR(pos00), makeIR(pos1), minoverlap = 7)) == 0
+  posN <- (IRanges::countOverlaps(makeIR(pos00), makeIR(pos1), minoverlap = aln.size)) == 0
   w1 <- paste("CAUTION:",
               "indexEpitopes/posN len > 0 for index", blast.index$qID[1])
   if(length(posN[posN == TRUE])>0) {print(w1)}
@@ -112,7 +114,7 @@ indexEpitopes <- function(blast, index){
 
       if(length(pos)>0){
 
-        gOverlap <- isOverlapping(blast.index[i,c("qStart","qEnd")],gpos)
+        gOverlap <- isOverlapping(blast.index[i,c("qStart","qEnd")],gpos, aln.size)
         for(j in gOverlap){ #for each position of gpos that overlaps
 
           dstart <- gpos[j, 1] - blast.index[i, "qStart"] #g-b. positive
@@ -139,7 +141,7 @@ indexEpitopes <- function(blast, index){
     }
   }
 
-  blast %<>% removeSmallAln
+  blast %<>% removeSmallAln(aln.size)
   blast <- blast[!duplicated(
     blast[,c("qID","sID","qStart","qEnd","sStart","sEnd")]),]
   blast %<>% numAlignments()
