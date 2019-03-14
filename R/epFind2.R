@@ -8,6 +8,7 @@
 #' @param g.method Grouping method of alignments. Either 'any' or 'all'. See ?indexGroups
 #' @param aln.size Minimum length of alignment to consider from BLASTp alignments of 'data'.
 #' @param verbose Logical to print progress updates.
+#' @param min.groupsize Minimum number of peptides per group to require in order to print.
 #' @param pdflatex Logical whether or not to produce PDF LaTeX figures using pdflatex
 #' @param pdftk Logical whether or not to merge msa pdfs using staplr and pdftk
 #' @param name.msa Filename for output merged pdf of msa logos.
@@ -19,7 +20,8 @@
 
 epFind2 <- function(data = NULL, output.dir = NULL,
                     e.thresh = 0.01, g.method = "any", aln.size = 7,
-                    verbose = TRUE, pdflatex = TRUE, pdftk = TRUE,
+                    verbose = TRUE, min.groupsize = 2,
+                    pdflatex = TRUE, pdftk = TRUE,
                     name.msa = "msa.pdf",
                     name.alignments = "finalAlignments.csv",
                     name.epitopekey = "epitopeKey.csv",
@@ -56,6 +58,9 @@ epFind2 <- function(data = NULL, output.dir = NULL,
   # ----------------------------------------------------------------------------
   # Prepare sequences
 
+  writeFastaAA(data, paste0(temp.dir,"fasta0.fasta"))
+
+
   if(verbose){
     cat("\n", "[", format(Sys.time(), "%R:%S"), "]",
         "Step 1 of 6: Preparing BLAST alignment data from input sequences.",
@@ -65,6 +70,10 @@ epFind2 <- function(data = NULL, output.dir = NULL,
   fasta1 <- tidyFasta(data)
   f1.path <- paste0(temp.dir,"fasta1.fasta")
   writeFastaAA(fasta1, f1.path)
+
+  peptide.name.map <- data.frame(original = names(data), modified = names(fasta1))
+  data.table::fwrite(peptide.name.map,
+                     paste0(temp.dir, "peptide_name_map.txt"), sep = "\t")
 
   blast1 <- selfBLASTaa(f1.path)
   b1.path <- paste0(temp.dir, "blast1.csv")
@@ -117,11 +126,18 @@ epFind2 <- function(data = NULL, output.dir = NULL,
   f5.path <- paste0(temp.dir, "fasta5.fasta")
   writeFastaAA(fasta5, f5.path)
 
+  blast6 <- renameBLAST(blast5, peptide.name.map)
+  fasta6 <- renameFasta(fasta5, peptide.name.map)
+  b6.path <- paste0(temp.dir, "blast6.csv")
+  data.table::fwrite(blast6, b6.path)
+  f6.path <- paste0(temp.dir, "fasta6.fasta")
+  writeFastaAA(fasta6, f6.path)
+
   if(verbose){
     cat("\n", "[", format(Sys.time(), "%R:%S"), "]",
         "Step 4 of 6: Grouping aligning sequences.", "\n")
   }
-  groups <- indexGroups(blast5, fasta5, mode = g.method, aln.size)
+  groups <- indexGroups(blast6, fasta6, mode = g.method, aln.size)
   g.path <- paste0(temp.dir, "groups.csv")
   data.table::fwrite(groups, g.path)
 
@@ -141,12 +157,12 @@ epFind2 <- function(data = NULL, output.dir = NULL,
   }
 
   if(pdftk){file.copy(paste0(m.path,"msa.pdf"), paste0(output.dir,"/", name.msa))}
-  file.copy(paste0(temp.dir, "blast5.csv"), paste0(output.dir, "/", name.alignments))
+  file.copy(paste0(temp.dir, "blast6.csv"), paste0(output.dir, "/", name.alignments))
 
   msa.cs <- readLines(paste0(m.path,"consensusSequences.txt"))
   k.path <- paste0(output.dir,"/",name.epitopekey)
   s.path <- paste0(output.dir,"/",name.epitopesum)
-  outputTable(blast5, fasta1, groups, msa.cs, k.path, s.path)
+  outputTable(blast6, data, groups, msa.cs, k.path, s.path)
 
 
 }

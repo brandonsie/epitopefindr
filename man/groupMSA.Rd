@@ -4,13 +4,16 @@
 \alias{groupMSA}
 \title{groupMSA}
 \usage{
-groupMSA(groups, mpath = "intermediate_files/msa/", pdflatex = TRUE,
-  pdftk = TRUE, trim.groups = FALSE, make.png = FALSE)
+groupMSA(groups, mpath = "intermediate_files/msa/", min.groupsize = 2,
+  pdflatex = TRUE, pdftk = TRUE, trim.groups = FALSE,
+  make.png = FALSE)
 }
 \arguments{
 \item{groups}{Table of final peptides and pre-calculated groupings.}
 
-\item{mpath}{Direcotry to write sequence alignment files.}
+\item{mpath}{Directory to write sequence alignment files.}
+
+\item{min.groupsize}{Minimum number of peptides per group to require in order to print.}
 
 \item{pdflatex}{Logical whether or not to produce PDF LaTeX figures using pdflatex}
 

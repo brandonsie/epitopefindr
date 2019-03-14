@@ -3,7 +3,8 @@
 #' Generate pdf multiple sequence alignment logos for identified aligning groups.
 #'
 #' @param groups Table of final peptides and pre-calculated groupings.
-#' @param mpath Direcotry to write sequence alignment files.
+#' @param mpath Directory to write sequence alignment files.
+#' @param min.groupsize Minimum number of peptides per group to require in order to print.
 #' @param pdflatex Logical whether or not to produce PDF LaTeX figures using pdflatex
 #' @param pdftk Logical whether or not to use staplr and pdftk to merge individual msa pdfs.
 #' @param trim.groups Logical whether or not to apply msaTrim to edges of logos. Not implemented.
@@ -12,7 +13,7 @@
 #' @export
 
 groupMSA <- function(groups, mpath = "intermediate_files/msa/",
-                     pdflatex = TRUE, pdftk = TRUE,
+                     min.groupsize = 2, pdflatex = TRUE, pdftk = TRUE,
                      trim.groups = FALSE, make.png = FALSE){
 
 
@@ -35,7 +36,7 @@ groupMSA <- function(groups, mpath = "intermediate_files/msa/",
     names(group) <- groups$ID[groups$Group == i]
     group %<>% unmergeFastaDuplicates
 
-    if(length(group)>1){
+    if(length(group) >= min.groupsize){
 
       # if(trim.groups){ #optionally trim groups using microseq package
       #   mg <- msa::msaClustalW(group)
@@ -55,21 +56,24 @@ groupMSA <- function(groups, mpath = "intermediate_files/msa/",
 
       # == == == == == normalize peptide name length == == == == ==
       k = 50 #characters from peptide name to use
-      norig <- strsplit(names(group),"\\.") %>% unlist %>% matrix(nrow=3) %>% t
 
-      gnames <- substr(norig[,1],1,k)
+
+      #separate basenames and start/end positions
+      basenames <- names(group) %>% gsub("\\.[0-9]+\\.[0-9]+$", "", .)
+      positions <- stringr::str_extract(names(group), "\\.[0-9]+\\.[0-9]+$")
 
       #shorten long names
-      n.long <- stringr::str_length(norig[,1]) > k
-      gnames[n.long] <- paste0(gnames[n.long],".")
+      shortened.basenames <- substr(basenames, 1, k)
 
       #pad short names
-      n.short <- stringr::str_length(norig[,1]) <= k
-      gnames[n.short] <- stringr::str_pad(gnames[n.short],width=k+1,side="right",pad=".")
+      lengthened.basenames <- stringr::str_pad(shortened.basenames,
+                                               width=k+1,side="right",pad=".")
 
-      #append start & end positions
-      gpos <- paste(norig[,2],norig[,3],sep = ".")
-      names(group) <- paste(gnames,gpos,sep=".")
+      #reappend start & end positions
+      fully.modified.names <- paste0(lengthened.basenames, positions)
+
+      #update group names
+      names(group) <- fully.modified.names
 
       # == == == == == perform sequence alignment == == == == ==
       # cat("\n")

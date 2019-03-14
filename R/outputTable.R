@@ -39,7 +39,7 @@ outputTable <- function(blast, fasta.initial, groups,
 
 
   #define and start populating output table
-  cnames <- c("id", "start", "end", "ep_seq", "tile_seq",
+  cnames <- c("id", "start", "end", "ep_seq", "peptide_seq",
               "group_number", "group_name","group_size","msa_consensus")
   output <- data.frame(matrix("NA", nrow=nrow(full), ncol=length(cnames))) %>%
     data.table::setnames(cnames)
@@ -54,17 +54,19 @@ outputTable <- function(blast, fasta.initial, groups,
 #   output[, c("tile", "start", "end")] <- strsplit(output$tile, "\\.") %>%
 #     unlist %>% as.vector %>% matrix(nrow=3) %>% t
 
-  output$id <- full$ID
-  output[, c("id", "start", "end")] <- strsplit(output$id, "\\.") %>%
-    unlist %>% as.vector %>% matrix(nrow=3) %>% t
+  output$id <- full$ID %>% gsub("\\.[0-9]+\\.[0-9]+$", "", .)
+  output[, c("start", "end")] <-
+    stringr::str_extract(full$ID, "[0-9]+\\.[0-9]+$") %>% strsplit("\\.") %>%
+    unlist %>% matrix(nrow = 2) %>% t
   output[,"start"] %<>% as.numeric; output[,"end"] %<>% as.numeric
   output$ep_seq <- full$Seq %>% as.character
 
-  for(i in 1:nrow(output)){
-    output$tile_seq[i] <- original[
-      strsplit(full$ID[i],"\\.") %>% unlist %>% magrittr::extract(1)] %>%
-      as.character
-  }
+  output$peptide_seq <- original[output$id] %>% as.character
+  # for(i in 1:nrow(output)){
+    # output$peptide_seq[i] <- original[
+    #   strsplit(full$ID[i],"\\.") %>% unlist %>% magrittr::extract(1)] %>%
+    #   as.character
+  # }
 
   #Group Info: group number, group name, msa cosnensus sequence
   output$group_number <- full$Group
@@ -115,12 +117,9 @@ outputTable <- function(blast, fasta.initial, groups,
     dplyr::mutate(id_group = paste0(id, "_", group_number)) %>%
     stats::aggregate(position ~ id_group, data = ., FUN = function(x){
       paste(x, collapse = "_")}) %>%
-    dplyr::mutate(id = (
-      strsplit(id_group, "_") %>% unlist %>% matrix(nrow = 2) %>% t %>%
-        magrittr::extract(,1))) %>%
+    dplyr::mutate(id = (id_group %>% gsub("_[0-9]+$","", .))) %>%
     dplyr::mutate(group_number = (
-      strsplit(id_group, "_") %>% unlist %>% matrix(nrow = 2) %>% t %>%
-        magrittr::extract(,2))) %>%
+      stringr::str_extract(id_group, "[0-9]+$"))) %>%
     dplyr::select(id, position, group_number) %>%
     tidyr::spread(group_number, position)
 
@@ -135,3 +134,7 @@ outputTable <- function(blast, fasta.initial, groups,
   data.table::fwrite(epitope_summary, summary_filename)
 
 }
+
+# output$id <- full$ID %>% gsub("\\.[0-9]+\\.[0-9]+$", "", .)
+# stringr::str_extract(full$ID, "[0-9]+\\.[0-9]+$") %>% strsplit("\\.") %>%
+#   unlist %>% matrix(nrow = 2) %>% t
