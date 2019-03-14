@@ -24,6 +24,7 @@ groupMSA <- function(groups, mpath = "intermediate_files/msa/",
   #loop through each group
   num <- max(groups$Group)
   if(num < 1){stop("Error: no input groups specified.")}
+  num.length <- nchar(num)
 
   pb <- epPB(0, num)
 
@@ -75,8 +76,9 @@ groupMSA <- function(groups, mpath = "intermediate_files/msa/",
       # mg <- msa::msaClustalW(group) #old way that caused gaps
 
       #(!) bookmark new way
-      group.vector <- groups$Seq[groups$Group == i]
-      names(group.vector) <- groups$ID[groups$Group == i]
+      group.vector <-as.character(group)
+      # group.vector <- groups$Seq[groups$Group == i]
+      # names(group.vector) <- groups$ID[groups$Group == i]
       mg <- Biostrings::AAMultipleAlignment(group.vector, use.names = TRUE)
 
       #(!) temporary workaround to print partial info for large groups
@@ -96,8 +98,9 @@ groupMSA <- function(groups, mpath = "intermediate_files/msa/",
       write(msa::msaConsensusSequence(mg),cpath,append=TRUE)
 
       #establish output file names for this group
-      tname <- paste0(mpath,"msa-", i, ".tex")
-      pname <- paste0(mpath,"msa-", i, ".pdf")
+      pad.num <- formatC(i, width = num.length, flag = "0")
+      tname <- paste0(mpath,"msa-", pad.num, ".tex")
+      pname <- paste0(mpath,"msa-", pad.num, ".pdf")
 
       # calculate fig height (inch). top margin 0.75, each line 0.14. key ~1.0?
       msa.height <- 0.75 + 0.14*(length(group.vector) + 1) + 1.3
@@ -110,8 +113,8 @@ groupMSA <- function(groups, mpath = "intermediate_files/msa/",
       #convert tex to pdf
       if(pdflatex){
         tools::texi2pdf(tname, clean=TRUE)
-        file.copy(paste0("msa-",i,".pdf"),pname)
-        file.remove(paste0("msa-",i,".pdf"))
+        file.copy(paste0("msa-",pad.num,".pdf"),pname)
+        file.remove(paste0("msa-",pad.num,".pdf"))
         file.remove(tname)
 
 

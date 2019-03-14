@@ -3,8 +3,8 @@
 
 |  |  |
 | --- | --- |
-| Version:  | 1.1.18 |
-| Date: | March 11, 2019 |
+| Version:  | 1.1.19 |
+| Date: | March 14, 2019 |
 | Concept: | Ben Larman, Brandon Sie, Daniel Monaco  |
 | Authors: | Brandon Sie, Athena Chen  |
 | Contact: | brandonsie at gmail  |
