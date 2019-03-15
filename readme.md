@@ -14,7 +14,7 @@ The purpose of this package is to describe the [BLAST](https://blast.ncbi.nlm.ni
 
 `epitopefindr` takes a .fasta file listing peptide sequences of interest and calls BLASTp from within R to identify alignments among these peptides. Each peptide's alignments to other peptides are then simplified to the minimal number of "non overlapping" intervals* of the index peptide that represent all alignments to other peptides reported by BLAST. (*By default, each interval must be at least 7 amino acids long, and two intervals are considered NOT overlapping if they share 6 or fewer amino acids). After the minimal overlaps are identified for each peptide, these overlaps are gathered into aligning groups based on the initial BLAST. For each group, a multiple sequence alignment logo (motif) is generated to represent the collective sequence. Additionally, a spreadsheet is written to list the final trimmed amino acid sequences and some metadata. 
 
-![workflow](https://raw.githubusercontent.com/brandonsie/brandonsie.github.io/master/docs/EpitopeFindRWorkflow2b.png)
+![workflow](https://raw.githubusercontent.com/brandonsie/brandonsie.github.io/master/docs/EpitopeFindRWorkflow2c.png)
 
 
 # Setup:  
@@ -60,7 +60,7 @@ epFind2(<AAStringSet or path to .fasta file>, <path to directory to write output
 epFind2(<AAStringSet or path to .fasta file>, <path to directory to write output files>, e.thresh = 0.0001)
 ``` 
 
-A brief summary of the functions called by `epFind2`:
+A brief summary of the functions called by `epFind2`:  
   * `pbCycleBLAST` cycles through each input peptide to find the overlap of its alignment with other peptides from the input. Nested within a call to `pbCycleBLAST` are calls to `epitopeBLAST`, `indexEpitopes`. 
   * `trimEpitopes` performs a second pass through the identified sequences to tidy alignments.
   * `indexGroups` collects trimmed sequences into aligning groups
