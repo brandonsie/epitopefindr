@@ -60,7 +60,7 @@ epFind2(<AAStringSet or path to .fasta file>, <path to directory to write output
 epFind2(<AAStringSet or path to .fasta file>, <path to directory to write output files>, e.thresh = 0.0001)
 ``` 
 
-A brief summary of the functions called by `epFind2`:
+A brief summary of the functions called by `epFind2`:  
   * `pbCycleBLAST` cycles through each input peptide to find the overlap of its alignment with other peptides from the input. Nested within a call to `pbCycleBLAST` are calls to `epitopeBLAST`, `indexEpitopes`. 
   * `trimEpitopes` performs a second pass through the identified sequences to tidy alignments.
   * `indexGroups` collects trimmed sequences into aligning groups
