@@ -18,9 +18,9 @@ renameFasta <- function(fasta, name.map){
   parsed.names <- names(fasta) %>% strsplit("\\.") %>% unlist %>%
     matrix(nrow = 3)
 
-  basenames <- parsed.names %>% extract(1,)
-  start <- parsed.names %>% extract(2,)
-  end <- parsed.names %>% extract(3,)
+  basenames <- parsed.names %>% magrittr::extract(1,)
+  start <- parsed.names %>% magrittr::extract(2,)
+  end <- parsed.names %>% magrittr::extract(3,)
 
   names(fasta) <- paste(original[match(basenames, modified)], start, end, sep = ".")
 

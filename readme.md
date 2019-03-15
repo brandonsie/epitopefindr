@@ -3,7 +3,7 @@
 
 |  |  |
 | --- | --- |
-| Version:  | 1.1.21 |
+| Version:  | 1.1.22 |
 | Date: | March 15, 2019 |
 | Concept: | Ben Larman, Brandon Sie, Daniel Monaco  |
 | Authors: | Brandon Sie, Athena Chen  |
