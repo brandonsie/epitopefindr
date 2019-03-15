@@ -5,8 +5,9 @@
 \title{epFind2}
 \usage{
 epFind2(data = NULL, output.dir = NULL, e.thresh = 0.01,
-  g.method = "any", aln.size = 7, verbose = TRUE,
-  min.groupsize = 2, pdflatex = TRUE, pdftk = TRUE,
+  g.method = "any", aln.size = 7, min.groupsize = 2,
+  min.consensus.pos = 1, consensus.thresh = c(75, 50),
+  verbose = TRUE, pdflatex = TRUE, pdftk = TRUE,
   name.msa = "msa.pdf", name.alignments = "finalAlignments.csv",
   name.epitopekey = "epitopeKey.csv",
   name.epitopesum = "epitopeSummary.csv")
@@ -22,9 +23,13 @@ epFind2(data = NULL, output.dir = NULL, e.thresh = 0.01,
 
 \item{aln.size}{Minimum length of alignment to consider from BLASTp alignments of 'data'.}
 
-\item{verbose}{Logical to print progress updates.}
+\item{min.groupsize}{Minimum number of peptides per group to require in order to print a group.}
 
-\item{min.groupsize}{Minimum number of peptides per group to require in order to print.}
+\item{min.consensus.pos}{Minimum number of amino acid consensus positions required in order to print a group.}
+
+\item{consensus.thresh}{Two decreasing numeric values of upper and lower thresholds for sequence consensus.}
+
+\item{verbose}{Logical to print progress updates.}
 
 \item{pdflatex}{Logical whether or not to produce PDF LaTeX figures using pdflatex}
 

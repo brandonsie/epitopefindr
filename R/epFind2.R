@@ -7,8 +7,10 @@
 #' @param e.thresh Maximum e-value to consider from BLASTp alignments of 'data'.
 #' @param g.method Grouping method of alignments. Either 'any' or 'all'. See ?indexGroups
 #' @param aln.size Minimum length of alignment to consider from BLASTp alignments of 'data'.
+#' @param min.groupsize Minimum number of peptides per group to require in order to print a group.
+#' @param min.consensus.pos Minimum number of amino acid consensus positions required in order to print a group.
+#' @param consensus.thresh Two decreasing numeric values of upper and lower thresholds for sequence consensus.
 #' @param verbose Logical to print progress updates.
-#' @param min.groupsize Minimum number of peptides per group to require in order to print.
 #' @param pdflatex Logical whether or not to produce PDF LaTeX figures using pdflatex
 #' @param pdftk Logical whether or not to merge msa pdfs using staplr and pdftk
 #' @param name.msa Filename for output merged pdf of msa logos.
@@ -20,8 +22,8 @@
 
 epFind2 <- function(data = NULL, output.dir = NULL,
                     e.thresh = 0.01, g.method = "any", aln.size = 7,
-                    verbose = TRUE, min.groupsize = 2,
-                    pdflatex = TRUE, pdftk = TRUE,
+                    min.groupsize = 2, min.consensus.pos = 1, consensus.thresh = c(75, 50),
+                    verbose = TRUE, pdflatex = TRUE, pdftk = TRUE,
                     name.msa = "msa.pdf",
                     name.alignments = "finalAlignments.csv",
                     name.epitopekey = "epitopeKey.csv",
@@ -149,7 +151,7 @@ epFind2 <- function(data = NULL, output.dir = NULL,
   m.path <- paste0(temp.dir, "msa/")
   if(!dir.exists(m.path)){dir.create(m.path)}
   g.path <- paste0(temp.dir, "groups.csv")
-  groupMSA(groups, m.path, pdflatex, pdftk)
+  groupMSA(groups, m.path, min.groupsize, min.consensus.pos, consensus.thresh, pdflatex, pdftk)
 
   if(verbose){
     cat("\n", "[", format(Sys.time(), "%R:%S"), "]",

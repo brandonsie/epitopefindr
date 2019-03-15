@@ -104,9 +104,12 @@ indexGroups <- function(blast, fasta, mode="any", aln.size){
         c(ep.align$Ep[i], b.simp$s[b.simp$q == ep.align$Ep[i]]) %>% list}
 
     k <- 0
+    pb <- epPB(min = -(ep.align$Align %>% unique %>% unlist %>% length) - 1,
+               max = -length(epitopes))
     while((ep.align$Align %>% unique %>% unlist %>%
            length > length(epitopes))){
       k %<>% +1; if(k > 100) stop("ERROR: stuck in a while loop.")
+      setTxtProgressBar(pb, -(ep.align$Align %>% unique %>% unlist %>% length))
 
       for(i in 1:nrow(ep.align)){
         eg <- sapply(1:nrow(ep.align), function(x){
@@ -118,6 +121,7 @@ indexGroups <- function(blast, fasta, mode="any", aln.size){
           unique %>% sort %>% list
       }
     }
+    setTxtProgressBar(pb, -length(epitopes))
 
     #take final unique groups, sorted with longest groups first
     groups <- ep.align$Align %>% unique

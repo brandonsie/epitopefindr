@@ -5,6 +5,7 @@
 \title{groupMSA}
 \usage{
 groupMSA(groups, mpath = "intermediate_files/msa/", min.groupsize = 2,
+  min.consensus.pos = 1, consensus.thresh = c(75, 50),
   pdflatex = TRUE, pdftk = TRUE, trim.groups = FALSE,
   make.png = FALSE)
 }
@@ -13,7 +14,11 @@ groupMSA(groups, mpath = "intermediate_files/msa/", min.groupsize = 2,
 
 \item{mpath}{Directory to write sequence alignment files.}
 
-\item{min.groupsize}{Minimum number of peptides per group to require in order to print.}
+\item{min.groupsize}{Minimum number of peptides per group to require in order to print a group.}
+
+\item{min.consensus.pos}{Minimum number of amino acid consensus positions required in order to print a group.}
+
+\item{consensus.thresh}{Two decreasing numeric values of upper and lower thresholds for sequence consensus.}
 
 \item{pdflatex}{Logical whether or not to produce PDF LaTeX figures using pdflatex}
 

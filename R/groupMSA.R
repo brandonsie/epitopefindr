@@ -4,7 +4,9 @@
 #'
 #' @param groups Table of final peptides and pre-calculated groupings.
 #' @param mpath Directory to write sequence alignment files.
-#' @param min.groupsize Minimum number of peptides per group to require in order to print.
+#' @param min.groupsize Minimum number of peptides per group to require in order to print a group.
+#' @param min.consensus.pos Minimum number of amino acid consensus positions required in order to print a group.
+#' @param consensus.thresh Two decreasing numeric values of upper and lower thresholds for sequence consensus.
 #' @param pdflatex Logical whether or not to produce PDF LaTeX figures using pdflatex
 #' @param pdftk Logical whether or not to use staplr and pdftk to merge individual msa pdfs.
 #' @param trim.groups Logical whether or not to apply msaTrim to edges of logos. Not implemented.
@@ -13,7 +15,8 @@
 #' @export
 
 groupMSA <- function(groups, mpath = "intermediate_files/msa/",
-                     min.groupsize = 2, pdflatex = TRUE, pdftk = TRUE,
+                     min.groupsize = 2, min.consensus.pos = 1, consensus.thresh = c(75, 50),
+                     pdflatex = TRUE, pdftk = TRUE,
                      trim.groups = FALSE, make.png = FALSE){
 
 
@@ -36,70 +39,39 @@ groupMSA <- function(groups, mpath = "intermediate_files/msa/",
     names(group) <- groups$ID[groups$Group == i]
     group %<>% unmergeFastaDuplicates
 
-    if(length(group) >= min.groupsize){
+    # == == == == == normalize peptide name length == == == == ==
+    k = 50 #characters from peptide name to use
 
-      # if(trim.groups){ #optionally trim groups using microseq package
-      #   mg <- msa::msaClustalW(group)
-      #   mf <- data.frame(Header = names(as.character(mg)),
-      #                    Sequence = as.character(mg) %>% as.vector,
-      #                    stringsAsFactors = FALSE)
-      #
-      #   gpath <- paste0(output.dir, "groups/group", i, "_msa.fasta")
-      #   microseq::writeFasta(mf, gpath)
-      #   mt <-  microseq::msaTrim(microseq::readFasta(gpath), 0, 0)
-      #
-      #   #convert back to seqinr fasta file
-      #   tpath <- paste0(output.dir, "groups/group", i, "_trim.fasta")
-      #   seqinr::write.fasta(mt$Sequence %>% as.list, mt$Header, tpath)
-      #   group <- Biostrings::readAAStringSet(tpath)
-      # }
+    #separate basenames and start/end positions
+    basenames <- names(group) %>% gsub("\\.[0-9]+\\.[0-9]+$", "", .)
+    positions <- stringr::str_extract(names(group), "\\.[0-9]+\\.[0-9]+$")
 
-      # == == == == == normalize peptide name length == == == == ==
-      k = 50 #characters from peptide name to use
+    #shorten long names, pad short names
+    shortened.basenames <- substr(basenames, 1, k)
+    lengthened.basenames <- stringr::str_pad(shortened.basenames,
+                                             width=k+1,side="right",pad=".")
 
+    #reappend start & end positions, update names in `group` object
+    fully.modified.names <- paste0(lengthened.basenames, positions)
+    names(group) <- fully.modified.names
 
-      #separate basenames and start/end positions
-      basenames <- names(group) %>% gsub("\\.[0-9]+\\.[0-9]+$", "", .)
-      positions <- stringr::str_extract(names(group), "\\.[0-9]+\\.[0-9]+$")
-
-      #shorten long names
-      shortened.basenames <- substr(basenames, 1, k)
-
-      #pad short names
-      lengthened.basenames <- stringr::str_pad(shortened.basenames,
-                                               width=k+1,side="right",pad=".")
-
-      #reappend start & end positions
-      fully.modified.names <- paste0(lengthened.basenames, positions)
-
-      #update group names
-      names(group) <- fully.modified.names
-
-      # == == == == == perform sequence alignment == == == == ==
-      # cat("\n")
-      # mg <- msa::msaClustalW(group) #old way that caused gaps
-
-      #(!) bookmark new way
-      group.vector <-as.character(group)
-      # group.vector <- groups$Seq[groups$Group == i]
-      # names(group.vector) <- groups$ID[groups$Group == i]
-      mg <- Biostrings::AAMultipleAlignment(group.vector, use.names = TRUE)
-
+    #trim group if too many members to msaprettyprint(). Store consensus sequence.
+    group.vector <- as.character(group)
+    mg <- Biostrings::AAMultipleAlignment(group.vector, use.names = TRUE)
+    if(length(group)>130){
       #(!) temporary workaround to print partial info for large groups
-      if(length(group)>130){
-        print(paste("Warning: group trimmed:",i))
+      print(paste("Warning: group trimmed:",i))
+      group.vector <- group.vector[1:130]
+      mg <- Biostrings::AAMultipleAlignment(group.vector, use.names = TRUE)
+    }
+    group.consensus <- msa::msaConsensusSequence(mg, thresh = consensus.thresh)
+    write(group.consensus,cpath,append=TRUE)
+    num.consensus.pos <- stringr::str_count(group.consensus, "[A-Z]")
 
-        # # old way
-        # group <- group[1:130]
-        # mg <- msa::msaClustalW(group)
+    # == == == == == print sequence alignment == == == == ==
 
-        # new way
-        group.vector <- group.vector[1:130]
-        mg <- Biostrings::AAMultipleAlignment(group.vector, use.names = TRUE)
+    if(length(group) >= min.groupsize & num.consensus.pos >= min.consensus.pos){
 
-      }
-
-      write(msa::msaConsensusSequence(mg),cpath,append=TRUE)
 
       #establish output file names for this group
       pad.num <- formatC(i, width = num.length, flag = "0")
@@ -111,8 +83,9 @@ groupMSA <- function(groups, mpath = "intermediate_files/msa/",
 
       #print msa logo
       msa::msaPrettyPrint(mg, output="tex", file = tname,
-                     askForOverwrite=FALSE, paperWidth = 12,
-                     paperHeight = msa.height)
+                     askForOverwrite=FALSE,
+                     paperWidth = 12, paperHeight = msa.height,
+                     consensusThreshold = rev(consensus.thresh))
 
       #convert tex to pdf
       if(pdflatex){
