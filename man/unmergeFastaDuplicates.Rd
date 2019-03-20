@@ -4,7 +4,7 @@
 \alias{unmergeFastaDuplicates}
 \title{unmergeFastaDuplicates}
 \usage{
-unmergeFastaDuplicates(input, sep = "__")
+unmergeFastaDuplicates(input, sep = "__________")
 }
 \arguments{
 \item{input}{XStringSet object with concatenated names.}

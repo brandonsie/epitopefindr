@@ -4,7 +4,7 @@
 \alias{mergeFastaDuplicates}
 \title{mergeFastaDuplicates}
 \usage{
-mergeFastaDuplicates(input, sep = "__")
+mergeFastaDuplicates(input, sep = "__________")
 }
 \arguments{
 \item{input}{XStringSet object to collapse.}

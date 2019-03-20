@@ -1,6 +1,13 @@
-#' Virscan hits from patient LCL.
+#' Virscan hits from AVARDA patient 1
 #'
-#' Peptide seuqnces enriched in an interesting sample from PhIP-Seq.
+#' Peptide sequences enriched in an interesting sample from PhIP-Seq.
+#' PhIP-Seq, or Phage Immunoprecipitation Sequencing, has been described by
+#' Larman et. al.
+#'
+#'
+#'
+#' https://www.biorxiv.org/content/early/2018/05/30/333625
+#'
 #'
 #' @format A Biostrings::AAStringSet object with 159 named peptide sequences.
 #'
@@ -8,5 +15,5 @@
 #'
 #' @docType data
 #' @keywords datasets
-"lclhits"
+"pairwise_viral_hits"
 
