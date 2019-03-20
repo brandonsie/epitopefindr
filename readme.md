@@ -30,7 +30,7 @@ BiocManager::install(c("Biostrings", "IRanges", "msa", "S4Vectors"))
 # Install Github packages
 if(!requireNamespace("devtools")) install.packages("devtools")
 devtools::install_github("mhahsler/rBLAST")  
-devtools::install_github("brandonsie/epitopefindr")
+devtools::install_github("brandonsie/epitopefindr", build_opts = c("--no-resave-data", "--no-manual"))
 
 # Load & attach
 library(epitopefindr)
