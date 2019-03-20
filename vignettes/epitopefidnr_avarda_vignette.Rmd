@@ -1,0 +1,108 @@
+---
+title: "Intro `epitopefindr`: Viral Peptides"
+author: "Brandon Sie"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Introduction to `epitopefindr`: Viral Peptides}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+## Introduction
+
+This vignette provides a walthrough of using `epitopefindr` to process an 
+example dataset included with the package, `epitopefindr::pairwise_viral_hits`.  
+
+The dataset has been previously explored by Monaco et al. [Biorxiv](https://www.biorxiv.org/content/biorxiv/early/2018/05/30/333625.full-text.pdf) and describes a set of phage-displayed peptide sequences for which the patient's antibody specificity demonstrated a statistically significant change when comparing the patient's data from the [PhIP-seq](https://www.nature.com/articles/s41596-018-0025-6) assay. 
+
+`epitopefindr` may be useful to look for sequence similarity among these enriched peptides as a step towards identifying critical sequence motifs.
+
+## Loading the Data
+
+We can see that `pairwise_viral_hits` is a Biostrings::AAStringSet object consisting of the 159 pairwise enriched peptides. These peptides have been annotated with taxonomic and protein name information. This is our input to `epitopefindr`.
+
+```{r results = FALSE, message = FALSE, warning = FALSE}
+library(epitopefindr)
+library(magrittr)
+epitopefindr::pairwise_viral_hits
+```
+
+
+```{r}
+epitopefindr::pairwise_viral_hits
+names(epitopefindr::pairwise_viral_hits)[1]
+
+```
+
+
+## Run `epitopefindr`
+
+The all-in-one wrapper for running `epitopefindr` is `epFind2`. At its most basic,
+`epFind2` takes two input parameters, (1) a set of named peptides, either as an AAStringSet object or as a directory path to a .fasta file that can be read by Biostrings::readAAStringSet, and (2) a path to which output files can be written. 
+More parameters for customization are documented at `?epFind2`.
+```{r epFind2,results = FALSE, message = FALSE, warning = FALSE}
+# output.dir <- paste0(tempdir(),"/epitopefindr")
+output.dir <- "D:/RData/epitopefindr_avarda_vignette"
+msa.path <- paste0(output.dir,"/msa.pdf")
+
+if(!file.exists(msa.path)){
+  epitopefindr::epFind2(epitopefindr::pairwise_viral_hits, output.dir)
+}
+```
+
+
+## Investigate Sequence Alignment Logos
+
+We can print some of the sequence motifs from this output. Consider MSA 4 as an example. This 8 amino acid motif is represented in 9 of our input peptides. First, sixth, and eighth amino acid positions are conserved across all these peptides, and the second amino acid positions is not conserved at all, but the remaining positions are partially conserved. This illustrates that `epitopefindr` may retain evidence for certain motifs that would be discarded with a gapped k-mer approach. Also consider MSA 10. We see that `msa::msaPrettyPrint`, which `epitopefindr` uses to prepare these sequence alignment logos, can color-code MSAs based on the percentage of amino acid conservation.
+
+```{r PDFtoPNG,results = FALSE}
+#convert pdf to png
+npages <- pdftools::pdf_info(msa.path)$pages
+last.print <- 10
+print.range <- 1:min(last.print,npages)
+
+imgdir <- paste0(output.dir,"/png/")
+if(!dir.exists(imgdir)) dir.create(imgdir)
+imgnames <- paste0(imgdir,"msa-",print.range,".png")
+
+pdftools::pdf_convert(msa.path, format = "png", pages = 1:10,
+                      filenames = imgnames, verbose = FALSE)
+
+```
+  
+
+```{r MSAPrint,fig.height=4,fig.width=24,echo=FALSE,message=FALSE,results="asis"}
+focus.range <- c(4, 10)
+for(i in focus.range){
+	#print new tab for each group
+	cat("  \n### MSA",  i, "  \n")
+  imgname <- paste0(imgdir,"msa-",i,".png")
+	  # iname[j] %>% readImage %>% display
+	cat("![](",imgname,")",sep="")
+	cat("  \n  \n")
+
+}
+
+```
+
+
+## Network Graph
+
+The output of `epitopefindr` can be fed into network graphing. Each vertex represents
+a fragment of an input sequence. Each link represents an alignment between two peptide fragments.
+```{r igraph, fig.height=7, fig.width=7}
+aln.path <- paste0(output.dir,"/finalAlignments.csv")
+aln <- data.table::fread(aln.path)
+
+g <- igraph::graph_from_data_frame(aln[,1:2], directed = FALSE) %>%
+  (igraph::simplify) %>% plot(vertex.label = NA, vertex.size = 3, arrow.size = 0)
+```
+
