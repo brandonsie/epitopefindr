@@ -9,7 +9,7 @@
 #'
 #' @export
 
-mergeFastaDuplicates <- function(input, sep = "__"){
+mergeFastaDuplicates <- function(input, sep = "__________"){
 
   options(stringsAsFactors = FALSE)
   if(class(input)[1] == "AAStringSet"){

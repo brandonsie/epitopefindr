@@ -12,7 +12,7 @@
 #'
 #' @export
 
-unmergeFastaDuplicates <- function(input, sep = "__"){
+unmergeFastaDuplicates <- function(input, sep = "__________"){
   np <- input %>% names %>% stringr::str_count(sep) #number of peptides - 1
   for(k in 1:length(np)){input <- c(input, rep(input[k], np[k]))}
   for(k in 1:length(input)){	#rename duplicated peptides

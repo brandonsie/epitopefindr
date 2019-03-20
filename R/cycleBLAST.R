@@ -31,13 +31,11 @@ cycleBLAST <- function(data, pb, n, aln.size, verbose = FALSE){
 
     if(names(data[[2]]) %>% grepl("\\.", .) %>% mean < 1){
 
-      epData <- epitopeBLAST(data, aln.size)
+      data <- epitopeBLAST(data, aln.size)
       n <- n - 1
 
-      cycData <- cycleBLAST(epData, pb, n, aln.size)
+      data <- cycleBLAST(data, pb, n, aln.size)
     }
-  } else{
-    return(data)
   }
-
+  return(data)
 }

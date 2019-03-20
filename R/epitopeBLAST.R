@@ -18,17 +18,20 @@ epitopeBLAST <- function(data, aln.size){
 
   #subset out prior epitopes. ep.genes = gene|tile names of epitopes.
   if(length(epitopes > 0)){
-    ep.names <- names(epitopes) %>% strsplit("__") %>% unlist %>% as.character
+    ep.names <- names(epitopes) %>% strsplit("__________") %>% unlist %>% as.character
     ep.genes <- sapply(1:length(ep.names), function(x){
       ep.names[x] %>% strsplit("\\.") %>% unlist %>% `[[`(1)})
     blast.current <- blast[!(blast$qID %in% ep.genes), ]
   } else{blast.current <- blast}
+
 
   # == == == == == B. Choose index peptide & imsadentify its epitopes. == =
   index <- blast.current %>% chooseIndex()
   if(!("indexOrder" %in% names(data))){
     data$indexOrder <- index
   } else{data$indexOrder %<>% c(index)}
+
+  if(nrow(blast.current) == 0){return(data)}
 
   # ipath <- "indexOrder.txt"
   # write(index,ipath,append=TRUE)

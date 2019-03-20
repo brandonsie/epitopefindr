@@ -89,7 +89,7 @@ indexGroups <- function(blast, fasta, mode="any", aln.size){
 
   } #end "all"
 
-  if(mode == "any"){
+  if(mode == "any-old"){
     # ---------- "Align to Any" = Inclusive Groups (fewer, looser) ----------
     # all members of a group must align with at least one other group member.
     #merge groups until above condition is satisfied
@@ -101,7 +101,8 @@ indexGroups <- function(blast, fasta, mode="any", aln.size){
     ep.align$Ep <- names(epitopes)
     for(i in 1:nrow(ep.align)){
       ep.align$Align[i] <-
-        c(ep.align$Ep[i], b.simp$s[b.simp$q == ep.align$Ep[i]]) %>% list}
+        c(ep.align$Ep[i], b.simp$s[b.simp$q == ep.align$Ep[i]]) %>% list
+    }
 
     k <- 0
     pb <- epPB(min = -(ep.align$Align %>% unique %>% unlist %>% length) - 1,
@@ -117,7 +118,8 @@ indexGroups <- function(blast, fasta, mode="any", aln.size){
             return(1)
           } else return(0)
         }) %>% grep(1, .)
-        ep.align$Align[i] <- ep.align[eg, "Align"] %>% unlist %>%
+        ep.align$Align[i] <- c(unlist(ep.align$Align[i]),
+                               unlist(ep.align[eg, "Align"])) %>%
           unique %>% sort %>% list
       }
     }
@@ -127,14 +129,59 @@ indexGroups <- function(blast, fasta, mode="any", aln.size){
     groups <- ep.align$Align %>% unique
     len <- sapply(1:length(groups), function(x) groups[x] %>% unlist %>% length)
     groups <- groups[order(-len)]
-  } #end "any"
+  } #end "any-old"
+
+  if(mode == "any"){
+    # ---------- "Align to Any" = Inclusive Groups (fewer, looser) ----------
+    # all members of a group must align with at least one other group member.
+    #merge groups until above condition is satisfied
+
+    groups <- list()
+    k <- 1 #next group number
+
+    pb <- epPB(min = 0, max = length(epitopes))
+
+    for(i in 1:length(epitopes)){
+      setTxtProgressBar(pb, i)
+
+      # Get current epitope and all epitopes that align to it
+      current <- names(epitopes)[i]
+      aln.current <- b.simp$s[b.simp$q == current]
+      current.plus.aln <- c(current, aln.current) %>% unique %>% sort
+
+      # if any of these are represented in at least one group, merge all
+      # representing groups along with current.plus.aln
+
+      # find indices of groups containing at least one of the members
+      aligning.groups <- sapply(current.plus.aln, function(x){
+        grep(x, groups, fixed = TRUE)}) %>% unlist %>% unique
+
+      if(length(aligning.groups) > 0){
+        merged.group <- c(current.plus.aln,
+                          groups[aligning.groups] %>% unlist) %>%
+          unique %>% sort
+        groups[k] <- list(merged.group)
+        groups <- groups[-aligning.groups]
+      } else{
+        groups[k] <-list(current.plus.aln)
+      }
+
+      k <- length(groups) + 1
+
+    }
+
+    len <- sapply(1:length(groups), function(x) groups[x] %>% unlist %>% length)
+    groups <- groups[order(-len)]
+
+
+  }
 
 
   # == == == == == D. Write groups information to table == =
 
   output <- data.frame(ID = names(epitopes), Seq = as.character(epitopes),
                        Group = NA)
-  for(i in 1:length(groups)){
+  for(i in length(groups):1){
     output$Group[output$ID %in% groups[[i]]] <- i
   }
 
