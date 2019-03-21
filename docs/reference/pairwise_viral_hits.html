@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>removeSmallAln — removeSmallAln • epitopefindr</title>
+<title>Virscan hits from AVARDA patient 1 — pairwise_viral_hits • epitopefindr</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -31,10 +31,11 @@
 
 
 
-<meta property="og:title" content="removeSmallAln — removeSmallAln" />
+<meta property="og:title" content="Virscan hits from AVARDA patient 1 — pairwise_viral_hits" />
 
-<meta property="og:description" content="Delete rows in blast table for which the alignment is fewer than 7aa or
-other custom threshold." />
+<meta property="og:description" content="Peptide sequences enriched in an interesting sample from PhIP-Seq.
+PhIP-Seq, or Phage Immunoprecipitation Sequencing, has been described by
+Larman et. al." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -108,40 +109,45 @@ other custom threshold." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>removeSmallAln</h1>
+    <h1>Virscan hits from AVARDA patient 1</h1>
     
-    <div class="hidden name"><code>removeSmallAln.Rd</code></div>
+    <div class="hidden name"><code>pairwise_viral_hits.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>Delete rows in blast table for which the alignment is fewer than 7aa or
-other custom threshold.</p>
+    <p>Peptide sequences enriched in an interesting sample from PhIP-Seq.
+PhIP-Seq, or Phage Immunoprecipitation Sequencing, has been described by
+Larman et. al.</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>removeSmallAln</span>(<span class='no'>blast</span>, <span class='no'>aln.size</span>)</pre>
+    <pre class="usage"><span class='no'>pairwise_viral_hits</span></pre>
+        
+    <h2 class="hasAnchor" id="format"><a class="anchor" href="#format"></a>Format</h2>
+
+    <p>A Biostrings::AAStringSet object with 159 named peptide sequences.</p>
     
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
-    <table class="ref-arguments">
-    <colgroup><col class="name" /><col class="desc" /></colgroup>
-    <tr>
-      <th>blast</th>
-      <td><p>Input BLAST table.</p></td>
-    </tr>
-    <tr>
-      <th>aln.size</th>
-      <td><p>Minimum length of alignment to keep.</p></td>
-    </tr>
-    </table>
+    <h2 class="hasAnchor" id="source"><a class="anchor" href="#source"></a>Source</h2>
+
+    <p>Larman Lab PhIP-Seq NGS.</p>
+    
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>https://www.biorxiv.org/content/early/2018/05/30/333625</p>
     
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
-      <li><a href="#arguments">Arguments</a></li>
-                </ul>
+      
+      <li><a href="#format">Format</a></li>
+
+      <li><a href="#source">Source</a></li>
+
+      <li><a href="#details">Details</a></li>
+          </ul>
 
   </div>
 </div>
