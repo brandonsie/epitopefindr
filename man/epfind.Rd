@@ -3,7 +3,7 @@
 \name{epfind}
 \alias{epfind}
 \alias{epFind2}
-\title{epfind}
+\title{All-in-one function to call the major steps of epitopefindr.}
 \usage{
 epfind(data = NULL, output.dir = NULL, e.thresh = 0.01,
   g.method = "any", aln.size = 7, min.groupsize = 2,
@@ -53,5 +53,5 @@ epFind2(data = NULL, output.dir = NULL, e.thresh = 0.01,
 \item{name.epitopesum}{Filename for output summary sheet of epitopes.}
 }
 \description{
-New all-in-one function to call the major steps of epitopefindr.
+All-in-one function to call the major steps of epitopefindr.
 }

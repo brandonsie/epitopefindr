@@ -1,5 +1,3 @@
-#' removeSmallAln
-#'
 #' Delete rows in blast table for which the alignment is fewer than 7aa or
 #' other custom threshold.
 #'

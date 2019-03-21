@@ -2,7 +2,7 @@
 % Please edit documentation in R/numAlignments.R
 \name{numAlignments}
 \alias{numAlignments}
-\title{numAlignments}
+\title{Add/update column to blast table listing # of alignments per query sequence.}
 \usage{
 numAlignments(input)
 }

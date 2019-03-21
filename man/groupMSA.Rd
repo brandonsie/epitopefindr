@@ -2,7 +2,7 @@
 % Please edit documentation in R/groupMSA.R
 \name{groupMSA}
 \alias{groupMSA}
-\title{groupMSA}
+\title{Generate pdf multiple sequence alignment logos for identified aligning groups.}
 \usage{
 groupMSA(groups, mpath = "intermediate_files/msa/", min.groupsize = 2,
   min.consensus.pos = 1, consensus.thresh = c(75, 50),

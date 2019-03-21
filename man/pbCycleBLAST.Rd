@@ -2,7 +2,7 @@
 % Please edit documentation in R/pbCycleBLAST.R
 \name{pbCycleBLAST}
 \alias{pbCycleBLAST}
-\title{pbCycleBLAST}
+\title{Initialize a txtProgressBar object with which to call cycleBLAST.}
 \usage{
 pbCycleBLAST(blast, fasta, aln.size, ncycles = "max")
 }

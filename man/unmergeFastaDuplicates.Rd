@@ -2,7 +2,9 @@
 % Please edit documentation in R/unmergeFastaDuplicates.R
 \name{unmergeFastaDuplicates}
 \alias{unmergeFastaDuplicates}
-\title{unmergeFastaDuplicates}
+\title{If a fasta entry has a concatenated name, e.g. from a previous call to
+mergeFastaDuplicates, then separate the concatenanted name and make
+a separate entry for each.}
 \usage{
 unmergeFastaDuplicates(input, sep = "__________")
 }

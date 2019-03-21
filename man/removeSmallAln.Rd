@@ -2,7 +2,8 @@
 % Please edit documentation in R/removeSmallAln.R
 \name{removeSmallAln}
 \alias{removeSmallAln}
-\title{removeSmallAln}
+\title{Delete rows in blast table for which the alignment is fewer than 7aa or
+other custom threshold.}
 \usage{
 removeSmallAln(blast, aln.size)
 }

@@ -2,7 +2,7 @@
 % Please edit documentation in R/queryBLASTaa.R
 \name{queryBLASTaa}
 \alias{queryBLASTaa}
-\title{queryBLASTaa}
+\title{BLAST query sequence against a database of sequences.}
 \usage{
 queryBLASTaa(query, db)
 }

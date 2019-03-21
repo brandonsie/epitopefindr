@@ -2,7 +2,7 @@
 % Please edit documentation in R/tidyBLAST.R
 \name{tidyBLAST}
 \alias{tidyBLAST}
-\title{tidyBLAST}
+\title{Call a series of functions to tidy raw BLAST alignment table for use.}
 \usage{
 tidyBLAST(blast, fasta, aln.size)
 }

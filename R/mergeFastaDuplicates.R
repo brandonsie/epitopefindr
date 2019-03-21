@@ -1,5 +1,3 @@
-#' mergeFastaDuplicates
-#'
 #' If two fasta entries have the same sequence, keep only one copy of the
 #' sequence but concatenante the name to be Name1__Name2; __ can be replaced
 #' with delimiter of choice.

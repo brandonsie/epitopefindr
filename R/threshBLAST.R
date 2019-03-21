@@ -1,5 +1,3 @@
-#' threshBLAST
-#'
 #' Subset initial BLAST alignbment table to only include alignments below a
 #' specified e-value threshold.
 #'

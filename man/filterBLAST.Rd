@@ -2,7 +2,8 @@
 % Please edit documentation in R/filterBLAST.R
 \name{filterBLAST}
 \alias{filterBLAST}
-\title{filterBLAST}
+\title{Remove singletons, sequneces with no non-self alignments,
+from BLAST alignment table.}
 \usage{
 filterBLAST(blast)
 }

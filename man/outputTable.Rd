@@ -2,7 +2,7 @@
 % Please edit documentation in R/outputTable.R
 \name{outputTable}
 \alias{outputTable}
-\title{outputTable}
+\title{Generates spreadsheet of reportable data on identified minimal alignments.}
 \usage{
 outputTable(blast, fasta.initial, groups, msacs, key_filename,
   summary_filename)

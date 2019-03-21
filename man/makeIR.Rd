@@ -2,7 +2,7 @@
 % Please edit documentation in R/makeIR.R
 \name{makeIR}
 \alias{makeIR}
-\title{makeIR}
+\title{Converts a two-column data frame to an IRanges object for overlap calculations.}
 \usage{
 makeIR(df)
 }
@@ -10,5 +10,5 @@ makeIR(df)
 \item{df}{Data frame to convert to IR object.}
 }
 \description{
-converts a two-column data frame to an IRanges object for overlap calculations.
+Converts a two-column data frame to an IRanges object for overlap calculations.
 }

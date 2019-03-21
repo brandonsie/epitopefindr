@@ -1,5 +1,3 @@
-#' writeFastaAA
-#'
 #' Takes data frame with $Seq and $ID or AAStringSet and writes fasta file
 #'
 #' @param input Data frame or AAStringSet to write to fasta file.

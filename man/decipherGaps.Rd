@@ -2,7 +2,7 @@
 % Please edit documentation in R/decipherGaps.R
 \name{decipherGaps}
 \alias{decipherGaps}
-\title{decipherGaps}
+\title{Split gapped BLAST alignments into smaller ungapped alignments.}
 \usage{
 decipherGaps(blast)
 }

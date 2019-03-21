@@ -1,5 +1,3 @@
-#' trimEpitopes
-#'
 #' Update BLAST table positions to reflect smaller intervals when a subinterval
 #' has been determined as the minimal overlap of alignments to a peptide.
 #'

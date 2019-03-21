@@ -1,5 +1,3 @@
-#' cycleBLAST
-#'
 #' Repeatedly call epitopeBLAST to iterate through all index peptides
 #' until all peptides are converted to trimmed epitopes.
 #'

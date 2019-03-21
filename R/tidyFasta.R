@@ -1,6 +1,4 @@
-#' tidyFasta
-#'
-#' remove filler sequences after "." stop codon and cterminal "*"
+#' Remove filler sequences after "." stop codon and cterminal "*"
 #'
 #' @param input Untidy fasta.
 #'

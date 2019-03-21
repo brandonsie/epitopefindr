@@ -2,7 +2,7 @@
 % Please edit documentation in R/renameBLAST.R
 \name{renameBLAST}
 \alias{renameBLAST}
-\title{renameBLAST}
+\title{Revert qID and sID columns of blast table back to original names based on naming map.}
 \usage{
 renameBLAST(blast, name.map)
 }

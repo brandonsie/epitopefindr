@@ -2,7 +2,7 @@
 % Please edit documentation in R/renameFasta.R
 \name{renameFasta}
 \alias{renameFasta}
-\title{renameFasta}
+\title{Revert peptide names of a fasta file back to original names based on naming map.}
 \usage{
 renameFasta(fasta, name.map)
 }

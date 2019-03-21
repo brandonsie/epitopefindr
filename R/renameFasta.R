@@ -1,5 +1,3 @@
-#' renameFasta
-#'
 #' Revert peptide names of a fasta file back to original names based on naming map.
 #'
 #' @param fasta Blast table of alignments.

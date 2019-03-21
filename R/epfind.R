@@ -1,6 +1,4 @@
-#' epfind
-#'
-#' New all-in-one function to call the major steps of epitopefindr.
+#' All-in-one function to call the major steps of epitopefindr.
 #'
 #' @param data Biostrings::AAStringset input sequences to search for epitopes, or path to corresponding .fasta file.
 #' @param output.dir Directory to which output files should be written.

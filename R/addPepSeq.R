@@ -1,5 +1,3 @@
-#' addPepSeq
-#'
 #' Add/update column in blast table listing peptide names.
 #'
 #' @param blast BLAST table to update with sequences.

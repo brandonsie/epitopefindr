@@ -1,5 +1,3 @@
-#' indexGroups
-#'
 #' Group trimmed sequences into aligning groups
 #'
 #' @param blast BLAST alignment table to process.

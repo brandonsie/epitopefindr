@@ -2,7 +2,7 @@
 % Please edit documentation in R/addPepSeq.R
 \name{addPepSeq}
 \alias{addPepSeq}
-\title{addPepSeq}
+\title{Add/update column in blast table listing peptide names.}
 \usage{
 addPepSeq(blast, fasta)
 }

@@ -1,5 +1,3 @@
-#' outputTable
-#'
 #' Generates spreadsheet of reportable data on identified minimal alignments.
 #'
 #' @param blast BLAST alignment table to report.

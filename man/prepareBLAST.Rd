@@ -2,7 +2,7 @@
 % Please edit documentation in R/prepareBLAST.R
 \name{prepareBLAST}
 \alias{prepareBLAST}
-\title{prepareBLAST}
+\title{Call series of functions to standardize BLAST table for computation.}
 \usage{
 prepareBLAST(blast, fasta, aln.size, tofilter = TRUE)
 }

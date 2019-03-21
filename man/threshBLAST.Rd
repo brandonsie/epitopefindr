@@ -2,7 +2,8 @@
 % Please edit documentation in R/threshBLAST.R
 \name{threshBLAST}
 \alias{threshBLAST}
-\title{threshBLAST}
+\title{Subset initial BLAST alignbment table to only include alignments below a
+specified e-value threshold.}
 \usage{
 threshBLAST(blast, e.thresh)
 }

@@ -1,5 +1,3 @@
-#' selfBLASTaa
-#'
 #' Run BLASTp on amino acid sequences against themselves.
 #'
 #' @param path Path to fasta file of amino acid sequences to BLAST.

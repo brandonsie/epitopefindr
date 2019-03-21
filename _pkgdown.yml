@@ -1,0 +1,71 @@
+title: epitopefindr
+
+template:
+  bootswatch: sandstone
+
+reference:
+  - title: Package Info
+    desc: epitopefindr package help file
+    contents:
+      - epitopefindr
+  - title: Main Function
+    desc: To execute a typical epitopefindr pipeline
+    contents:
+      - epfind
+  - title: Sub Functions
+    desc: Execute smaller steps of epfind
+    contents:
+      - pbCycleBLAST
+      - cycleBLAST
+      - epitopeBLAST
+      - indexEpitopes
+      - trimEpitopes
+      - indexGroups
+      - groupMSA
+  - title: Helper Functions
+    desc: Smaller functions to perform simple operations
+    contents:
+      - addPepSeq
+      - chooseIndex
+      - decipherGaps
+      - epitopefindrEnv
+      - epPB
+      - filterBLAST
+      - isOverlapping
+      - makeIR
+      - mergeFastaDuplicates
+      - numAlignments
+      - organizeBLAST
+      - outputTable
+      - prepareBLAST
+      - qsSwap
+      - queryBLASTaa
+      - removeSmallAln
+      - renameBLAST
+      - renameFasta
+      - selfBLASTaa
+      - threshBLAST
+      - tidyBLAST
+      - tidyFasta
+      - unmergeFastaDuplicates
+      - writeFastaAA
+  - title: Data
+    desc: Example datasets
+    contents:
+      - pairwise_viral_hits
+
+# Not included:
+
+
+
+
+
+
+
+
+
+
+
+
+
+

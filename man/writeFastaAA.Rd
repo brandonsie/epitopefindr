@@ -2,7 +2,7 @@
 % Please edit documentation in R/writeFastaAA.R
 \name{writeFastaAA}
 \alias{writeFastaAA}
-\title{writeFastaAA}
+\title{Takes data frame with $Seq and $ID or AAStringSet and writes fasta file}
 \usage{
 writeFastaAA(input, fpath)
 }

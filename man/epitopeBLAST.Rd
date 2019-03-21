@@ -2,7 +2,8 @@
 % Please edit documentation in R/epitopeBLAST.R
 \name{epitopeBLAST}
 \alias{epitopeBLAST}
-\title{epitopeBLAST}
+\title{Identifies next index peptide, calls indexEpitopes to parse alignments to
+that index peptide, and updates BLAST table accordingly.}
 \usage{
 epitopeBLAST(data, aln.size)
 }

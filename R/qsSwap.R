@@ -1,5 +1,3 @@
-#' qsSwap
-#'
 #' Swap query and subject data from a BLAST table.
 #'
 #' @param blast.in Input blast table to be swapped.

@@ -2,7 +2,9 @@
 % Please edit documentation in R/indexEpitopes.R
 \name{indexEpitopes}
 \alias{indexEpitopes}
-\title{indexEpitopes}
+\title{For a specified index peptide, identify the maximal intervals that represent
+the consensus overlap of reported BLAST alignments to that peptide. Update
+the BLAST table accordingly.}
 \usage{
 indexEpitopes(blast, index, aln.size)
 }

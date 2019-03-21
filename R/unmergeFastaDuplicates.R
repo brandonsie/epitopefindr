@@ -1,5 +1,3 @@
-#' unmergeFastaDuplicates
-#'
 #' If a fasta entry has a concatenated name, e.g. from a previous call to
 #' mergeFastaDuplicates, then separate the concatenanted name and make
 #' a separate entry for each.

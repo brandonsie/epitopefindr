@@ -1,5 +1,3 @@
-#' epitopeBLAST
-#'
 #' Identifies next index peptide, calls indexEpitopes to parse alignments to
 #' that index peptide, and updates BLAST table accordingly.
 #'

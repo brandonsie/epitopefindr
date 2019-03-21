@@ -1,5 +1,3 @@
-#' filterBLAST
-#'
 #' Remove singletons, sequneces with no non-self alignments,
 #' from BLAST alignment table.
 #'

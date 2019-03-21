@@ -1,5 +1,3 @@
-#' queryBLASTaa
-#'
 #' BLAST query sequence against a database of sequences.
 #'
 #' @param query Path to fasta file of query sequence.

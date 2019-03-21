@@ -2,7 +2,8 @@
 % Please edit documentation in R/cycleBLAST.R
 \name{cycleBLAST}
 \alias{cycleBLAST}
-\title{cycleBLAST}
+\title{Repeatedly call epitopeBLAST to iterate through all index peptides
+until all peptides are converted to trimmed epitopes.}
 \usage{
 cycleBLAST(data, pb, n, aln.size, verbose = FALSE)
 }

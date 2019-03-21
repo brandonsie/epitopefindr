@@ -2,7 +2,7 @@
 % Please edit documentation in R/tidyFasta.R
 \name{tidyFasta}
 \alias{tidyFasta}
-\title{tidyFasta}
+\title{Remove filler sequences after "." stop codon and cterminal "*"}
 \usage{
 tidyFasta(input)
 }
@@ -10,5 +10,5 @@ tidyFasta(input)
 \item{input}{Untidy fasta.}
 }
 \description{
-remove filler sequences after "." stop codon and cterminal "*"
+Remove filler sequences after "." stop codon and cterminal "*"
 }

@@ -2,7 +2,7 @@
 % Please edit documentation in R/selfBLASTaa.R
 \name{selfBLASTaa}
 \alias{selfBLASTaa}
-\title{selfBLASTaa}
+\title{Run BLASTp on amino acid sequences against themselves.}
 \usage{
 selfBLASTaa(path)
 }

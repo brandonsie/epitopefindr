@@ -118,8 +118,91 @@
     <tbody>
       <tr>
         <th colspan="2">
-          <h2 id="section-all-functions" class="hasAnchor"><a href="#section-all-functions" class="anchor"></a>All functions</h2>
-          <p class="section-desc"></p>
+          <h2 id="section-package-info" class="hasAnchor"><a href="#section-package-info" class="anchor"></a>Package Info</h2>
+          <p class="section-desc"><p>epitopefindr package help file</p></p>
+        </th>
+      </tr>
+      <tr>
+        
+        <td>
+          <p><code><a href="epitopefindr.html">epitopefindr</a></code> </p>
+        </td>
+        <td><p>epitopefindr: a package for identifying minimal overlaps from BLAST alignments.</p></td>
+      </tr>
+    </tbody><tbody>
+      <tr>
+        <th colspan="2">
+          <h2 id="section-main-function" class="hasAnchor"><a href="#section-main-function" class="anchor"></a>Main Function</h2>
+          <p class="section-desc"><p>To execute a typical epitopefindr pipeline</p></p>
+        </th>
+      </tr>
+      <tr>
+        
+        <td>
+          <p><code><a href="epfind.html">epfind()</a></code> <code><a href="epfind.html">epFind2()</a></code> </p>
+        </td>
+        <td><p>All-in-one function to call the major steps of epitopefindr.</p></td>
+      </tr>
+    </tbody><tbody>
+      <tr>
+        <th colspan="2">
+          <h2 id="section-sub-functions" class="hasAnchor"><a href="#section-sub-functions" class="anchor"></a>Sub Functions</h2>
+          <p class="section-desc"><p>Execute smaller steps of epfind</p></p>
+        </th>
+      </tr>
+      <tr>
+        
+        <td>
+          <p><code><a href="pbCycleBLAST.html">pbCycleBLAST()</a></code> </p>
+        </td>
+        <td><p>Initialize a txtProgressBar object with which to call cycleBLAST.</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="cycleBLAST.html">cycleBLAST()</a></code> </p>
+        </td>
+        <td><p>Repeatedly call epitopeBLAST to iterate through all index peptides
+until all peptides are converted to trimmed epitopes.</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="epitopeBLAST.html">epitopeBLAST()</a></code> </p>
+        </td>
+        <td><p>Identifies next index peptide, calls indexEpitopes to parse alignments to
+that index peptide, and updates BLAST table accordingly.</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="indexEpitopes.html">indexEpitopes()</a></code> </p>
+        </td>
+        <td><p>For a specified index peptide, identify the maximal intervals that represent
+the consensus overlap of reported BLAST alignments to that peptide. Update
+the BLAST table accordingly.</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="trimEpitopes.html">trimEpitopes()</a></code> </p>
+        </td>
+        <td><p>Update BLAST table positions to reflect smaller intervals when a subinterval
+has been determined as the minimal overlap of alignments to a peptide.</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="indexGroups.html">indexGroups()</a></code> </p>
+        </td>
+        <td><p>Group trimmed sequences into aligning groups</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="groupMSA.html">groupMSA()</a></code> </p>
+        </td>
+        <td><p>Generate pdf multiple sequence alignment logos for identified aligning groups.</p></td>
+      </tr>
+    </tbody><tbody>
+      <tr>
+        <th colspan="2">
+          <h2 id="section-helper-functions" class="hasAnchor"><a href="#section-helper-functions" class="anchor"></a>Helper Functions</h2>
+          <p class="section-desc"><p>Smaller functions to perform simple operations</p></p>
         </th>
       </tr>
       <tr>
@@ -127,49 +210,20 @@
         <td>
           <p><code><a href="addPepSeq.html">addPepSeq()</a></code> </p>
         </td>
-        <td><p>addPepSeq</p></td>
+        <td><p>Add/update column in blast table listing peptide names.</p></td>
       </tr><tr>
         
         <td>
           <p><code><a href="chooseIndex.html">chooseIndex()</a></code> </p>
         </td>
-        <td><p>chooseIndex</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="cycleBLAST.html">cycleBLAST()</a></code> </p>
-        </td>
-        <td><p>cycleBLAST</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="dbCleanup.html">dbCleanup()</a></code> </p>
-        </td>
-        <td><p>dbCleanup</p></td>
+        <td><p>Identifies which of a set of remaining peptides from a blast
+alignment table should serve as the next index peptide.</p></td>
       </tr><tr>
         
         <td>
           <p><code><a href="decipherGaps.html">decipherGaps()</a></code> </p>
         </td>
-        <td><p>decipherGaps</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="epfind.html">epfind()</a></code> <code><a href="epfind.html">epFind2()</a></code> </p>
-        </td>
-        <td><p>epfind</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="epitopeBLAST.html">epitopeBLAST()</a></code> </p>
-        </td>
-        <td><p>epitopeBLAST</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="epitopefindr.html">epitopefindr</a></code> </p>
-        </td>
-        <td><p>epitopefindr: a package for identifying minimal overlaps from BLAST alignments.</p></td>
+        <td><p>Split gapped BLAST alignments into smaller ungapped alignments.</p></td>
       </tr><tr>
         
         <td>
@@ -182,211 +236,145 @@ Set stringsAsFactors FALSE for epitopefindr</p></td>
         <td>
           <p><code><a href="epPB.html">epPB()</a></code> </p>
         </td>
-        <td><p>epPB</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="epSetupBLAST.html">epSetupBLAST()</a></code> </p>
-        </td>
-        <td><p>epSetupBLAST</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="epSetupDirectory.html">epSetupDirectory()</a></code> </p>
-        </td>
-        <td><p>epSetupDirectory</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="epSetupPeptides.html">epSetupPeptides()</a></code> </p>
-        </td>
-        <td><p>epSetupPeptides</p></td>
+        <td><p>Epitope progress bar, epPB calls utils::txtProgressBar with some
+standardized parameters to reduce redundancy.</p></td>
       </tr><tr>
         
         <td>
           <p><code><a href="filterBLAST.html">filterBLAST()</a></code> </p>
         </td>
-        <td><p>filterBLAST</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="glAssign.html">glAssign()</a></code> </p>
-        </td>
-        <td><p>glAssign</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="glGet.html">glGet()</a></code> </p>
-        </td>
-        <td><p>glGet</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="glParamAssign.html">glParamAssign()</a></code> </p>
-        </td>
-        <td><p>glParamAssign</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="glParamGet.html">glParamGet()</a></code> </p>
-        </td>
-        <td><p>glParamGet</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="groupMSA.html">groupMSA()</a></code> </p>
-        </td>
-        <td><p>groupMSA</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="indexEpitopes.html">indexEpitopes()</a></code> </p>
-        </td>
-        <td><p>indexEpitopes</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="indexGroups.html">indexGroups()</a></code> </p>
-        </td>
-        <td><p>indexGroups</p></td>
+        <td><p>Remove singletons, sequneces with no non-self alignments,
+from BLAST alignment table.</p></td>
       </tr><tr>
         
         <td>
           <p><code><a href="isOverlapping.html">isOverlapping()</a></code> </p>
         </td>
-        <td><p>isOverlapping</p></td>
+        <td><p>Checks whether the stard/end pos in pattern overlaps with the
+start/end pos of each row in table by at least almin and
+returns positions in table that overlap.</p></td>
       </tr><tr>
         
         <td>
           <p><code><a href="makeIR.html">makeIR()</a></code> </p>
         </td>
-        <td><p>makeIR</p></td>
+        <td><p>Converts a two-column data frame to an IRanges object for overlap calculations.</p></td>
       </tr><tr>
         
         <td>
           <p><code><a href="mergeFastaDuplicates.html">mergeFastaDuplicates()</a></code> </p>
         </td>
-        <td><p>mergeFastaDuplicates</p></td>
+        <td><p>If two fasta entries have the same sequence, keep only one copy of the
+sequence but concatenante the name to be Name1__Name2; __ can be replaced
+with delimiter of choice.</p></td>
       </tr><tr>
         
         <td>
           <p><code><a href="numAlignments.html">numAlignments()</a></code> </p>
         </td>
-        <td><p>numAlignments</p></td>
+        <td><p>Add/update column to blast table listing # of alignments per query sequence.</p></td>
       </tr><tr>
         
         <td>
           <p><code><a href="organizeBLAST.html">organizeBLAST()</a></code> </p>
         </td>
-        <td><p>organizeBLAST</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="outputFiles.html">outputFiles()</a></code> </p>
-        </td>
-        <td><p>outputFiles</p></td>
+        <td><p>Rename unwieldy columns from rBLAST output table.</p></td>
       </tr><tr>
         
         <td>
           <p><code><a href="outputTable.html">outputTable()</a></code> </p>
         </td>
-        <td><p>outputTable</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="pairwise_viral_hits.html">pairwise_viral_hits</a></code> </p>
-        </td>
-        <td><p>Virscan hits from AVARDA patient 1</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="pbCycleBLAST.html">pbCycleBLAST()</a></code> </p>
-        </td>
-        <td><p>pbCycleBLAST</p></td>
+        <td><p>Generates spreadsheet of reportable data on identified minimal alignments.</p></td>
       </tr><tr>
         
         <td>
           <p><code><a href="prepareBLAST.html">prepareBLAST()</a></code> </p>
         </td>
-        <td><p>prepareBLAST</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="printSignpost.html">printSignpost()</a></code> </p>
-        </td>
-        <td><p>printSignpost</p></td>
+        <td><p>Call series of functions to standardize BLAST table for computation.</p></td>
       </tr><tr>
         
         <td>
           <p><code><a href="qsSwap.html">qsSwap()</a></code> </p>
         </td>
-        <td><p>qsSwap</p></td>
+        <td><p>Swap query and subject data from a BLAST table.</p></td>
       </tr><tr>
         
         <td>
           <p><code><a href="queryBLASTaa.html">queryBLASTaa()</a></code> </p>
         </td>
-        <td><p>queryBLASTaa</p></td>
+        <td><p>BLAST query sequence against a database of sequences.</p></td>
       </tr><tr>
         
         <td>
           <p><code><a href="removeSmallAln.html">removeSmallAln()</a></code> </p>
         </td>
-        <td><p>removeSmallAln</p></td>
+        <td><p>Delete rows in blast table for which the alignment is fewer than 7aa or
+other custom threshold.</p></td>
       </tr><tr>
         
         <td>
           <p><code><a href="renameBLAST.html">renameBLAST()</a></code> </p>
         </td>
-        <td><p>renameBLAST</p></td>
+        <td><p>Revert qID and sID columns of blast table back to original names based on naming map.</p></td>
       </tr><tr>
         
         <td>
           <p><code><a href="renameFasta.html">renameFasta()</a></code> </p>
         </td>
-        <td><p>renameFasta</p></td>
+        <td><p>Revert peptide names of a fasta file back to original names based on naming map.</p></td>
       </tr><tr>
         
         <td>
           <p><code><a href="selfBLASTaa.html">selfBLASTaa()</a></code> </p>
         </td>
-        <td><p>selfBLASTaa</p></td>
+        <td><p>Run BLASTp on amino acid sequences against themselves.</p></td>
       </tr><tr>
         
         <td>
           <p><code><a href="threshBLAST.html">threshBLAST()</a></code> </p>
         </td>
-        <td><p>threshBLAST</p></td>
+        <td><p>Subset initial BLAST alignbment table to only include alignments below a
+specified e-value threshold.</p></td>
       </tr><tr>
         
         <td>
           <p><code><a href="tidyBLAST.html">tidyBLAST()</a></code> </p>
         </td>
-        <td><p>tidyBLAST</p></td>
+        <td><p>Call a series of functions to tidy raw BLAST alignment table for use.</p></td>
       </tr><tr>
         
         <td>
           <p><code><a href="tidyFasta.html">tidyFasta()</a></code> </p>
         </td>
-        <td><p>tidyFasta</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="trimEpitopes.html">trimEpitopes()</a></code> </p>
-        </td>
-        <td><p>trimEpitopes</p></td>
+        <td><p>Remove filler sequences after "." stop codon and cterminal "*"</p></td>
       </tr><tr>
         
         <td>
           <p><code><a href="unmergeFastaDuplicates.html">unmergeFastaDuplicates()</a></code> </p>
         </td>
-        <td><p>unmergeFastaDuplicates</p></td>
+        <td><p>If a fasta entry has a concatenated name, e.g. from a previous call to
+mergeFastaDuplicates, then separate the concatenanted name and make
+a separate entry for each.</p></td>
       </tr><tr>
         
         <td>
           <p><code><a href="writeFastaAA.html">writeFastaAA()</a></code> </p>
         </td>
-        <td><p>writeFastaAA</p></td>
+        <td><p>Takes data frame with $Seq and $ID or AAStringSet and writes fasta file</p></td>
+      </tr>
+    </tbody><tbody>
+      <tr>
+        <th colspan="2">
+          <h2 id="section-data" class="hasAnchor"><a href="#section-data" class="anchor"></a>Data</h2>
+          <p class="section-desc"><p>Example datasets</p></p>
+        </th>
+      </tr>
+      <tr>
+        
+        <td>
+          <p><code><a href="pairwise_viral_hits.html">pairwise_viral_hits</a></code> </p>
+        </td>
+        <td><p>Virscan hits from AVARDA patient 1</p></td>
       </tr>
     </tbody>
     </table>
@@ -395,7 +383,11 @@ Set stringsAsFactors FALSE for epitopefindr</p></td>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
-      <li><a href="#section-all-functions">All functions</a></li>
+      <li><a href="#section-package-info">Package Info</a></li>
+      <li><a href="#section-main-function">Main Function</a></li>
+      <li><a href="#section-sub-functions">Sub Functions</a></li>
+      <li><a href="#section-helper-functions">Helper Functions</a></li>
+      <li><a href="#section-data">Data</a></li>
     </ul>
   </div>
 </div>

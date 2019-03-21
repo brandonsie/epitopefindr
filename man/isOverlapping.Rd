@@ -2,7 +2,9 @@
 % Please edit documentation in R/isOverlapping.R
 \name{isOverlapping}
 \alias{isOverlapping}
-\title{isOverlapping}
+\title{Checks whether the stard/end pos in pattern overlaps with the
+start/end pos of each row in table by at least almin and
+returns positions in table that overlap.}
 \usage{
 isOverlapping(pattern, table, aln.size = 7)
 }

@@ -2,7 +2,7 @@
 % Please edit documentation in R/indexGroups.R
 \name{indexGroups}
 \alias{indexGroups}
-\title{indexGroups}
+\title{Group trimmed sequences into aligning groups}
 \usage{
 indexGroups(blast, fasta, mode = "any", aln.size)
 }

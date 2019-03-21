@@ -1,6 +1,4 @@
-#' makeIR
-#'
-#' converts a two-column data frame to an IRanges object for overlap calculations.
+#' Converts a two-column data frame to an IRanges object for overlap calculations.
 #'
 #' @param df Data frame to convert to IR object.
 

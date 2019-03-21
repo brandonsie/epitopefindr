@@ -2,7 +2,7 @@
 % Please edit documentation in R/organizeBLAST.R
 \name{organizeBLAST}
 \alias{organizeBLAST}
-\title{organizeBLAST}
+\title{Rename unwieldy columns from rBLAST output table.}
 \usage{
 organizeBLAST(input)
 }

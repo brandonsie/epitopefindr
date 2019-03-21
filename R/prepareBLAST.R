@@ -1,5 +1,3 @@
-#' prepareBLAST
-#'
 #' Call series of functions to standardize BLAST table for computation.
 #'
 #' @param blast Input tidied BLAST table.

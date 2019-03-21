@@ -1,5 +1,3 @@
-#' isOverlapping
-#'
 #' Checks whether the stard/end pos in pattern overlaps with the
 #' start/end pos of each row in table by at least almin and
 #' returns positions in table that overlap.

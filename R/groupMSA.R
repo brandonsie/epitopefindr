@@ -1,5 +1,3 @@
-#' groupMSA
-#'
 #' Generate pdf multiple sequence alignment logos for identified aligning groups.
 #'
 #' @param groups Table of final peptides and pre-calculated groupings.

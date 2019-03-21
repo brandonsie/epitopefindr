@@ -1,5 +1,3 @@
-#' chooseIndex
-#'
 #' Identifies which of a set of remaining peptides from a blast
 #' alignment table should serve as the next index peptide.
 #'

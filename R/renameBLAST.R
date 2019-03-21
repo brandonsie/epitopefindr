@@ -1,5 +1,3 @@
-#' renameBLAST
-#'
 #' Revert qID and sID columns of blast table back to original names based on naming map.
 #'
 #' @param blast Blast table of alignments.

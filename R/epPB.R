@@ -1,6 +1,4 @@
-#' epPB
-#'
-#' Short for epitope progress bar, epPB calls utils::txtProgressBar with some
+#' Epitope progress bar, epPB calls utils::txtProgressBar with some
 #' standardized parameters to reduce redundancy.
 #'
 #' @param min txtProgressBar minimum value

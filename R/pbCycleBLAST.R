@@ -1,5 +1,3 @@
-#' pbCycleBLAST
-#'
 #' Initialize a txtProgressBar object with which to call cycleBLAST.
 #'
 #' @param blast BLAST alignment table to process.

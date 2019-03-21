@@ -1,5 +1,3 @@
-#' tidyBLAST
-#'
 #' Call a series of functions to tidy raw BLAST alignment table for use.
 #'
 #' @param blast Initial BLAST table to tidy.
