@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>groupMSA — groupMSA • epitopefindr</title>
+<title>epfind — epfind • epitopefindr</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -31,9 +31,9 @@
 
 
 
-<meta property="og:title" content="groupMSA — groupMSA" />
+<meta property="og:title" content="epfind — epfind" />
 
-<meta property="og:description" content="Generate pdf multiple sequence alignment logos for identified aligning groups." />
+<meta property="og:description" content="New all-in-one function to call the major steps of epitopefindr." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -107,32 +107,55 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>groupMSA</h1>
+    <h1>epfind</h1>
     
-    <div class="hidden name"><code>groupMSA.Rd</code></div>
+    <div class="hidden name"><code>epfind.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>Generate pdf multiple sequence alignment logos for identified aligning groups.</p>
+    <p>New all-in-one function to call the major steps of epitopefindr.</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>groupMSA</span>(<span class='no'>groups</span>, <span class='kw'>mpath</span> <span class='kw'>=</span> <span class='st'>"intermediate_files/msa/"</span>, <span class='kw'>min.groupsize</span> <span class='kw'>=</span> <span class='fl'>2</span>,
+    <pre class="usage"><span class='fu'>epfind</span>(<span class='kw'>data</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>output.dir</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>e.thresh</span> <span class='kw'>=</span> <span class='fl'>0.01</span>,
+  <span class='kw'>g.method</span> <span class='kw'>=</span> <span class='st'>"any"</span>, <span class='kw'>aln.size</span> <span class='kw'>=</span> <span class='fl'>7</span>, <span class='kw'>min.groupsize</span> <span class='kw'>=</span> <span class='fl'>2</span>,
   <span class='kw'>min.consensus.pos</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>consensus.thresh</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>75</span>, <span class='fl'>50</span>),
-  <span class='kw'>pdflatex</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>pdftk</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>trim.groups</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>make.png</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
+  <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>pdflatex</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>pdftk</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>name.msa</span> <span class='kw'>=</span> <span class='st'>"msa.pdf"</span>, <span class='kw'>name.alignments</span> <span class='kw'>=</span> <span class='st'>"finalAlignments.csv"</span>,
+  <span class='kw'>name.epitopekey</span> <span class='kw'>=</span> <span class='st'>"epitopeKey.csv"</span>,
+  <span class='kw'>name.epitopesum</span> <span class='kw'>=</span> <span class='st'>"epitopeSummary.csv"</span>)
+
+<span class='fu'>epFind2</span>(<span class='kw'>data</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>output.dir</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>e.thresh</span> <span class='kw'>=</span> <span class='fl'>0.01</span>,
+  <span class='kw'>g.method</span> <span class='kw'>=</span> <span class='st'>"any"</span>, <span class='kw'>aln.size</span> <span class='kw'>=</span> <span class='fl'>7</span>, <span class='kw'>min.groupsize</span> <span class='kw'>=</span> <span class='fl'>2</span>,
+  <span class='kw'>min.consensus.pos</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>consensus.thresh</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>75</span>, <span class='fl'>50</span>),
+  <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>pdflatex</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>pdftk</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>name.msa</span> <span class='kw'>=</span> <span class='st'>"msa.pdf"</span>, <span class='kw'>name.alignments</span> <span class='kw'>=</span> <span class='st'>"finalAlignments.csv"</span>,
+  <span class='kw'>name.epitopekey</span> <span class='kw'>=</span> <span class='st'>"epitopeKey.csv"</span>,
+  <span class='kw'>name.epitopesum</span> <span class='kw'>=</span> <span class='st'>"epitopeSummary.csv"</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>groups</th>
-      <td><p>Table of final peptides and pre-calculated groupings.</p></td>
+      <th>data</th>
+      <td><p>Biostrings::AAStringset input sequences to search for epitopes, or path to corresponding .fasta file.</p></td>
     </tr>
     <tr>
-      <th>mpath</th>
-      <td><p>Directory to write sequence alignment files.</p></td>
+      <th>output.dir</th>
+      <td><p>Directory to which output files should be written.</p></td>
+    </tr>
+    <tr>
+      <th>e.thresh</th>
+      <td><p>Maximum e-value to consider from BLASTp alignments of 'data'.</p></td>
+    </tr>
+    <tr>
+      <th>g.method</th>
+      <td><p>Grouping method of alignments. Either 'any' or 'all'. See ?indexGroups</p></td>
+    </tr>
+    <tr>
+      <th>aln.size</th>
+      <td><p>Minimum length of alignment to consider from BLASTp alignments of 'data'.</p></td>
     </tr>
     <tr>
       <th>min.groupsize</th>
@@ -147,20 +170,32 @@
       <td><p>Two decreasing numeric values of upper and lower thresholds for sequence consensus.</p></td>
     </tr>
     <tr>
+      <th>verbose</th>
+      <td><p>Logical to print progress updates.</p></td>
+    </tr>
+    <tr>
       <th>pdflatex</th>
       <td><p>Logical whether or not to produce PDF LaTeX figures using pdflatex</p></td>
     </tr>
     <tr>
       <th>pdftk</th>
-      <td><p>Logical whether or not to use staplr and pdftk to merge individual msa pdfs.</p></td>
+      <td><p>Logical whether or not to merge msa pdfs using staplr and pdftk</p></td>
     </tr>
     <tr>
-      <th>trim.groups</th>
-      <td><p>Logical whether or not to apply msaTrim to edges of logos. Not implemented.</p></td>
+      <th>name.msa</th>
+      <td><p>Filename for output merged pdf of msa logos.</p></td>
     </tr>
     <tr>
-      <th>make.png</th>
-      <td><p>Depreciated. Locial whether or not to convert PDF output to PNG.</p></td>
+      <th>name.alignments</th>
+      <td><p>Filename for output spreadsheet of peptide alignments.</p></td>
+    </tr>
+    <tr>
+      <th>name.epitopekey</th>
+      <td><p>Filename for output spreadhseet of epitopes per peptide.</p></td>
+    </tr>
+    <tr>
+      <th>name.epitopesum</th>
+      <td><p>Filename for output summary sheet of epitopes.</p></td>
     </tr>
     </table>
     
