@@ -1,7 +1,8 @@
 title: epitopefindr
 
 template:
-  bootswatch: sandstone
+  params:
+    bootswatch: sandstone
 
 reference:
   - title: Package Info
