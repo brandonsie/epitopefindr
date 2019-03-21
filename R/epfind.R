@@ -1,4 +1,4 @@
-#' epFind2
+#' epfind
 #'
 #' New all-in-one function to call the major steps of epitopefindr.
 #'
@@ -20,7 +20,7 @@
 #'
 #' @export
 
-epFind2 <- function(data = NULL, output.dir = NULL,
+epfind <- function(data = NULL, output.dir = NULL,
                     e.thresh = 0.01, g.method = "any", aln.size = 7,
                     min.groupsize = 2, min.consensus.pos = 1, consensus.thresh = c(75, 50),
                     verbose = TRUE, pdflatex = TRUE, pdftk = TRUE,
@@ -168,3 +168,7 @@ epFind2 <- function(data = NULL, output.dir = NULL,
 
 
 }
+
+#' @rdname epfind
+#' @export
+epFind2 <- epfind

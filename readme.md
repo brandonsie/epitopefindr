@@ -45,20 +45,20 @@ _(These are not essential to `epitopefindr`, but are used to generate alignment 
 ----------------------------------------------------------------------  
 # Guide
 
-1. Prepare a list of your peptides of interest using one of the following two methods. Either of these can be fed as the first input parameter to `epFind2`.  
+1. Prepare a list of your peptides of interest using one of the following two methods. Either of these can be fed as the first input parameter to `epfind`.  
     * Make a [FASTA file](https://zhanglab.ccmb.med.umich.edu/FASTA/) with peptide names and sequences.
     * Make an `AAStringSet` object of peptides (identifier + sequence) as described in the [Biostrings documentation](http://web.mit.edu/~r/current/arch/i386_linux26/lib/R/library/Biostrings/html/XStringSet-class.html). 
-2. To run a typical `epitopefindr` pipeline, try calling `epFind2`:
+2. To run a typical `epitopefindr` pipeline, try calling `epfind`:
 ``` r 
 # Basic call
-epFind2(<AAStringSet or path to .fasta file>, <path to directory to write output files>)
+epfind(<path to .fasta>, <path to output dir>)
 
 # Without pdflatex or pdftk
-epFind2(<AAStringSet or path to .fasta file>, <path to directory to write output files>, 
+epfind(<path to .fasta>, <path to output dir>, 
         pdflatex = FALSE, pdftk = FALSE)
 
 # More stringent e-value threshold
-epFind2(<AAStringSet or path to .fasta file>, <path to directory to write output files>, e.thresh = 0.0001)
+epfind(<path to .fasta>, <path to output dir>, e.thresh = 0.0001)
 ``` 
 
 A brief summary of the functions called by `epFind2`:  
