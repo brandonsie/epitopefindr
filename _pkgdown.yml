@@ -3,6 +3,7 @@ title: epitopefindr
 template:
   params:
     bootswatch: sandstone
+    ganalytics: UA-131446137-1
 
 reference:
   - title: Package Info
