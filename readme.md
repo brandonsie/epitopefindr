@@ -68,6 +68,6 @@ A brief summary of the functions called by `epFind2`:
   * `groupMSA` creates a multiple sequence alignment motif logo for each group
   * `outputTable` creates a spreadsheet summarizing identified sequences and epitope groups
   
-For more information, please vitis:
-* [epitopefindr's pkgdown website](https://brandonsie.github.io/epitopefindr/)
-* [vignette: epitopefindr Application: Viral Peptides](https://brandonsie.github.io/epitopefindr/articles/epitopefindr_avarda_vignette.html)
+## For more information, please visit:  
+* [epitopefindr's pkgdown website](https://brandonsie.github.io/epitopefindr/)  
+* [vignette: epitopefindr Application: Viral Peptides](https://brandonsie.github.io/epitopefindr/articles/epitopefindr_avarda_vignette.html)  
