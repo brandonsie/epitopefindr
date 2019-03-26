@@ -1,4 +1,5 @@
-# epitopefindr <img src="https://brandonsie.github.io/docs/HexStickers_epitopefindr_2.png" alt="hexlogo" align="right" width="240" height = "278" style = "border: none; float: right;">
+# epitopefindr <img src="https://brandonsie.github.io/docs/HexStickers_epitopefindr_2.png" align="right" width="120">
+
 
 The purpose of this package is to describe the [BLAST](https://blast.ncbi.nlm.nih.gov/Blast.cgi) alignments among a set of peptide sequences by reporting the overlaps of each peptide's alignments to other peptides in the set. One can imagine inputting a list of peptides enriched by immunoprecipitation (e.g. by [PhIP-seq](https://www.nature.com/articles/s41596-018-0025-6)) to identify corresponding epitopes. 
 
