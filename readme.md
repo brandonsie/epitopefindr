@@ -1,6 +1,7 @@
 # epitopefindr <img src="https://brandonsie.github.io/docs/HexStickers_epitopefindr_3.png" align="right" width="120">
 
-![License](https://img.shields.io/badge/licence-GPL--3-blue.svg) 
+[![License](https://img.shields.io/badge/licence-GPL--3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0.en.html) 
+[![Lifecycle](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://www.tidyverse.org/lifecycle/) 
 ![Code Size](https://img.shields.io/github/languages/code-size/brandonsie/epitopefindr.svg) 
 ![Last Commit](https://img.shields.io/github/last-commit/brandonsie/epitopefinder.svg)
 
