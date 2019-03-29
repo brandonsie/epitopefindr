@@ -1,6 +1,6 @@
 # epitopefindr <img src="https://brandonsie.github.io/docs/HexStickers_epitopefindr_3.png" align="right" width="120">
 
-<img src="https://img.shields.io/github/license/brandonsie/epitopefinder.svg"> <img src="https://img.shields.io/github/last-commit/brandonsie/epitopefinder.svg"> 
+<img src="https://img.shields.io/github/license/brandonsie/epitopefinder.svg"> <img src="https://img.shields.io/github/languages/top/brandonsie/epitopefindr.svg"> <img src="https://img.shields.io/github/languages/code-size/brandonsie/epitopefindr.svg"> <img src="https://img.shields.io/github/commit-activity/m/brandonsie/epitopefinder.svg"> <img src="https://img.shields.io/github/last-commit/brandonsie/epitopefinder.svg"> 
 
 The purpose of this package is to describe the [BLAST](https://blast.ncbi.nlm.nih.gov/Blast.cgi) alignments among a set of peptide sequences by reporting the overlaps of each peptide's alignments to other peptides in the set. One can imagine inputting a list of peptides enriched by immunoprecipitation (e.g. by [PhIP-seq](https://www.nature.com/articles/s41596-018-0025-6)) to identify corresponding epitopes. 
 
