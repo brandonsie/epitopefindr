@@ -11,6 +11,7 @@
 #' @param verbose Logical to print progress updates.
 #' @param pdflatex Logical whether or not to produce PDF LaTeX figures using pdflatex
 #' @param pdftk Logical whether or not to merge msa pdfs using staplr and pdftk
+#' @param make.png Locial whether or not to convert PDF output to PNG.
 #' @param name.msa Filename for output merged pdf of msa logos.
 #' @param name.alignments Filename for output spreadsheet of peptide alignments.
 #' @param name.epitopekey Filename for output spreadhseet of epitopes per peptide.
@@ -21,7 +22,7 @@
 epfind <- function(data = NULL, output.dir = NULL,
                     e.thresh = 0.01, g.method = "any", aln.size = 7,
                     min.groupsize = 2, min.consensus.pos = 1, consensus.thresh = c(75, 50),
-                    verbose = TRUE, pdflatex = TRUE, pdftk = TRUE,
+                    verbose = TRUE, pdflatex = TRUE, pdftk = TRUE, make.png = FALSE,
                     name.msa = "msa.pdf",
                     name.alignments = "finalAlignments.csv",
                     name.epitopekey = "epitopeKey.csv",
@@ -149,7 +150,8 @@ epfind <- function(data = NULL, output.dir = NULL,
   m.path <- paste0(temp.dir, "msa/")
   if(!dir.exists(m.path)){dir.create(m.path)}
   g.path <- paste0(temp.dir, "groups.csv")
-  groupMSA(groups, m.path, min.groupsize, min.consensus.pos, consensus.thresh, pdflatex, pdftk)
+  groupMSA(groups, m.path, min.groupsize, min.consensus.pos,
+           consensus.thresh, pdflatex, pdftk, make.png = make.png)
 
   if(verbose){
     cat("\n", "[", format(Sys.time(), "%R:%S"), "]",

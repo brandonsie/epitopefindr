@@ -67,5 +67,6 @@ Imports:
     staplr
 Suggests: 
     knitr,
-    rmarkdown
+    rmarkdown,
+    pdftools
 VignetteBuilder: knitr

@@ -8,7 +8,7 @@
 epfind(data = NULL, output.dir = NULL, e.thresh = 0.01,
   g.method = "any", aln.size = 7, min.groupsize = 2,
   min.consensus.pos = 1, consensus.thresh = c(75, 50),
-  verbose = TRUE, pdflatex = TRUE, pdftk = TRUE,
+  verbose = TRUE, pdflatex = TRUE, pdftk = TRUE, make.png = FALSE,
   name.msa = "msa.pdf", name.alignments = "finalAlignments.csv",
   name.epitopekey = "epitopeKey.csv",
   name.epitopesum = "epitopeSummary.csv")
@@ -16,7 +16,7 @@ epfind(data = NULL, output.dir = NULL, e.thresh = 0.01,
 epFind2(data = NULL, output.dir = NULL, e.thresh = 0.01,
   g.method = "any", aln.size = 7, min.groupsize = 2,
   min.consensus.pos = 1, consensus.thresh = c(75, 50),
-  verbose = TRUE, pdflatex = TRUE, pdftk = TRUE,
+  verbose = TRUE, pdflatex = TRUE, pdftk = TRUE, make.png = FALSE,
   name.msa = "msa.pdf", name.alignments = "finalAlignments.csv",
   name.epitopekey = "epitopeKey.csv",
   name.epitopesum = "epitopeSummary.csv")
@@ -43,6 +43,8 @@ epFind2(data = NULL, output.dir = NULL, e.thresh = 0.01,
 \item{pdflatex}{Logical whether or not to produce PDF LaTeX figures using pdflatex}
 
 \item{pdftk}{Logical whether or not to merge msa pdfs using staplr and pdftk}
+
+\item{make.png}{Locial whether or not to convert PDF output to PNG.}
 
 \item{name.msa}{Filename for output merged pdf of msa logos.}
 

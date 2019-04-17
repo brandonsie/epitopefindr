@@ -26,7 +26,7 @@ groupMSA(groups, mpath = "intermediate_files/msa/", min.groupsize = 2,
 
 \item{trim.groups}{Logical whether or not to apply msaTrim to edges of logos. Not implemented.}
 
-\item{make.png}{Depreciated. Locial whether or not to convert PDF output to PNG.}
+\item{make.png}{Locial whether or not to convert PDF output to PNG.}
 }
 \description{
 Generate pdf multiple sequence alignment logos for identified aligning groups.

@@ -8,12 +8,13 @@
 #' @param pdflatex Logical whether or not to produce PDF LaTeX figures using pdflatex
 #' @param pdftk Logical whether or not to use staplr and pdftk to merge individual msa pdfs.
 #' @param trim.groups Logical whether or not to apply msaTrim to edges of logos. Not implemented.
-#' @param make.png Depreciated. Locial whether or not to convert PDF output to PNG.
+#' @param make.png Locial whether or not to convert PDF output to PNG.
 #'
 #' @export
 
 groupMSA <- function(groups, mpath = "intermediate_files/msa/",
-                     min.groupsize = 2, min.consensus.pos = 1, consensus.thresh = c(75, 50),
+                     min.groupsize = 2, min.consensus.pos = 1,
+                     consensus.thresh = c(75, 50),
                      pdflatex = TRUE, pdftk = TRUE,
                      trim.groups = FALSE, make.png = FALSE){
 
@@ -93,12 +94,12 @@ groupMSA <- function(groups, mpath = "intermediate_files/msa/",
         file.remove(tname)
 
 
-        # #optionally convert pdf to png
-        # if(make.png){
-        #   iname <- paste0(mpath,"msa-",i,"_1.png")
-        #   pdftools::pdf_convert(pname, format = "png", filenames = iname,
-        #                         dpi = 300,verbose=FALSE)
-        # }
+        #optionally convert pdf to png
+        if(make.png){
+          iname <- paste0(mpath, "msa-", pad.num, ".png")
+          pdftools::pdf_convert(pname, format = "png", filenames = iname,
+                                dpi = 300,verbose = FALSE)
+        }
 
 
         #cleanup working directory
