@@ -88,7 +88,7 @@ groupMSA <- function(groups, mpath = "intermediate_files/msa/",
       # calculate fig height (inch). top margin 0.75, each line 0.14. key ~1.0?
       msa.height <- 0.75 + 0.14*(length(group.vector) + 1) + 1.3
       if(dynamic.width){
-        msa.width <- 0.31 + (0.073 * (k + 10)) + (0.086 * nchar(group.consensus)) + 0.5
+        msa.width <- 0.31 + (0.073 * (k + 10)) + (0.086 * nchar(group.consensus)) + 1
       }
       if(msa.width < 6) msa.width <- 6 #fix to maintain legend with short epitopes
 
