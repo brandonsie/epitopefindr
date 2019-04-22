@@ -115,7 +115,7 @@ outputTable <- function(blast, fasta.initial, groups,
     dplyr::mutate(id_group = paste0(id, "_", group_number)) %>%
     stats::aggregate(position ~ id_group, data = ., FUN = function(x){
       paste(x, collapse = "_")}) %>%
-    dplyr::mutate(id = (id_group %>% gsub("_[0-9]+$","", .))) %>%
+    dplyr::mutate(id = (id_group %>% gsub("_[0-9]+$","", .) %>% gsub("_NA$","", .))) %>%
     dplyr::mutate(group_number = (
       stringr::str_extract(id_group, "[0-9]+$"))) %>%
     dplyr::select(id, position, group_number) %>%
