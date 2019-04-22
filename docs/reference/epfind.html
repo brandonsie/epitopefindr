@@ -74,7 +74,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">epitopefindr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.23</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.24</span>
       </span>
     </div>
 
@@ -139,7 +139,8 @@
     <pre class="usage"><span class='fu'>epfind</span>(<span class='kw'>data</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>output.dir</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>e.thresh</span> <span class='kw'>=</span> <span class='fl'>0.01</span>,
   <span class='kw'>g.method</span> <span class='kw'>=</span> <span class='st'>"any"</span>, <span class='kw'>aln.size</span> <span class='kw'>=</span> <span class='fl'>7</span>, <span class='kw'>min.groupsize</span> <span class='kw'>=</span> <span class='fl'>2</span>,
   <span class='kw'>min.consensus.pos</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>consensus.thresh</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>75</span>, <span class='fl'>50</span>),
-  <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>pdflatex</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>pdftk</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>peptide.nchar</span> <span class='kw'>=</span> <span class='fl'>50</span>, <span class='kw'>msa.width</span> <span class='kw'>=</span> <span class='st'>"dynamic"</span>, <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>pdflatex</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>pdftk</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>make.png</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
   <span class='kw'>name.msa</span> <span class='kw'>=</span> <span class='st'>"msa.pdf"</span>, <span class='kw'>name.alignments</span> <span class='kw'>=</span> <span class='st'>"finalAlignments.csv"</span>,
   <span class='kw'>name.epitopekey</span> <span class='kw'>=</span> <span class='st'>"epitopeKey.csv"</span>,
   <span class='kw'>name.epitopesum</span> <span class='kw'>=</span> <span class='st'>"epitopeSummary.csv"</span>)
@@ -147,7 +148,8 @@
 <span class='fu'>epFind2</span>(<span class='kw'>data</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>output.dir</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>e.thresh</span> <span class='kw'>=</span> <span class='fl'>0.01</span>,
   <span class='kw'>g.method</span> <span class='kw'>=</span> <span class='st'>"any"</span>, <span class='kw'>aln.size</span> <span class='kw'>=</span> <span class='fl'>7</span>, <span class='kw'>min.groupsize</span> <span class='kw'>=</span> <span class='fl'>2</span>,
   <span class='kw'>min.consensus.pos</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>consensus.thresh</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>75</span>, <span class='fl'>50</span>),
-  <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>pdflatex</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>pdftk</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>peptide.nchar</span> <span class='kw'>=</span> <span class='fl'>50</span>, <span class='kw'>msa.width</span> <span class='kw'>=</span> <span class='st'>"dynamic"</span>, <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>pdflatex</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>pdftk</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>make.png</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
   <span class='kw'>name.msa</span> <span class='kw'>=</span> <span class='st'>"msa.pdf"</span>, <span class='kw'>name.alignments</span> <span class='kw'>=</span> <span class='st'>"finalAlignments.csv"</span>,
   <span class='kw'>name.epitopekey</span> <span class='kw'>=</span> <span class='st'>"epitopeKey.csv"</span>,
   <span class='kw'>name.epitopesum</span> <span class='kw'>=</span> <span class='st'>"epitopeSummary.csv"</span>)</pre>
@@ -188,6 +190,14 @@
       <td><p>Two decreasing numeric values of upper and lower thresholds for sequence consensus.</p></td>
     </tr>
     <tr>
+      <th>peptide.nchar</th>
+      <td><p>Maximum of character from peptide name to use in msa output. Default 50. Starts from left.</p></td>
+    </tr>
+    <tr>
+      <th>msa.width</th>
+      <td><p>Controls whether or not MSA images have fixed or dynamic width. By default, msa.width is set to "dynamic", which causes the document dimentions of the resultant image to be calculated based on the lentht of the peptide name and the number of amino acids in the sequence alignment. If msa.width is instead set to a numeric, then an MSA will be printed with a fixed with that number of inches. With 50-character peptide.nchar and a maximum expected sequence alignment of 45 positions, an msa.width of 12 is more than sufficient.</p></td>
+    </tr>
+    <tr>
       <th>verbose</th>
       <td><p>Logical to print progress updates.</p></td>
     </tr>
@@ -198,6 +208,10 @@
     <tr>
       <th>pdftk</th>
       <td><p>Logical whether or not to merge msa pdfs using staplr and pdftk</p></td>
+    </tr>
+    <tr>
+      <th>make.png</th>
+      <td><p>Locial whether or not to convert PDF output to PNG.</p></td>
     </tr>
     <tr>
       <th>name.msa</th>

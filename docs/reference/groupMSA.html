@@ -74,7 +74,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">epitopefindr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.23</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.24</span>
       </span>
     </div>
 
@@ -138,8 +138,8 @@
 
     <pre class="usage"><span class='fu'>groupMSA</span>(<span class='no'>groups</span>, <span class='kw'>mpath</span> <span class='kw'>=</span> <span class='st'>"intermediate_files/msa/"</span>, <span class='kw'>min.groupsize</span> <span class='kw'>=</span> <span class='fl'>2</span>,
   <span class='kw'>min.consensus.pos</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>consensus.thresh</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>75</span>, <span class='fl'>50</span>),
-  <span class='kw'>pdflatex</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>pdftk</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>trim.groups</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>make.png</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
+  <span class='kw'>peptide.nchar</span> <span class='kw'>=</span> <span class='fl'>50</span>, <span class='kw'>msa.width</span> <span class='kw'>=</span> <span class='st'>"dynamic"</span>, <span class='kw'>pdflatex</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>pdftk</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>make.png</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -165,6 +165,14 @@
       <td><p>Two decreasing numeric values of upper and lower thresholds for sequence consensus.</p></td>
     </tr>
     <tr>
+      <th>peptide.nchar</th>
+      <td><p>Maximum of character from peptide name to use in msa output. Default 50. Starts from left.</p></td>
+    </tr>
+    <tr>
+      <th>msa.width</th>
+      <td><p>Controls whether or not MSA images have fixed or dynamic width. By default, msa.width is set to "dynamic", which causes the document dimentions of the resultant image to be calculated based on the lentht of the peptide name and the number of amino acids in the sequence alignment. If msa.width is instead set to a numeric, then an MSA will be printed with a fixed with that number of inches. With 50-character peptide.nchar and a maximum expected sequence alignment of 45 positions, an msa.width of 12 is more than sufficient.</p></td>
+    </tr>
+    <tr>
       <th>pdflatex</th>
       <td><p>Logical whether or not to produce PDF LaTeX figures using pdflatex</p></td>
     </tr>
@@ -173,12 +181,8 @@
       <td><p>Logical whether or not to use staplr and pdftk to merge individual msa pdfs.</p></td>
     </tr>
     <tr>
-      <th>trim.groups</th>
-      <td><p>Logical whether or not to apply msaTrim to edges of logos. Not implemented.</p></td>
-    </tr>
-    <tr>
       <th>make.png</th>
-      <td><p>Depreciated. Locial whether or not to convert PDF output to PNG.</p></td>
+      <td><p>Locial whether or not to convert PDF output to PNG.</p></td>
     </tr>
     </table>
     

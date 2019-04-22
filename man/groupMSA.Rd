@@ -6,8 +6,8 @@
 \usage{
 groupMSA(groups, mpath = "intermediate_files/msa/", min.groupsize = 2,
   min.consensus.pos = 1, consensus.thresh = c(75, 50),
-  pdflatex = TRUE, pdftk = TRUE, trim.groups = FALSE,
-  make.png = FALSE)
+  peptide.nchar = 50, msa.width = "dynamic", pdflatex = TRUE,
+  pdftk = TRUE, make.png = FALSE)
 }
 \arguments{
 \item{groups}{Table of final peptides and pre-calculated groupings.}
@@ -20,11 +20,13 @@ groupMSA(groups, mpath = "intermediate_files/msa/", min.groupsize = 2,
 
 \item{consensus.thresh}{Two decreasing numeric values of upper and lower thresholds for sequence consensus.}
 
+\item{peptide.nchar}{Maximum of character from peptide name to use in msa output. Default 50. Starts from left.}
+
+\item{msa.width}{Controls whether or not MSA images have fixed or dynamic width. By default, msa.width is set to "dynamic", which causes the document dimentions of the resultant image to be calculated based on the lentht of the peptide name and the number of amino acids in the sequence alignment. If msa.width is instead set to a numeric, then an MSA will be printed with a fixed with that number of inches. With 50-character peptide.nchar and a maximum expected sequence alignment of 45 positions, an msa.width of 12 is more than sufficient.}
+
 \item{pdflatex}{Logical whether or not to produce PDF LaTeX figures using pdflatex}
 
 \item{pdftk}{Logical whether or not to use staplr and pdftk to merge individual msa pdfs.}
-
-\item{trim.groups}{Logical whether or not to apply msaTrim to edges of logos. Not implemented.}
 
 \item{make.png}{Locial whether or not to convert PDF output to PNG.}
 }

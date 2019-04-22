@@ -8,7 +8,8 @@
 epfind(data = NULL, output.dir = NULL, e.thresh = 0.01,
   g.method = "any", aln.size = 7, min.groupsize = 2,
   min.consensus.pos = 1, consensus.thresh = c(75, 50),
-  verbose = TRUE, pdflatex = TRUE, pdftk = TRUE, make.png = FALSE,
+  peptide.nchar = 50, msa.width = "dynamic", verbose = TRUE,
+  pdflatex = TRUE, pdftk = TRUE, make.png = FALSE,
   name.msa = "msa.pdf", name.alignments = "finalAlignments.csv",
   name.epitopekey = "epitopeKey.csv",
   name.epitopesum = "epitopeSummary.csv")
@@ -16,7 +17,8 @@ epfind(data = NULL, output.dir = NULL, e.thresh = 0.01,
 epFind2(data = NULL, output.dir = NULL, e.thresh = 0.01,
   g.method = "any", aln.size = 7, min.groupsize = 2,
   min.consensus.pos = 1, consensus.thresh = c(75, 50),
-  verbose = TRUE, pdflatex = TRUE, pdftk = TRUE, make.png = FALSE,
+  peptide.nchar = 50, msa.width = "dynamic", verbose = TRUE,
+  pdflatex = TRUE, pdftk = TRUE, make.png = FALSE,
   name.msa = "msa.pdf", name.alignments = "finalAlignments.csv",
   name.epitopekey = "epitopeKey.csv",
   name.epitopesum = "epitopeSummary.csv")
@@ -37,6 +39,10 @@ epFind2(data = NULL, output.dir = NULL, e.thresh = 0.01,
 \item{min.consensus.pos}{Minimum number of amino acid consensus positions required in order to print a group.}
 
 \item{consensus.thresh}{Two decreasing numeric values of upper and lower thresholds for sequence consensus.}
+
+\item{peptide.nchar}{Maximum of character from peptide name to use in msa output. Default 50. Starts from left.}
+
+\item{msa.width}{Controls whether or not MSA images have fixed or dynamic width. By default, msa.width is set to "dynamic", which causes the document dimentions of the resultant image to be calculated based on the lentht of the peptide name and the number of amino acids in the sequence alignment. If msa.width is instead set to a numeric, then an MSA will be printed with a fixed with that number of inches. With 50-character peptide.nchar and a maximum expected sequence alignment of 45 positions, an msa.width of 12 is more than sufficient.}
 
 \item{verbose}{Logical to print progress updates.}
 

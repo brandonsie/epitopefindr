@@ -5,24 +5,32 @@
 #' @param min.groupsize Minimum number of peptides per group to require in order to print a group.
 #' @param min.consensus.pos Minimum number of amino acid consensus positions required in order to print a group.
 #' @param consensus.thresh Two decreasing numeric values of upper and lower thresholds for sequence consensus.
+#' @param peptide.nchar Maximum of character from peptide name to use in msa output. Default 50. Starts from left.
+#' @param msa.width Controls whether or not MSA images have fixed or dynamic width. By default, msa.width is set to "dynamic", which causes the document dimentions of the resultant image to be calculated based on the lentht of the peptide name and the number of amino acids in the sequence alignment. If msa.width is instead set to a numeric, then an MSA will be printed with a fixed with that number of inches. With 50-character peptide.nchar and a maximum expected sequence alignment of 45 positions, an msa.width of 12 is more than sufficient.
 #' @param pdflatex Logical whether or not to produce PDF LaTeX figures using pdflatex
 #' @param pdftk Logical whether or not to use staplr and pdftk to merge individual msa pdfs.
-#' @param trim.groups Logical whether or not to apply msaTrim to edges of logos. Not implemented.
 #' @param make.png Locial whether or not to convert PDF output to PNG.
 #'
 #' @export
 
 groupMSA <- function(groups, mpath = "intermediate_files/msa/",
                      min.groupsize = 2, min.consensus.pos = 1,
-                     consensus.thresh = c(75, 50),
+                     consensus.thresh = c(75, 50), peptide.nchar = 50,
+                     msa.width = "dynamic",
                      pdflatex = TRUE, pdftk = TRUE,
-                     trim.groups = FALSE, make.png = FALSE){
+                     make.png = FALSE){
 
 
   #setup output paths and directories
   cpath <- paste0(mpath,"consensusSequences.txt")
   if(!dir.exists(mpath)) {dir.create(mpath)}
   if(file.exists(cpath)) {file.remove(cpath)}
+  if(msa.width == "dynamic"){
+    dynamic.width <- TRUE
+  } else{
+    if(!is.numeric(msa.width)) stop("Error: non-numeric custom value provided to groupMSA 'msa.width'.")
+    dynamic.width <- FALSE
+  }
 
   #loop through each group
   num <- max(groups$Group)
@@ -39,7 +47,7 @@ groupMSA <- function(groups, mpath = "intermediate_files/msa/",
     group %<>% unmergeFastaDuplicates
 
     # == == == == == normalize peptide name length == == == == ==
-    k = 50 #characters from peptide name to use
+    k <- peptide.nchar #characters from peptide name to use
 
     #separate basenames and start/end positions
     basenames <- names(group) %>% gsub("\\.[0-9]+\\.[0-9]+$", "", .)
@@ -79,11 +87,16 @@ groupMSA <- function(groups, mpath = "intermediate_files/msa/",
 
       # calculate fig height (inch). top margin 0.75, each line 0.14. key ~1.0?
       msa.height <- 0.75 + 0.14*(length(group.vector) + 1) + 1.3
+      if(dynamic.width){
+        msa.width <- 0.31 + (0.073 * (k + 10)) + (0.086 * nchar(group.consensus)) + 0.5
+      }
+      if(msa.width < 6) msa.width <- 6 #fix to maintain legend with short epitopes
+
 
       #print msa logo
       msa::msaPrettyPrint(mg, output="tex", file = tname,
                      askForOverwrite=FALSE,
-                     paperWidth = 12, paperHeight = msa.height,
+                     paperWidth = msa.width, paperHeight = msa.height,
                      consensusThreshold = rev(consensus.thresh))
 
       #convert tex to pdf

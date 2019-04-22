@@ -8,6 +8,8 @@
 #' @param min.groupsize Minimum number of peptides per group to require in order to print a group.
 #' @param min.consensus.pos Minimum number of amino acid consensus positions required in order to print a group.
 #' @param consensus.thresh Two decreasing numeric values of upper and lower thresholds for sequence consensus.
+#' @param peptide.nchar Maximum of character from peptide name to use in msa output. Default 50. Starts from left.
+#' @param msa.width Controls whether or not MSA images have fixed or dynamic width. By default, msa.width is set to "dynamic", which causes the document dimentions of the resultant image to be calculated based on the lentht of the peptide name and the number of amino acids in the sequence alignment. If msa.width is instead set to a numeric, then an MSA will be printed with a fixed with that number of inches. With 50-character peptide.nchar and a maximum expected sequence alignment of 45 positions, an msa.width of 12 is more than sufficient.
 #' @param verbose Logical to print progress updates.
 #' @param pdflatex Logical whether or not to produce PDF LaTeX figures using pdflatex
 #' @param pdftk Logical whether or not to merge msa pdfs using staplr and pdftk
@@ -22,6 +24,7 @@
 epfind <- function(data = NULL, output.dir = NULL,
                     e.thresh = 0.01, g.method = "any", aln.size = 7,
                     min.groupsize = 2, min.consensus.pos = 1, consensus.thresh = c(75, 50),
+                   peptide.nchar = 50, msa.width = "dynamic",
                     verbose = TRUE, pdflatex = TRUE, pdftk = TRUE, make.png = FALSE,
                     name.msa = "msa.pdf",
                     name.alignments = "finalAlignments.csv",
@@ -151,7 +154,7 @@ epfind <- function(data = NULL, output.dir = NULL,
   if(!dir.exists(m.path)){dir.create(m.path)}
   g.path <- paste0(temp.dir, "groups.csv")
   groupMSA(groups, m.path, min.groupsize, min.consensus.pos,
-           consensus.thresh, pdflatex, pdftk, make.png = make.png)
+           consensus.thresh, peptide.nchar, msa.width, pdflatex, pdftk, make.png = make.png)
 
   if(verbose){
     cat("\n", "[", format(Sys.time(), "%R:%S"), "]",
