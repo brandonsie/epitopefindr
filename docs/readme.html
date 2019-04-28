@@ -108,7 +108,10 @@
   </a>
 </li>
 <li>
-  <a href="https://brandonsie.github.io/">brandonsie</a>
+  <a href="https://brandonsie.github.io/">
+    <span class="fa fa-github-alt"></span>
+     
+  </a>
 </li>
       </ul>
       
@@ -189,7 +192,7 @@
 <a class="sourceLine" id="cb2-7" title="7"></a>
 <a class="sourceLine" id="cb2-8" title="8"><span class="co"># More stringent e-value threshold</span></a>
 <a class="sourceLine" id="cb2-9" title="9"><span class="kw"><a href="reference/epfind.html">epfind</a></span>(<span class="op">&lt;</span>path to .fasta<span class="op">&gt;</span>, <span class="op">&lt;</span>path to output dir<span class="op">&gt;</span>, <span class="dt">e.thresh =</span> <span class="fl">0.0001</span>)</a></code></pre></div>
-<p>A brief summary of the functions called by <code>epFind2</code>:</p>
+<p>A brief summary of the functions called by <code>epfind</code>:</p>
 <ul>
 <li>
 <code>pbCycleBLAST</code> cycles through each input peptide to find the overlap of its alignment with other peptides from the input. Nested within a call to <code>pbCycleBLAST</code> are calls to <code>epitopeBLAST</code>, <code>indexEpitopes</code>.</li>

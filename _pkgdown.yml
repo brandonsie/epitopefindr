@@ -69,7 +69,7 @@ navbar:
   right:
     - icon: fa-github
       href: https://github.com/brandonsie/epitopefindr/
-    - text: brandonsie
+    - icon: fa-github-alt
       href: https://brandonsie.github.io/
 
 
