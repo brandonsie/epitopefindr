@@ -7,8 +7,8 @@ template:
     bootswatch: sandstone
     ganalytics: UA-131446137-1
     docsearch:
-      apiKey: c0f1e745bc83170b812c2f3ddbeb17c6
-      indexName: epitopefindr
+      api_key: c0f1e745bc83170b812c2f3ddbeb17c6
+      index_name: epitopefindr
 
 reference:
   - title: Package Info
