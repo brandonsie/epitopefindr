@@ -67,9 +67,11 @@ navbar:
         - text: 'epitopefindr Application: Viral Peptides'
           href: articles/epitopefindr_avarda_vignette.html
   right:
-    - icon: fa-github
-      href: https://github.com/brandonsie/epitopefindr/
-    - icon: fa-github-alt
-      href: https://brandonsie.github.io/
+    - text: Links
+      menu:
+      - text: Github Repo
+        href: https://github.com/brandonsie/epitopefindr/
+      - text: brandonsie.github.io
+        href: https://brandonsie.github.io/
 
 
