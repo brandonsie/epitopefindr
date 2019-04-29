@@ -1,9 +1,14 @@
 title: epitopefindr
 
+url: https://brandonsie.github.io/epitopefindr
+
 template:
   params:
     bootswatch: sandstone
     ganalytics: UA-131446137-1
+    docsearch:
+      apiKey: c0f1e745bc83170b812c2f3ddbeb17c6
+      indexName: epitopefindr
 
 reference:
   - title: Package Info

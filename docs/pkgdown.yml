@@ -3,4 +3,7 @@ pkgdown: 1.3.0.9000
 pkgdown_sha: 0b2c27d41b869ac31b6a46815940f55b12f6171f
 articles:
   epitopefindr_avarda_vignette: epitopefindr_avarda_vignette.html
+urls:
+  reference: https://brandonsie.github.io/epitopefindr/reference
+  article: https://brandonsie.github.io/epitopefindr/articles
 
