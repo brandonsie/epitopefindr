@@ -181,20 +181,20 @@
 <a class="sourceLine" id="cb1-5" title="5"></a>
 <a class="sourceLine" id="cb1-6" title="6"><span class="co"># Install Github packages</span></a>
 <a class="sourceLine" id="cb1-7" title="7"><span class="cf">if</span>(<span class="op">!</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/ns-load">requireNamespace</a></span>(<span class="st">"devtools"</span>)) <span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/install.packages">install.packages</a></span>(<span class="st">"devtools"</span>)</a>
-<a class="sourceLine" id="cb1-8" title="8">devtools<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/devtools/topics/reexports">install_github</a></span>(<span class="st">"mhahsler/rBLAST"</span>)  </a>
-<a class="sourceLine" id="cb1-9" title="9">devtools<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/devtools/topics/reexports">install_github</a></span>(<span class="st">"brandonsie/epitopefindr"</span>)</a>
-<a class="sourceLine" id="cb1-10" title="10"></a>
-<a class="sourceLine" id="cb1-11" title="11"><span class="co"># Load &amp; attach</span></a>
-<a class="sourceLine" id="cb1-12" title="12"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(epitopefindr)</a></code></pre></div>
+<a class="sourceLine" id="cb1-8" title="8">devtools<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/devtools/topics/reexports">install_github</a></span>(<span class="st">"mhahsler/rBLAST"</span>) </a>
+<a class="sourceLine" id="cb1-9" title="9">devtools<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/devtools/topics/reexports">install_github</a></span>(<span class="st">"brandonsie/pdfuniter"</span>)   </a>
+<a class="sourceLine" id="cb1-10" title="10">devtools<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/devtools/topics/reexports">install_github</a></span>(<span class="st">"brandonsie/epitopefindr"</span>)</a>
+<a class="sourceLine" id="cb1-11" title="11"></a>
+<a class="sourceLine" id="cb1-12" title="12"><span class="co"># Load &amp; attach</span></a>
+<a class="sourceLine" id="cb1-13" title="13"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(epitopefindr)</a></code></pre></div>
 <div id="optional-suggested-additional-setup-" class="section level2">
 <h2 class="hasAnchor">
 <a href="#optional-suggested-additional-setup-" class="anchor"></a>Optional (Suggested) Additional Setup :</h2>
 <p><em>(These are not essential to <code>epitopefindr</code>, but are used to generate alignment logo PDFs from the alignment data, which can be valuable visualizations.)</em></p>
 <ol>
-<li>Install a TeX distribution with <code>pdflatex</code>. (e.g. <a href="https://miktex.org">MiKTeX (version 2.9+)</a>). <em>(Optional; used to convert multiple sequence alignment TeX files to PDF.)</em><br>
+<li>Install a TeX distribution with <code>pdflatex</code>. (e.g. <a href="https://miktex.org">MiKTeX</a>, <a href="https://tug.org/texlive/">Tex Live</a>). <em>(Optional; used to convert multiple sequence alignment TeX files to PDF.)</em><br>
 </li>
-<li>Install <a href="https://www.pdflabs.com/tools/pdftk-server/">pdftk (version 2.02+)</a>. <em>(Optional; used to merge individual PDFs into a single file.)</em>
-</li>
+<li>Install <a href="https://www.pdflabs.com/tools/pdftk-server/">pdftk (version 2.02+)</a>. <em>(Optional; used to merge individual PDFs into a single file.)</em> If you are unable to install pdftk, but your system has the pdfunite command line utility, you can install the R package <a href="https://github.com/brandonsie/pdfuniter"><code>pdfuniter</code></a>, which performs a similar function. With <code>pdfuniter</code>, run <code>epfind</code> with <code>pdftk = FALSE, pdfunite = TRUE</code>.</li>
 </ol>
 <hr>
 </div>

@@ -24,7 +24,8 @@ BiocManager::install(c("Biostrings", "IRanges", "msa", "S4Vectors"))
 
 # Install Github packages
 if(!requireNamespace("devtools")) install.packages("devtools")
-devtools::install_github("mhahsler/rBLAST")  
+devtools::install_github("mhahsler/rBLAST") 
+devtools::install_github("brandonsie/pdfuniter")   
 devtools::install_github("brandonsie/epitopefindr")
 
 # Load & attach
@@ -35,8 +36,10 @@ library(epitopefindr)
 ## Optional (Suggested) Additional Setup : 
 _(These are not essential to `epitopefindr`, but are used to generate alignment logo PDFs from the alignment data, which can be valuable visualizations.)_  
 1. Install a TeX distribution with `pdflatex`. (e.g. [MiKTeX](https://miktex.org), [Tex Live](https://tug.org/texlive/)). _(Optional; used to convert multiple sequence alignment TeX files to PDF.)_  
-2. Install [pdftk (version 2.02+)](https://www.pdflabs.com/tools/pdftk-server/). _(Optional; used to merge individual PDFs into a single file.)_  
+2. Install [pdftk (version 2.02+)](https://www.pdflabs.com/tools/pdftk-server/). _(Optional; used to merge individual PDFs into a single file.)_ If you are unable to install pdftk, but your system has the pdfunite command line utility, you can install the R package [`pdfuniter`](https://github.com/brandonsie/pdfuniter), which performs a similar function. With `pdfuniter`, run `epfind` with `pdftk = FALSE, pdfunite = TRUE`.  
   
+
+
 ----------------------------------------------------------------------  
 # Guide
 
