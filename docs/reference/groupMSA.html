@@ -89,7 +89,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">epitopefindr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.24</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.25</span>
       </span>
     </div>
 
@@ -126,6 +126,9 @@
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="https://github.com/brandonsie/epitopefindr/news/index.html">Changelog</a>
+    </li>
     <li>
       <a href="https://github.com/brandonsie/epitopefindr/">Github Repo</a>
     </li>
@@ -166,7 +169,7 @@
     <pre class="usage"><span class='fu'>groupMSA</span>(<span class='no'>groups</span>, <span class='kw'>mpath</span> <span class='kw'>=</span> <span class='st'>"intermediate_files/msa/"</span>, <span class='kw'>min.groupsize</span> <span class='kw'>=</span> <span class='fl'>2</span>,
   <span class='kw'>min.consensus.pos</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>consensus.thresh</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>75</span>, <span class='fl'>50</span>),
   <span class='kw'>peptide.nchar</span> <span class='kw'>=</span> <span class='fl'>50</span>, <span class='kw'>msa.width</span> <span class='kw'>=</span> <span class='st'>"dynamic"</span>, <span class='kw'>pdflatex</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>pdftk</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>make.png</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
+  <span class='kw'>pdftk</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>pdfuniter</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>make.png</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -206,6 +209,10 @@
     <tr>
       <th>pdftk</th>
       <td><p>Logical whether or not to use staplr and pdftk to merge individual msa pdfs.</p></td>
+    </tr>
+    <tr>
+      <th>pdfuniter</th>
+      <td><p>Logical whether or not to merge msa pdfs using staplr and pdfuniter</p></td>
     </tr>
     <tr>
       <th>make.png</th>

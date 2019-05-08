@@ -18,11 +18,9 @@ tidyFasta <- function(input){
     stop("Error: all input peptides should have unique names.")
   }
 
-  # fasta.df$ID %<>% gsub(" ", "-", .)
-  # fasta.df$ID %<>% gsub("\\.", "-", .)
-  # fasta.df$ID %<>% gsub("_", "-", .)
-  # fasta.df$ID %<>% gsub("\\(|\\)","",.)
-  # fasta.df$ID %<>% gsub(",","",.)
+  if(grepl("__________", fasta.df$ID) %>% mean > 0){
+    stop("Error: input peptide names must not contain 10 consecutive underscores.")
+  }
 
   #convert non-alphanumeric characters to hyphens
   #then remove any leading/lagging hyphens and multi-hyphens
@@ -48,9 +46,6 @@ tidyFasta <- function(input){
   fasta.df$Seq %<>% strsplit("\\.")
   fasta.df$Seq %<>% sapply(function(x){x[[1]][1]})
   fasta.df$Seq %<>% gsub("\\*", "", .)
-
-  # seqinr::write.fasta(as.list(fasta.df$Seq), fasta.df$ID, name)
-  # output <- Biostrings::readAAStringSet(name)
 
   output <- Biostrings::AAStringSet(fasta.df$Seq)
   names(output) <- fasta.df$ID

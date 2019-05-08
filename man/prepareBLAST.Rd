@@ -4,7 +4,8 @@
 \alias{prepareBLAST}
 \title{Call series of functions to standardize BLAST table for computation.}
 \usage{
-prepareBLAST(blast, fasta, aln.size, tofilter = TRUE)
+prepareBLAST(blast, fasta, aln.size, use.doParallel = FALSE,
+  tofilter = TRUE)
 }
 \arguments{
 \item{blast}{Input tidied BLAST table.}
@@ -12,6 +13,8 @@ prepareBLAST(blast, fasta, aln.size, tofilter = TRUE)
 \item{fasta}{AAstringset object of fasta sequences.}
 
 \item{aln.size}{Minimum length of alignment to consider from BLASTp alignments of 'data'.}
+
+\item{use.doParallel}{Logical whether or not to use doParallel parallelization.}
 
 \item{tofilter}{Logical whether or not to call filterBLAST, which is only
 necessary during initial setup.}

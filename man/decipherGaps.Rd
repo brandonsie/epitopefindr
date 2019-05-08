@@ -4,10 +4,12 @@
 \alias{decipherGaps}
 \title{Split gapped BLAST alignments into smaller ungapped alignments.}
 \usage{
-decipherGaps(blast)
+decipherGaps(blast, use.doParallel)
 }
 \arguments{
 \item{blast}{Input gapped BLAST alignment table to ungap.}
+
+\item{use.doParallel}{Logical whether or not to use doParallel parallelization.}
 }
 \description{
 Split gapped BLAST alignments into smaller ungapped alignments.

@@ -9,9 +9,20 @@ addPepSeq <- function(blast, fasta){
                     stringsAsFactors = FALSE)
 
   #add/update column in blast table listing peptide sequence
-  for(i in 1:nrow(blast)){
-    blast$qSeq[i] <- fdf$seq[fdf$id == blast$qID[i]]
-    blast$sSeq[i] <- fdf$seq[fdf$id	 == blast$sID[i]]
+
+  unique_peptides <- c(blast$qID, blast$sID) %>% unique
+  blast$qSeq <- blast$sSeq <- NA
+
+  for(i in 1:length(unique_peptides)){
+    q_rows <- c(1:nrow(blast))[blast$qID == unique_peptides[i]]
+    if(length(q_rows) > 0) {blast$qSeq[q_rows] <-
+      fdf$seq[fdf$id == unique_peptides[i]]}
+
+    s_rows <- c(1:nrow(blast))[blast$sID == unique_peptides[i]]
+    if(length(s_rows) > 0) {blast$sSeq[s_rows] <-
+      fdf$seq[fdf$id == unique_peptides[i]]}
   }
+
+
   return(blast)
 }

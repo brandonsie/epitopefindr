@@ -89,7 +89,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">epitopefindr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.24</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.25</span>
       </span>
     </div>
 
@@ -126,6 +126,9 @@
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="https://github.com/brandonsie/epitopefindr/news/index.html">Changelog</a>
+    </li>
     <li>
       <a href="https://github.com/brandonsie/epitopefindr/">Github Repo</a>
     </li>
@@ -167,19 +170,21 @@
   <span class='kw'>g.method</span> <span class='kw'>=</span> <span class='st'>"any"</span>, <span class='kw'>aln.size</span> <span class='kw'>=</span> <span class='fl'>7</span>, <span class='kw'>min.groupsize</span> <span class='kw'>=</span> <span class='fl'>2</span>,
   <span class='kw'>min.consensus.pos</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>consensus.thresh</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>75</span>, <span class='fl'>50</span>),
   <span class='kw'>peptide.nchar</span> <span class='kw'>=</span> <span class='fl'>50</span>, <span class='kw'>msa.width</span> <span class='kw'>=</span> <span class='st'>"dynamic"</span>, <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>pdflatex</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>pdftk</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>make.png</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>name.msa</span> <span class='kw'>=</span> <span class='st'>"msa.pdf"</span>, <span class='kw'>name.alignments</span> <span class='kw'>=</span> <span class='st'>"finalAlignments.csv"</span>,
+  <span class='kw'>pdflatex</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>pdftk</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>pdfuniter</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>make.png</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>name.msa</span> <span class='kw'>=</span> <span class='st'>"msa.pdf"</span>,
+  <span class='kw'>name.alignments</span> <span class='kw'>=</span> <span class='st'>"finalAlignments.csv"</span>,
   <span class='kw'>name.epitopekey</span> <span class='kw'>=</span> <span class='st'>"epitopeKey.csv"</span>,
-  <span class='kw'>name.epitopesum</span> <span class='kw'>=</span> <span class='st'>"epitopeSummary.csv"</span>)
+  <span class='kw'>name.epitopesum</span> <span class='kw'>=</span> <span class='st'>"epitopeSummary.csv"</span>, <span class='kw'>use.doParallel</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
 
 <span class='fu'>epFind2</span>(<span class='kw'>data</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>output.dir</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>e.thresh</span> <span class='kw'>=</span> <span class='fl'>0.01</span>,
   <span class='kw'>g.method</span> <span class='kw'>=</span> <span class='st'>"any"</span>, <span class='kw'>aln.size</span> <span class='kw'>=</span> <span class='fl'>7</span>, <span class='kw'>min.groupsize</span> <span class='kw'>=</span> <span class='fl'>2</span>,
   <span class='kw'>min.consensus.pos</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>consensus.thresh</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>75</span>, <span class='fl'>50</span>),
   <span class='kw'>peptide.nchar</span> <span class='kw'>=</span> <span class='fl'>50</span>, <span class='kw'>msa.width</span> <span class='kw'>=</span> <span class='st'>"dynamic"</span>, <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>pdflatex</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>pdftk</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>make.png</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>name.msa</span> <span class='kw'>=</span> <span class='st'>"msa.pdf"</span>, <span class='kw'>name.alignments</span> <span class='kw'>=</span> <span class='st'>"finalAlignments.csv"</span>,
+  <span class='kw'>pdflatex</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>pdftk</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>pdfuniter</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>make.png</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>name.msa</span> <span class='kw'>=</span> <span class='st'>"msa.pdf"</span>,
+  <span class='kw'>name.alignments</span> <span class='kw'>=</span> <span class='st'>"finalAlignments.csv"</span>,
   <span class='kw'>name.epitopekey</span> <span class='kw'>=</span> <span class='st'>"epitopeKey.csv"</span>,
-  <span class='kw'>name.epitopesum</span> <span class='kw'>=</span> <span class='st'>"epitopeSummary.csv"</span>)</pre>
+  <span class='kw'>name.epitopesum</span> <span class='kw'>=</span> <span class='st'>"epitopeSummary.csv"</span>, <span class='kw'>use.doParallel</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -237,6 +242,10 @@
       <td><p>Logical whether or not to merge msa pdfs using staplr and pdftk</p></td>
     </tr>
     <tr>
+      <th>pdfuniter</th>
+      <td><p>Logical whether or not to merge msa pdfs using staplr and pdfuniter</p></td>
+    </tr>
+    <tr>
       <th>make.png</th>
       <td><p>Locial whether or not to convert PDF output to PNG.</p></td>
     </tr>
@@ -255,6 +264,10 @@
     <tr>
       <th>name.epitopesum</th>
       <td><p>Filename for output summary sheet of epitopes.</p></td>
+    </tr>
+    <tr>
+      <th>use.doParallel</th>
+      <td><p>Logical whether or not to use doParallel parallelization.</p></td>
     </tr>
     </table>
     

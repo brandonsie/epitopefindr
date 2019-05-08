@@ -4,7 +4,7 @@
 \alias{tidyBLAST}
 \title{Call a series of functions to tidy raw BLAST alignment table for use.}
 \usage{
-tidyBLAST(blast, fasta, aln.size)
+tidyBLAST(blast, fasta, aln.size, use.doParallel)
 }
 \arguments{
 \item{blast}{Initial BLAST table to tidy.}
@@ -13,6 +13,8 @@ tidyBLAST(blast, fasta, aln.size)
 
 \item{aln.size}{Minimum length of alignment to consider from BLASTp alignments of 'data'.
 with peptide sequences.}
+
+\item{use.doParallel}{Logical whether or not to use doParallel parallelization.}
 }
 \description{
 Call a series of functions to tidy raw BLAST alignment table for use.

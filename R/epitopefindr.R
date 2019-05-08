@@ -24,5 +24,6 @@
 #'
 #' @importFrom magrittr %>%
 #' @importFrom magrittr %<>%
+#' @importFrom foreach %dopar%
 #' @import data.table
 NULL

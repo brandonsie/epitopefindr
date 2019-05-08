@@ -9,19 +9,21 @@ epfind(data = NULL, output.dir = NULL, e.thresh = 0.01,
   g.method = "any", aln.size = 7, min.groupsize = 2,
   min.consensus.pos = 1, consensus.thresh = c(75, 50),
   peptide.nchar = 50, msa.width = "dynamic", verbose = TRUE,
-  pdflatex = TRUE, pdftk = TRUE, make.png = FALSE,
-  name.msa = "msa.pdf", name.alignments = "finalAlignments.csv",
+  pdflatex = TRUE, pdftk = TRUE, pdfuniter = FALSE,
+  make.png = FALSE, name.msa = "msa.pdf",
+  name.alignments = "finalAlignments.csv",
   name.epitopekey = "epitopeKey.csv",
-  name.epitopesum = "epitopeSummary.csv")
+  name.epitopesum = "epitopeSummary.csv", use.doParallel = FALSE)
 
 epFind2(data = NULL, output.dir = NULL, e.thresh = 0.01,
   g.method = "any", aln.size = 7, min.groupsize = 2,
   min.consensus.pos = 1, consensus.thresh = c(75, 50),
   peptide.nchar = 50, msa.width = "dynamic", verbose = TRUE,
-  pdflatex = TRUE, pdftk = TRUE, make.png = FALSE,
-  name.msa = "msa.pdf", name.alignments = "finalAlignments.csv",
+  pdflatex = TRUE, pdftk = TRUE, pdfuniter = FALSE,
+  make.png = FALSE, name.msa = "msa.pdf",
+  name.alignments = "finalAlignments.csv",
   name.epitopekey = "epitopeKey.csv",
-  name.epitopesum = "epitopeSummary.csv")
+  name.epitopesum = "epitopeSummary.csv", use.doParallel = FALSE)
 }
 \arguments{
 \item{data}{Biostrings::AAStringset input sequences to search for epitopes, or path to corresponding .fasta file.}
@@ -50,6 +52,8 @@ epFind2(data = NULL, output.dir = NULL, e.thresh = 0.01,
 
 \item{pdftk}{Logical whether or not to merge msa pdfs using staplr and pdftk}
 
+\item{pdfuniter}{Logical whether or not to merge msa pdfs using staplr and pdfuniter}
+
 \item{make.png}{Locial whether or not to convert PDF output to PNG.}
 
 \item{name.msa}{Filename for output merged pdf of msa logos.}
@@ -59,6 +63,8 @@ epFind2(data = NULL, output.dir = NULL, e.thresh = 0.01,
 \item{name.epitopekey}{Filename for output spreadhseet of epitopes per peptide.}
 
 \item{name.epitopesum}{Filename for output summary sheet of epitopes.}
+
+\item{use.doParallel}{Logical whether or not to use doParallel parallelization.}
 }
 \description{
 All-in-one function to call the major steps of epitopefindr.

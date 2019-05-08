@@ -35,18 +35,8 @@ epitopeBLAST <- function(data, aln.size){
   # write(index,ipath,append=TRUE)
 
 
-  newdata <- indexEpitopes(blast, index, aln.size) #returns modified blast, index epitopes (indexep)
-
-  # if(!exists("verbose")){verbose <- FALSE}
-  # if(verbose == FALSE){
-  #   epIndex <- blast.index %>% indexEpitopes
-  # } else{
-  #   print(path)
-  #   print(paste(index, ", Blast Rows:", nrow(blast.index)))
-  #   system.time(epIndex <- blast.index %>% indexEpitopes %>% print)
-  #   print(as.character(epIndex[, 1]))
-  #   cat("\n")
-  # }
+  newdata <- indexEpitopes(blast, index, aln.size)
+  #returns modified blast, index epitopes (indexep)
 
   # == == == == == C. Write new epitopes .fasta file. == =
   #replace index peptides with index epitopes
@@ -62,25 +52,9 @@ epitopeBLAST <- function(data, aln.size){
   new.stringset <- Biostrings::AAStringSet(new.fasta)
   names(new.stringset) <- epList$ID
 
-  # print("stringset")
-  # print(new.stringset)
-  # #write alignments: index epitopes, remaining peptides, former epitopes
-  # fpath <- paste0(output.dir, "epitopes/")
-  # if(!dir.exists(fpath)){dir.create(fpath)}
-  # if(path == paste0(output.dir, "epitopes/", proj.id, ".fasta")){
-  #   path <- paste0(output.dir, "epitopes/epitopes1.fasta")
-  # } else{
-  #   gpath <- substr(path, 3, nchar(path)) %>% strsplit("/") %>% unlist
-  #   j <- readr::parse_number(gpath[length(gpath)]) + 1
-  #   path <- paste0(output.dir, "epitopes/epitopes", j, ".fasta")
-  # }
-  # writeFastaAA(epList, path)
-
   returndata <- list(blast = newdata$blast, fasta = new.stringset,
                      indexOrder = data$indexOrder)
   # writeFastaAA(new.stringset,"temp.fasta") #temp debugging
   return(returndata)
 } #END epitopeBLAST()
 
-#(!) remove output dir and proj.id
-#(!) need to rework indexepitops to return blast. then pass as return of epitopeblast

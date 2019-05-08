@@ -7,7 +7,7 @@
 groupMSA(groups, mpath = "intermediate_files/msa/", min.groupsize = 2,
   min.consensus.pos = 1, consensus.thresh = c(75, 50),
   peptide.nchar = 50, msa.width = "dynamic", pdflatex = TRUE,
-  pdftk = TRUE, make.png = FALSE)
+  pdftk = TRUE, pdfuniter = FALSE, make.png = FALSE)
 }
 \arguments{
 \item{groups}{Table of final peptides and pre-calculated groupings.}
@@ -27,6 +27,8 @@ groupMSA(groups, mpath = "intermediate_files/msa/", min.groupsize = 2,
 \item{pdflatex}{Logical whether or not to produce PDF LaTeX figures using pdflatex}
 
 \item{pdftk}{Logical whether or not to use staplr and pdftk to merge individual msa pdfs.}
+
+\item{pdfuniter}{Logical whether or not to merge msa pdfs using staplr and pdfuniter}
 
 \item{make.png}{Locial whether or not to convert PDF output to PNG.}
 }

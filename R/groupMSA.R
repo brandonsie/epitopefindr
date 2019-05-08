@@ -9,6 +9,7 @@
 #' @param msa.width Controls whether or not MSA images have fixed or dynamic width. By default, msa.width is set to "dynamic", which causes the document dimentions of the resultant image to be calculated based on the lentht of the peptide name and the number of amino acids in the sequence alignment. If msa.width is instead set to a numeric, then an MSA will be printed with a fixed with that number of inches. With 50-character peptide.nchar and a maximum expected sequence alignment of 45 positions, an msa.width of 12 is more than sufficient.
 #' @param pdflatex Logical whether or not to produce PDF LaTeX figures using pdflatex
 #' @param pdftk Logical whether or not to use staplr and pdftk to merge individual msa pdfs.
+#' @param pdfuniter Logical whether or not to merge msa pdfs using staplr and pdfuniter
 #' @param make.png Locial whether or not to convert PDF output to PNG.
 #'
 #' @export
@@ -17,7 +18,7 @@ groupMSA <- function(groups, mpath = "intermediate_files/msa/",
                      min.groupsize = 2, min.consensus.pos = 1,
                      consensus.thresh = c(75, 50), peptide.nchar = 50,
                      msa.width = "dynamic",
-                     pdflatex = TRUE, pdftk = TRUE,
+                     pdflatex = TRUE, pdftk = TRUE, pdfuniter = FALSE,
                      make.png = FALSE){
 
 
@@ -126,6 +127,10 @@ groupMSA <- function(groups, mpath = "intermediate_files/msa/",
   if(pdflatex & pdftk){
     staplr::staple_pdf(input_directory = mpath,
                        output_filepath = paste0(mpath,"msa.pdf"))
+  } else if(pdflatex & pdfuniter){
+    dir_files <- list.files(mpath, full.names = TRUE)
+    input_files <- dir_files[grepl("\\.pdf", dir_files)]
+    pdfuniter::pdfunite(input_files, paste0(mpath, "msa.pdf"))
   }
 
 }

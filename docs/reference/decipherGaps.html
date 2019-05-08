@@ -89,7 +89,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">epitopefindr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.24</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.25</span>
       </span>
     </div>
 
@@ -127,6 +127,9 @@
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
+      <a href="https://github.com/brandonsie/epitopefindr/news/index.html">Changelog</a>
+    </li>
+    <li>
       <a href="https://github.com/brandonsie/epitopefindr/">Github Repo</a>
     </li>
     <li>
@@ -163,7 +166,7 @@
     
     </div>
 
-    <pre class="usage"><span class='fu'>decipherGaps</span>(<span class='no'>blast</span>)</pre>
+    <pre class="usage"><span class='fu'>decipherGaps</span>(<span class='no'>blast</span>, <span class='no'>use.doParallel</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -171,6 +174,10 @@
     <tr>
       <th>blast</th>
       <td><p>Input gapped BLAST alignment table to ungap.</p></td>
+    </tr>
+    <tr>
+      <th>use.doParallel</th>
+      <td><p>Logical whether or not to use doParallel parallelization.</p></td>
     </tr>
     </table>
     

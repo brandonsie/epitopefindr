@@ -13,11 +13,13 @@
 #' @param verbose Logical to print progress updates.
 #' @param pdflatex Logical whether or not to produce PDF LaTeX figures using pdflatex
 #' @param pdftk Logical whether or not to merge msa pdfs using staplr and pdftk
+#' @param pdfuniter Logical whether or not to merge msa pdfs using staplr and pdfuniter
 #' @param make.png Locial whether or not to convert PDF output to PNG.
 #' @param name.msa Filename for output merged pdf of msa logos.
 #' @param name.alignments Filename for output spreadsheet of peptide alignments.
 #' @param name.epitopekey Filename for output spreadhseet of epitopes per peptide.
 #' @param name.epitopesum Filename for output summary sheet of epitopes.
+#' @param use.doParallel Logical whether or not to use doParallel parallelization.
 #'
 #' @export
 
@@ -25,11 +27,12 @@ epfind <- function(data = NULL, output.dir = NULL,
                     e.thresh = 0.01, g.method = "any", aln.size = 7,
                     min.groupsize = 2, min.consensus.pos = 1, consensus.thresh = c(75, 50),
                    peptide.nchar = 50, msa.width = "dynamic",
-                    verbose = TRUE, pdflatex = TRUE, pdftk = TRUE, make.png = FALSE,
+                    verbose = TRUE, pdflatex = TRUE, pdftk = TRUE, pdfuniter = FALSE, make.png = FALSE,
                     name.msa = "msa.pdf",
                     name.alignments = "finalAlignments.csv",
                     name.epitopekey = "epitopeKey.csv",
-                    name.epitopesum = "epitopeSummary.csv"
+                    name.epitopesum = "epitopeSummary.csv",
+                   use.doParallel = FALSE
                     ){
 
   # ----------------------------------------------------------------------------
@@ -37,11 +40,11 @@ epfind <- function(data = NULL, output.dir = NULL,
 
   # throw error if data or output.dir are not defined
   if(is.null(data)){
-    stop("Error: epFind2 param 'data' is undefined.")
+    stop("Error: epfind param 'data' is undefined.")
   }
 
   if(is.null(output.dir)){
-    stop("Error: epFind2 param 'output.dir' is undefined.")
+    stop("Error: epfind param 'output.dir' is undefined.")
   }
 
   # read 'data' if input path to .fasta file
@@ -50,7 +53,7 @@ epfind <- function(data = NULL, output.dir = NULL,
   }
 
   if(length(data) == 0){
-    stop("Error: epfind2: zero peptides input to data parameter.")
+    stop("Error: epfind: zero peptides input to data parameter.")
   }
 
   # setup directories
@@ -83,7 +86,7 @@ epfind <- function(data = NULL, output.dir = NULL,
   b1.path <- paste0(temp.dir, "blast1.csv")
   data.table::fwrite(blast1, b1.path)
   if(nrow(blast1) == 0){
-    stop("Error: epfind2: no BLAST alignments found among input peptides.")
+    stop("Error: epfind: no BLAST alignments found among input peptides.")
   }
 
   blast2 <- threshBLAST(blast1, e.thresh)
@@ -91,15 +94,15 @@ epfind <- function(data = NULL, output.dir = NULL,
   data.table::fwrite(blast2, b2.path)
   if(nrow(blast2) == 0){
     stop(paste(
-      "Error: epfind2: no BLAST alignments with e value below:", e.thresh))
+      "Error: epfind: no BLAST alignments with e value below:", e.thresh))
   }
 
-  blast3 <- prepareBLAST(blast2, fasta1, aln.size)
+  blast3 <- prepareBLAST(blast2, fasta1, aln.size, use.doParallel)
   b3.path <- paste0(temp.dir, "blast3.csv")
   data.table::fwrite(blast3, b3.path)
   if(nrow(blast3) == 0){
     stop(paste(
-      "Error: epfind2: no BLAST alignments after removing self-alignments."))
+      "Error: epfind: no BLAST alignments after removing self-alignments."))
   }
   # ----------------------------------------------------------------------------
   # Process alignment overlaps
@@ -154,14 +157,14 @@ epfind <- function(data = NULL, output.dir = NULL,
   if(!dir.exists(m.path)){dir.create(m.path)}
   g.path <- paste0(temp.dir, "groups.csv")
   groupMSA(groups, m.path, min.groupsize, min.consensus.pos,
-           consensus.thresh, peptide.nchar, msa.width, pdflatex, pdftk, make.png = make.png)
+           consensus.thresh, peptide.nchar, msa.width, pdflatex, pdftk, pdfuniter, make.png = make.png)
 
   if(verbose){
     cat("\n", "[", format(Sys.time(), "%R:%S"), "]",
         "Step 6 of 6: Preparing output files.", "\n")
   }
 
-  if(pdftk){file.copy(paste0(m.path,"msa.pdf"), paste0(output.dir,"/", name.msa))}
+  if(pdftk | pdfuniter){file.copy(paste0(m.path,"msa.pdf"), paste0(output.dir,"/", name.msa))}
   file.copy(paste0(temp.dir, "blast6.csv"), paste0(output.dir, "/", name.alignments))
 
   msa.cs <- readLines(paste0(m.path,"consensusSequences.txt"))

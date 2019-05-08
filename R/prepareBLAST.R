@@ -5,14 +5,15 @@
 #' @param aln.size Minimum length of alignment to consider from BLASTp alignments of 'data'.
 #' @param tofilter Logical whether or not to call filterBLAST, which is only
 #' necessary during initial setup.
+#' @param use.doParallel Logical whether or not to use doParallel parallelization.
 #'
 #' @export
 
-prepareBLAST <- function(blast, fasta, aln.size, tofilter=TRUE){
+prepareBLAST <- function(blast, fasta, aln.size, use.doParallel = FALSE, tofilter=TRUE){
   #
   blast.merge <- rbind(blast, qsSwap(blast)) %>% unique
   if(nrow(blast.merge)==0){return(blast.merge)}
-  blast.tidy <- tidyBLAST(blast.merge, fasta, aln.size) #update col names, <7aa, gaps
+  blast.tidy <- tidyBLAST(blast.merge, fasta, aln.size, use.doParallel) #update col names, <7aa, gaps
 
   if(!exists("tofilter")){tofilter <- TRUE}
   if(tofilter){

@@ -74,6 +74,8 @@ navbar:
   right:
     - text: Links
       menu:
+      - text: Changelog
+        href: https://github.com/brandonsie/epitopefindr/news/index.html
       - text: Github Repo
         href: https://github.com/brandonsie/epitopefindr/
       - text: brandonsie.github.io
