@@ -26,7 +26,7 @@ groupMSA <- function(groups, mpath = "intermediate_files/msa/",
   if(pdftk){
     if((Sys.which("pdftk") %>% nchar) == 0){
       if(requireNamespace("pdfuniter")){
-        pdflatex <- FALSE
+        pdftk <- FALSE
         pdfuniter <- TRUE
       }
     }
