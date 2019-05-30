@@ -22,6 +22,16 @@ groupMSA <- function(groups, mpath = "intermediate_files/msa/",
                      make.png = FALSE){
 
 
+  # Smart pdftk/pdfuniter detection
+  if(pdftk){
+    if((Sys.which("pdftk") %>% nchar) == 0){
+      if(requireNamespace("pdfuniter")){
+        pdflatex <- FALSE
+        pdfuniter <- TRUE
+      }
+    }
+  }
+
   #setup output paths and directories
   cpath <- paste0(mpath,"consensusSequences.txt")
   if(!dir.exists(mpath)) {dir.create(mpath)}
