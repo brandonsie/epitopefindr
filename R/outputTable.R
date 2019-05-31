@@ -107,19 +107,19 @@ outputTable <- function(blast, fasta.initial, groups,
 
   epitope_key <- unique(output[, c("group_number",
                                    "group_size",
-                                   "msa_consensus")]) %>% na.omit
+                                   "msa_consensus")]) %>% (stats::na.omit)
   epitope_key <- epitope_key[order(as.numeric(epitope_key$group_number)),]
 
   epitope_summary <- output %>%
-    dplyr::mutate(position = paste0(start, "_", end)) %>%
-    dplyr::mutate(id_group = paste0(id, "_", group_number)) %>%
+    dplyr::mutate(position = paste0(output$start, "_", output$end)) %>%
+    dplyr::mutate(id_group = paste0(output$id, "_", output$group_number)) %>%
     stats::aggregate(position ~ id_group, data = ., FUN = function(x){
       paste(x, collapse = "_")}) %>%
-    dplyr::mutate(id = (id_group %>% gsub("_[0-9]+$","", .) %>% gsub("_NA$","", .))) %>%
+    dplyr::mutate(id = (output$id_group %>% gsub("_[0-9]+$","", .) %>% gsub("_NA$","", .))) %>%
     dplyr::mutate(group_number = (
-      stringr::str_extract(id_group, "[0-9]+$"))) %>%
-    dplyr::select(id, position, group_number) %>%
-    tidyr::spread(group_number, position)
+      stringr::str_extract(output$id_group, "[0-9]+$"))) %>%
+    dplyr::select(output$id, output$position, output$group_number) %>%
+    tidyr::spread(output$group_number, output$position)
 
   # # re-sort summary
   # numeric.positions <- suppressWarnings(!(as.numeric(names(epitope_summary)) %>% is.na))

@@ -20,7 +20,7 @@ cycleBLAST <- function(data, pb, n, aln.size, verbose = FALSE){
   utils::setTxtProgressBar(pb, -n) #update progress bar in console
   if(n > 0){ # n counts down to zero
     #Optionally print time at each iteration for debugging / speed optimization
-    if(verbose == TRUE) {print(paste(Sys.time(), path, "start"))}
+    if(verbose == TRUE) {print(paste(Sys.time(), "start"))}
 
     # #Check that there  are still unprocessed index peptides (name lacks period)
     # print(n)

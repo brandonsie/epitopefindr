@@ -14,7 +14,7 @@ decipherGaps <- function(blast, use.doParallel){
 
     for(i in gpos){
       pbcount <- pbcount + 1
-      setTxtProgressBar(pb, pbcount)
+      utils::setTxtProgressBar(pb, pbcount)
       bn <- decipherGaps_row(blast, i)
       blast <- rbind(blast, bn)
     }
@@ -24,8 +24,10 @@ decipherGaps <- function(blast, use.doParallel){
   } else{
     #parallel
 
-    require(foreach)
-    require(doParallel)
+    requireNamespace("foreach")
+    requireNamespace("doParallel")
+
+    `%dopar%` <- foreach::`%dopar%`
 
     ncores <- parallel::detectCores() - 1
     cl <- parallel::makeCluster(ncores)

@@ -69,9 +69,9 @@ Suggests:
     knitr,
     rmarkdown,
     pdftools,
+    pdfuniter,
+    igraph,
     foreach,
-    doParallel,
-    future,
-    future.apply,
-    pdfuniter
+    doParallel
 VignetteBuilder: knitr
+Depends: R (>= 2.10)

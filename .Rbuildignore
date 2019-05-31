@@ -2,3 +2,9 @@
 ^doc$
 ^.*\.Rproj$
 ^\.Rproj\.user$
+^readme.md
+^pkgdown
+^logo.svg
+^docs
+^_pkgdown.yml
+^_config.yml
