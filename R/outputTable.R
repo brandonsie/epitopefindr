@@ -102,6 +102,8 @@ outputTable <- function(blast, fasta.initial, groups,
   #                         as.numeric(output$start),
   #                         as.numeric(output$end))),]
 
+  output$position <- paste0(output$start, "_", output$end)
+  output$id_group <- paste0(output$id, "_", output$group_number)
   #old output format
   # data.table::fwrite(output, "outputTable.csv")
 
@@ -111,15 +113,16 @@ outputTable <- function(blast, fasta.initial, groups,
   epitope_key <- epitope_key[order(as.numeric(epitope_key$group_number)),]
 
   epitope_summary <- output %>%
-    dplyr::mutate(position = paste0(output$start, "_", output$end)) %>%
-    dplyr::mutate(id_group = paste0(output$id, "_", output$group_number)) %>%
+    # dplyr::mutate(position = paste0(output$start, "_", output$end)) %>%
+   #  dplyr::mutate(id_group = paste0(output$id, "_", output$group_number)) %>%
     stats::aggregate(position ~ id_group, data = ., FUN = function(x){
       paste(x, collapse = "_")}) %>%
     dplyr::mutate(id = (output$id_group %>% gsub("_[0-9]+$","", .) %>% gsub("_NA$","", .))) %>%
     dplyr::mutate(group_number = (
       stringr::str_extract(output$id_group, "[0-9]+$"))) %>%
-    dplyr::select(output$id, output$position, output$group_number) %>%
-    tidyr::spread(output$group_number, output$position)
+    # dplyr::select(output$id, output$position, output$group_number) %>%
+    dplyr::select(id, position, group_number) %>%
+    tidyr::spread(group_number, position)
 
   # # re-sort summary
   # numeric.positions <- suppressWarnings(!(as.numeric(names(epitope_summary)) %>% is.na))
