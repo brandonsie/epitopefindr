@@ -59,6 +59,12 @@ epfind(<path to .fasta>, <path to output dir>,
 epfind(<path to .fasta>, <path to output dir>, e.thresh = 0.0001)
 ``` 
 
+You can try running `epfind()` with some provided example data:
+``` r
+my_peptides <- epitopefindr::pairwise_viral_hits
+epfind(data = my_peptides, dir = "my_epf_1/")
+```
+
 A brief summary of the functions called by `epfind`:  
   * `pbCycleBLAST` cycles through each input peptide to find the overlap of its alignment with other peptides from the input. Nested within a call to `pbCycleBLAST` are calls to `epitopeBLAST`, `indexEpitopes`. 
   * `trimEpitopes` performs a second pass through the identified sequences to tidy alignments.
