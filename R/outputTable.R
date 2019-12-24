@@ -1,4 +1,4 @@
-#' Generates spreadsheet of reportable data on identified minimal alignments.
+#' Generates tables of reportable data on identified minimal alignments.
 #'
 #' @param blast BLAST alignment table to report.
 #' @param fasta.initial Starting peptide sequences as AAStringSet.
@@ -11,7 +11,6 @@
 
 outputTable <- function(blast, fasta.initial, groups,
                         msacs, key_filename, summary_filename){
-
 
   #load epitope info
   original <- fasta.initial

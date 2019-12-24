@@ -24,14 +24,14 @@
 #' @export
 
 epfind <- function(data = NULL, output.dir = NULL,
-                    e.thresh = 0.01, g.method = "any", aln.size = 7,
-                    min.groupsize = 2, min.consensus.pos = 1, consensus.thresh = c(75, 50),
+                   e.thresh = 0.01, g.method = "any", aln.size = 7,
+                   min.groupsize = 2, min.consensus.pos = 1, consensus.thresh = c(75, 50),
                    peptide.nchar = 50, msa.width = "dynamic",
-                    verbose = TRUE, pdflatex = TRUE, pdftk = TRUE, pdfuniter = TRUE, make.png = FALSE,
-                    name.msa = "msa.pdf",
-                    name.alignments = "finalAlignments.csv",
-                    name.epitopekey = "epitopeKey.csv",
-                    name.epitopesum = "epitopeSummary.csv",
+                   verbose = TRUE, pdflatex = TRUE, pdftk = TRUE, pdfuniter = TRUE, make.png = FALSE,
+                   name.msa = "msa.pdf",
+                   name.alignments = "finalAlignments.csv",
+                   name.epitopekey = "epitopeKey.csv",
+                   name.epitopesum = "epitopeSummary.csv",
                    use.doParallel = FALSE
                     ){
 
@@ -170,6 +170,9 @@ epfind <- function(data = NULL, output.dir = NULL,
   msa.cs <- readLines(paste0(m.path,"consensusSequences.txt"))
   k.path <- paste0(output.dir,"/",name.epitopekey)
   s.path <- paste0(output.dir,"/",name.epitopesum)
+
+  # out.tables <- outputTable(...)
+  #fwrite(out.tables[[1]], ...)
   outputTable(blast6, data, groups, msa.cs, k.path, s.path)
 
 
