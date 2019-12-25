@@ -20,20 +20,22 @@
 #' @param name.epitopekey Filename for output spreadhseet of epitopes per peptide.
 #' @param name.epitopesum Filename for output summary sheet of epitopes.
 #' @param use.doParallel Logical whether or not to use doParallel parallelization.
+#' @param delete.intermediates Logical whether or not to delete the intermediate_files folder at the end
 #'
 #' @export
 
 epfind <- function(data = NULL, output.dir = NULL,
-                    e.thresh = 0.01, g.method = "any", aln.size = 7,
-                    min.groupsize = 2, min.consensus.pos = 1, consensus.thresh = c(75, 50),
+                   e.thresh = 0.01, g.method = "any", aln.size = 7,
+                   min.groupsize = 2, min.consensus.pos = 1, consensus.thresh = c(75, 50),
                    peptide.nchar = 50, msa.width = "dynamic",
-                    verbose = TRUE, pdflatex = TRUE, pdftk = TRUE, pdfuniter = TRUE, make.png = FALSE,
-                    name.msa = "msa.pdf",
-                    name.alignments = "finalAlignments.csv",
-                    name.epitopekey = "epitopeKey.csv",
-                    name.epitopesum = "epitopeSummary.csv",
-                   use.doParallel = FALSE
-                    ){
+                   verbose = TRUE, pdflatex = TRUE, pdftk = TRUE, pdfuniter = TRUE, make.png = FALSE,
+                   name.msa = "msa.pdf",
+                   name.alignments = "finalAlignments.csv",
+                   name.epitopekey = "epitopeKey.csv",
+                   name.epitopesum = "epitopeSummary.csv",
+                   use.doParallel = FALSE,
+                   delete.intermediates = FALSE
+                   ){
 
   # ----------------------------------------------------------------------------
   # Check parameters
@@ -170,8 +172,20 @@ epfind <- function(data = NULL, output.dir = NULL,
   msa.cs <- readLines(paste0(m.path,"consensusSequences.txt"))
   k.path <- paste0(output.dir,"/",name.epitopekey)
   s.path <- paste0(output.dir,"/",name.epitopesum)
-  outputTable(blast6, data, groups, msa.cs, k.path, s.path)
 
+  output_tables <- outputTable(blast6, data, groups, msa.cs, k.path, s.path)
+
+  data.table::fwrite(output_tables$epitope_key, k.path, na = "NA")
+  data.table::fwrite(output_tables$epitope_summary, s.path, na = "NA")
+
+
+
+  # delte intermediate_files folder
+  if(delete.intermediates){
+    unlink(gsub("\\/$", "", temp.dir),
+           recursive = TRUE)
+
+  }
 
 }
 
