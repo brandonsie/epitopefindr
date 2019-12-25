@@ -15,7 +15,6 @@
     #get peptide names for which meaningful alignments were found by BLAST
     ep_peptides <- gsub("\\.[0-9]+\\.[0-9]+","",groups$ID) %>% unique
 
-
     #identify singleton peptides (peptides for which meaningful alignments were not found)
     sing <- fasta.initial[!(names(fasta.initial) %in% ep_peptides)]
 
@@ -91,7 +90,3 @@
 
     return(output_data)
   }
-
-  # output$id <- full$ID %>% gsub("\\.[0-9]+\\.[0-9]+$", "", .)
-  # stringr::str_extract(full$ID, "[0-9]+\\.[0-9]+$") %>% strsplit("\\.") %>%
-  #   unlist %>% matrix(nrow = 2) %>% t

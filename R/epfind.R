@@ -35,7 +35,7 @@ epfind <- function(data = NULL, output.dir = NULL,
                    name.epitopesum = "epitopeSummary.csv",
                    use.doParallel = FALSE,
                    delete.intermediates = FALSE
-                    ){
+                   ){
 
   # ----------------------------------------------------------------------------
   # Check parameters
@@ -180,7 +180,7 @@ epfind <- function(data = NULL, output.dir = NULL,
 
 
 
-  # delte intermediate_files folder (!)
+  # delte intermediate_files folder
   if(delete.intermediates){
     unlink(gsub("\\/$", "", temp.dir),
            recursive = TRUE)
