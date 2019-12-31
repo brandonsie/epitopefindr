@@ -5,6 +5,7 @@
 #' @param e.thresh Maximum e-value to consider from BLASTp alignments of 'data'.
 #' @param g.method Grouping method of alignments. Either 'any' or 'all'. See ?indexGroups
 #' @param aln.size Minimum length of alignment to consider from BLASTp alignments of 'data'.
+#' @param peptide.once.per.group Logical defining whether or not an epitope is constrained to only include one interval per contributing peptide. Default value TRUE. Only affects alignment mode = "any".
 #' @param min.groupsize Minimum number of peptides per group to require in order to print a group.
 #' @param min.consensus.pos Minimum number of amino acid consensus positions required in order to print a group.
 #' @param consensus.thresh Two decreasing numeric values of upper and lower thresholds for sequence consensus.
@@ -26,6 +27,7 @@
 
 epfind <- function(data = NULL, output.dir = NULL,
                    e.thresh = 0.01, g.method = "any", aln.size = 7,
+                   peptide.once.per.group = TRUE,
                    min.groupsize = 2, min.consensus.pos = 1, consensus.thresh = c(75, 50),
                    peptide.nchar = 50, msa.width = "dynamic",
                    verbose = TRUE, pdflatex = TRUE, pdftk = TRUE, pdfuniter = TRUE, make.png = FALSE,
@@ -36,37 +38,53 @@ epfind <- function(data = NULL, output.dir = NULL,
                    use.doParallel = FALSE,
                    delete.intermediates = FALSE
                    ){
-
   # ----------------------------------------------------------------------------
   # Check parameters
 
   # throw error if data or output.dir are not defined
-  if(is.null(data)){
-    stop("Error: epfind param 'data' is undefined.")
-  }
-
-  if(is.null(output.dir)){
-    stop("Error: epfind param 'output.dir' is undefined.")
-  }
+  if(is.null(data)){stop("Error: epfind param 'data' is undefined.")}
+  if(is.null(output.dir)){stop("Error: epfind param 'output.dir' is undefined.")}
 
   # read 'data' if input path to .fasta file
-  if(class(data)[1] == "character"){
-    data <- Biostrings::readAAStringSet(data)
-  }
+  if(class(data)[1] == "character"){data <- Biostrings::readAAStringSet(data)}
+  if(length(data) == 0){stop("Error: epfind: data muast have length > 0.")}
 
-  if(length(data) == 0){
-    stop("Error: epfind: zero peptides input to data parameter.")
-  }
 
+  # ----------------------------------------------------------------------------
   # setup directories
   temp.dir <- paste0(output.dir,"/intermediate_files/")
-  if(!dir.exists(output.dir)){dir.create(output.dir)}
+  if(!dir.exists(output.dir)){dir.create(output.dir)
+  }else{warning(paste("Warning: output directory already exists:", output.dir))}
   if(!dir.exists(temp.dir)){dir.create(temp.dir)}
-
   options(stringsAsFactors = FALSE)
-  # ----------------------------------------------------------------------------
-  # Prepare sequences
 
+  # ----------------------------------------------------------------------------
+  # Prepare log file
+  logfile <- paste0(output.dir, "/epitopefindr_", format(Sys.time(), "%Y%m%d_%I%M%S"), ".log")
+  sink(logfile, append = TRUE) # Print to log, not console
+
+  h_line <- rep("-",30) %>% paste0(collapse = "") %>% paste0("\n")
+  cat(h_line, h_line,
+      "Epitopefindr Log ",  format(Sys.time(), "%Y%m%d_%I%M%S"),
+      "\n", h_line, h_line, "\n\n", sep = "")
+  cat(h_line, "Session Info\n", h_line, "\n", sep = "")
+
+  print(sessionInfo())
+
+  cat("\n\n\n", h_line, "Input Parameters\n", h_line)
+  print(as.vector(match.call()))
+  sink() # close sink connection to logfile
+
+  # ----------------------------------------------------------------------------
+  # Add sequences to log file
+  sink(logfile, append = TRUE)
+
+  cat("\n\n\n", h_line, "Input Sequences\n", h_line)
+  print(as.vector(data))
+  sink()
+
+
+  # Prepare sequences
   writeFastaAA(data, paste0(temp.dir,"fasta0.fasta"))
 
 
@@ -146,7 +164,7 @@ epfind <- function(data = NULL, output.dir = NULL,
     cat("\n", "[", format(Sys.time(), "%R:%S"), "]",
         "Step 4 of 6: Grouping aligning sequences.", "\n")
   }
-  groups <- indexGroups(blast6, fasta6, mode = g.method, aln.size)
+  groups <- indexGroups(blast6, fasta6, mode = g.method, aln.size, peptide.once.per.group)
   g.path <- paste0(temp.dir, "groups.csv")
   data.table::fwrite(groups, g.path)
 
@@ -186,6 +204,12 @@ epfind <- function(data = NULL, output.dir = NULL,
            recursive = TRUE)
 
   }
+
+  #add "run complete" to log file
+  sink(logfile, append = TRUE) # Print to log, not console
+  cat("\n\n", h_line, "Run Complete!\n", h_line, "\n", sep = "")
+  sink() # close sink connection to logfile
+
 
 }
 

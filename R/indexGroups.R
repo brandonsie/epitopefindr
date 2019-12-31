@@ -6,18 +6,19 @@
 #' individual groups tending to have more members, such that in each group,
 #' each member must align with at least 1 "any" of the other members. "all"
 #' creates a larger number of groups, with individual groups tending to have
-#' fewer members, wuch taht in each group, each member must align with "all"
+#' fewer members, such that in each group, each member must align with "all"
 #' other members.
 #' @param aln.size Minimum length of alignment to consider from BLASTp alignments of 'data'.
+#' @param peptide.once.per.group Logical defining whether or not an epitope is constrained to only include one interval per contributing peptide. Default value TRUE. Only affects alignment mode = "any".
 #'
 #' @export
 
-indexGroups <- function(blast, fasta, mode="any", aln.size){
+indexGroups <- function(blast, fasta, mode="any", aln.size, peptide.once.per.group = TRUE){
 
   # == == == == == A. Load final epitope list and blast table(s). == =
   epitopes <- unmergeFastaDuplicates(fasta)
   blast <- blast[blast$qEnd-blast$qStart >= (aln.size - 1) &
-                             blast$sEnd-blast$sStart >= (aln.size - 1), ]
+                   blast$sEnd-blast$sStart >= (aln.size - 1), ]
 
   # == == == == == B. For each epitope, find aligning epitopes. == =
 
@@ -87,52 +88,12 @@ indexGroups <- function(blast, fasta, mode="any", aln.size){
 
   } #end "all"
 
-  if(mode == "any-old"){
+
+  if(mode == "any" & peptide.once.per.group == FALSE){
     # ---------- "Align to Any" = Inclusive Groups (fewer, looser) ----------
     # all members of a group must align with at least one other group member.
     #merge groups until above condition is satisfied
-
-    #define data frame to keep track of each epitope's alignments
-    #populate ep.align$Align with lists of aligning epitopes based on b.simp
-    ep.align <- data.table::setnames(
-      data.frame(matrix(ncol=2, nrow=length(epitopes))),c("Ep", "Align"))
-    ep.align$Ep <- names(epitopes)
-    for(i in 1:nrow(ep.align)){
-      ep.align$Align[i] <-
-        c(ep.align$Ep[i], b.simp$s[b.simp$q == ep.align$Ep[i]]) %>% list
-    }
-
-    k <- 0
-    pb <- epPB(min = -(ep.align$Align %>% unique %>% unlist %>% length) - 1,
-               max = -length(epitopes))
-    while((ep.align$Align %>% unique %>% unlist %>%
-           length > length(epitopes))){
-      k %<>% +1; if(k > 100) stop("ERROR: stuck in a while loop.")
-      utils::setTxtProgressBar(pb, -(ep.align$Align %>% unique %>% unlist %>% length))
-
-      for(i in 1:nrow(ep.align)){
-        eg <- sapply(1:nrow(ep.align), function(x){
-          if(ep.align$Ep[i] %in% unlist(ep.align$Align[x])){
-            return(1)
-          } else return(0)
-        }) %>% grep(1, .)
-        ep.align$Align[i] <- c(unlist(ep.align$Align[i]),
-                               unlist(ep.align[eg, "Align"])) %>%
-          unique %>% sort %>% list
-      }
-    }
-    utils::setTxtProgressBar(pb, -length(epitopes))
-
-    #take final unique groups, sorted with longest groups first
-    groups <- ep.align$Align %>% unique
-    len <- sapply(1:length(groups), function(x) groups[x] %>% unlist %>% length)
-    groups <- groups[order(-len)]
-  } #end "any-old"
-
-  if(mode == "any"){
-    # ---------- "Align to Any" = Inclusive Groups (fewer, looser) ----------
-    # all members of a group must align with at least one other group member.
-    #merge groups until above condition is satisfied
+    # peptide.once.per.group == FALSE. allow one peptide to occur more than once in a given epitope
 
     groups <- list()
     k <- 1 #next group number
@@ -158,6 +119,9 @@ indexGroups <- function(blast, fasta, mode="any", aln.size){
         merged.group <- c(current.plus.aln,
                           groups[aligning.groups] %>% unlist) %>%
           unique %>% sort
+
+
+
         groups[k] <- list(merged.group)
         groups <- groups[-aligning.groups]
       } else{
@@ -167,13 +131,120 @@ indexGroups <- function(blast, fasta, mode="any", aln.size){
       k <- length(groups) + 1
 
     }
+    close(pb)
 
     len <- sapply(1:length(groups), function(x) groups[x] %>% unlist %>% length)
     groups <- groups[order(-len)]
 
 
-  }
+  } # end "any"
 
+
+  if(mode == "any" & peptide.once.per.group == TRUE){
+    # ---------- "Align to Any" = Inclusive Groups (fewer, looser) ----------
+    # all members of a group must align with at least one other group member.
+    #merge groups until above condition is satisfied
+    # peptide.once.per.group == TRUE. allow one peptide to occur only once in a given epitope
+
+    groups <- list()
+    k <- 1 #next group number
+
+    pb <- epPB(min = 0, max = length(epitopes))
+
+    for(i in 1:length(epitopes)){
+      utils::setTxtProgressBar(pb, i)
+      print(paste("[[--new i--]]", i)) #(!) debug
+
+      # Get current epitope and all epitopes that align to it
+      current <- names(epitopes)[i]
+      aln.current <- b.simp$s[b.simp$q == current]
+      current.plus.aln <- c(current, aln.current) %>% unique %>% sort
+
+      # (!) split by duplicate peptide
+      pepnames <- current.plus.aln %>% strsplit("\\.") %>%
+        lapply(FUN = function(x) x[[1]]) %>% unlist
+
+      if(length(unique(pepnames)) < length(pepnames)){
+        #if there's at least one duplicated peptide, subdivide groups
+        duplicated.peps <- pepnames[duplicated(pepnames)] %>% unique
+        dup.list <- list()
+        for(j in 1:length(duplicated.peps)){
+          dup.list[[j]] <- current.plus.aln[pepnames == duplicated.peps[j]]
+        }
+        dup.combn <- dup.list %>% expand.grid
+
+        non.duplicated.peps <- current.plus.aln[!(pepnames %in% duplicated.peps)]
+
+        # prepare list of each subdivided group
+        current.plus.aln <- list()
+        for(j in 1:nrow(dup.combn)){
+          current.plus.aln[[j]] <-dup.combn[j,] %>% as.matrix %>% as.character %>% c(non.duplicated.peps)
+        }
+
+      } else{
+        current.plus.aln <- list(current.plus.aln)
+      }
+
+
+
+      #if current.plus.aln is a list, iterate through each element. otherwise run once
+      # if any of these are represented in at least one group, merge all
+      # representing groups along with current.plus.aln
+      #(!) need to prevent duplicate pep entry here
+
+      print(paste("[length j]", length(current.plus.aln)))#(!) debug
+      for(j in 1:length(current.plus.aln)){
+        if(j%%20==0) print(paste("j", j)) #(!) debug
+        # get peptide names of previoulsy grouped peptides for upcoming comparison
+        if(length(groups) > 0){
+          groups.pepnames <- lapply(groups, FUN = function(x){
+            x %>% strsplit("\\.") %>% lapply(FUN = function(x) x[[1]]) %>% unlist
+          }) #still returns a list unless unlist here
+
+        } else{groups.pepnames <- ""}
+
+        # find indices of groups containing at least one of the members and no duplicate peptides
+        aligning.groups <- sapply(current.plus.aln[[j]], function(x){
+          all.aln.groups <- sapply(x, function(x){
+            grep(x, groups, fixed = TRUE)
+          }) %>% unlist %>% unique
+          #grep(x, groups, fixed = TRUE)
+
+          this.pepname <- x %>% strsplit("\\.") %>% lapply(
+            FUN = function(x) x[[1]]) %>% unlist
+
+          pep.dup.groups <- sapply(
+            this.pepname, function(x){grep(x, groups.pepnames, fixed = TRUE)}) %>%
+            unlist %>% unique
+          #grep(this.pepname, groups.pepnames, fixed = TRUE)
+
+          return(all.aln.groups[!(all.aln.groups %in% pep.dup.groups)])
+        }) %>% unlist %>% unique
+
+        # if there are valid aligning groups, combine existing group with peptides aligning to current
+        if(length(aligning.groups) > 0){
+          for(m in 1:length(aligning.groups)){
+            merged.group <- c(current.plus.aln[[j]],
+                              groups[[aligning.groups[m]]]) %>% unique %>% sort
+            groups[[aligning.groups[m]]] <- merged.group
+          }
+        } else{ #if there are no aligning groups, create new group
+          groups[k] <- list(current.plus.aln[[j]])
+          k <- k + 1
+        }
+
+      }
+
+
+
+    }
+    close(pb)
+
+    len <- sapply(1:length(groups), function(x) groups[x] %>% unlist %>% length)
+    groups <- groups[order(-len)]
+
+
+  } # end any, true
 
   # == == == == == D. Write groups information to table == =
 
@@ -183,17 +254,11 @@ indexGroups <- function(blast, fasta, mode="any", aln.size){
     output$Group[output$ID %in% groups[[i]]] <- i
   }
 
+  if(sum(is.na(output) > 0)){
+    warning("Warning (epitopefindr::indexGroups) some aligning peptides not assigned to groups.")
+    output <- na.omit(output)
+  }
+
   return(output)
 
-  # #old writing individual group files to path
-  # gpath <- "groups/"
-  # if(!dir.exists(gpath)) dir.create(gpath)
-  # for(i in 1:length(groups)){
-  #   ep <- epitopes[names(epitopes) %in% (groups[i] %>% unlist)]
-  #   ID <- names(ep); Seq <- as.character(ep)
-  #   gdf <- data.frame(ID, Seq)
-  #   writeFastaAA(gdf, paste0(gpath, "group", i, ".fasta"))
-  # }
-  # print(paste(length(groups), "groups identified."))
-  # return(length(groups))
 }
