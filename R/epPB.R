@@ -3,6 +3,8 @@
 #'
 #' @param min txtProgressBar minimum value
 #' @param max txtProgressBar maximum value
+#'
+#' @export
 
 epPB <- function(min,max){
   utils::txtProgressBar(min = min, max = max, initial = min,

@@ -25,7 +25,8 @@ pbCycleBLAST <- function(blast, fasta, aln.size, ncycles="max"){
   data <- list(blast = blast, fasta = fasta)
   data %<>% cycleBLAST(pb, n.pep, aln.size)
 
-  utils::setTxtProgressBar(pb, 0)
+  # utils::setTxtProgressBar(pb, 0)
+  close(pb)
 
   return(data)
 
