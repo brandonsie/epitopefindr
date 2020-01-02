@@ -33,6 +33,7 @@ indexGroups <- function(blast, fasta, mode="any", aln.size, peptide.once.per.gro
 
   # == == == == == C. Merge above lists either inclusive or exclusive == =
 
+
   if(mode == "all"){
     # ---------- "Align to All" = Exclusive Groups (more, tighter) ----------
     #all members of a group must align with all other group members
@@ -87,6 +88,7 @@ indexGroups <- function(blast, fasta, mode="any", aln.size, peptide.once.per.gro
     groups <- aln
 
   } #end "all"
+
 
 
   if(mode == "any" & peptide.once.per.group == FALSE){
@@ -178,7 +180,8 @@ indexGroups <- function(blast, fasta, mode="any", aln.size, peptide.once.per.gro
         # prepare list of each subdivided group
         current.plus.aln <- list()
         for(j in 1:nrow(dup.combn)){
-          current.plus.aln[[j]] <-dup.combn[j,] %>% as.matrix %>% as.character %>% c(non.duplicated.peps)
+          current.plus.aln[[j]] <-dup.combn[j,] %>% as.matrix %>%
+            as.character %>% c(non.duplicated.peps)
         }
 
       } else{
@@ -234,9 +237,6 @@ indexGroups <- function(blast, fasta, mode="any", aln.size, peptide.once.per.gro
         }
 
       }
-
-
-
     }
     close(pb)
 
@@ -245,7 +245,6 @@ indexGroups <- function(blast, fasta, mode="any", aln.size, peptide.once.per.gro
 
 
   } # end any, true
-
   # == == == == == D. Write groups information to table == =
 
   output <- data.frame(ID = names(epitopes), Seq = as.character(epitopes),

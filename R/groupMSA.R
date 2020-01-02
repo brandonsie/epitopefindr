@@ -46,7 +46,6 @@ groupMSA <- function(groups, mpath = "intermediate_files/msa/",
   #loop through each group
   num <- max(groups$Group)
 
-
   if(num < 1){stop("Error: no input groups specified.")}
   num.length <- nchar(num)
 
