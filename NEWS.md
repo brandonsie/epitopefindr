@@ -1,3 +1,7 @@
+# epitopefindr 1.1.27 (2020-05-06)
+## Minor changes
+- epitopeSummary output table sorting modification. group number coerced to numeric.
+
 # epitopefindr 1.1.26
 ## Breaking changes
 - output table changes (fixed bug with epitope_summary$id number of rows mismatch, outputTable() function now returns a list with epitope_key and epitope_summary tables as elements, epfind() writes csvs with "NA" to fill empty cells)  

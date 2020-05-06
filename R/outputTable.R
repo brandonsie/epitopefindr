@@ -78,7 +78,7 @@
     epitope_summary <- epitope_summary %>%
       dplyr::mutate(id = (epitope_summary$id_group %>% gsub("_[0-9]+$","", .) %>% gsub("_NA$","", .))) %>%
       dplyr::mutate(group_number = (
-        stringr::str_extract(epitope_summary$id_group, "[0-9]+$"))) %>%
+        stringr::str_extract(epitope_summary$id_group, "[0-9]+$")) %>% as.numeric) %>%
       # dplyr::select(output$id, output$position, output$group_number) %>%
       dplyr::select(id, position, group_number) %>%
       tidyr::spread(group_number, position)
