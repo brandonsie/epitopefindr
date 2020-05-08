@@ -1,3 +1,7 @@
+# epitopefidnr 1.1.28 (2020-05-07)
+## Minor changes
+- multiple sequence alignment consensus sequence defaults changed. Consensus sequence type = "upperlower", thresh = c(100, 50). See ?msa::msaConsensusSequence for more information.
+
 # epitopefindr 1.1.27 (2020-05-06)
 ## Minor changes
 - epitopeSummary output table sorting modification. group number coerced to numeric.

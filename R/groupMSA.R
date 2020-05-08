@@ -4,7 +4,8 @@
 #' @param mpath Directory to write sequence alignment files.
 #' @param min.groupsize Minimum number of peptides per group to require in order to print a group.
 #' @param min.consensus.pos Minimum number of amino acid consensus positions required in order to print a group.
-#' @param consensus.thresh Two decreasing numeric values of upper and lower thresholds for sequence consensus.
+#' @param consensus.type "upperlower" or "Biostrings" type of msa consensus sequence to output
+#' @param consensus.thresh Two decreasing numeric values of upper and lower thresholds for sequence consensus. ONly valid for consensus.type == "upperlower". Default c(100, 50)
 #' @param peptide.nchar Maximum of character from peptide name to use in msa output. Default 50. Starts from left.
 #' @param msa.width Controls whether or not MSA images have fixed or dynamic width. By default, msa.width is set to "dynamic", which causes the document dimentions of the resultant image to be calculated based on the lentht of the peptide name and the number of amino acids in the sequence alignment. If msa.width is instead set to a numeric, then an MSA will be printed with a fixed with that number of inches. With 50-character peptide.nchar and a maximum expected sequence alignment of 45 positions, an msa.width of 12 is more than sufficient.
 #' @param pdflatex Logical whether or not to produce PDF LaTeX figures using pdflatex
@@ -16,7 +17,8 @@
 
 groupMSA <- function(groups, mpath = "intermediate_files/msa/",
                      min.groupsize = 2, min.consensus.pos = 1,
-                     consensus.thresh = c(75, 50), peptide.nchar = 50,
+                     consensus.type = "upperlower",
+                     consensus.thresh = c(100, 50), peptide.nchar = 50,
                      msa.width = "dynamic",
                      pdflatex = TRUE, pdftk = TRUE, pdfuniter = FALSE,
                      make.png = FALSE){
@@ -82,7 +84,7 @@ groupMSA <- function(groups, mpath = "intermediate_files/msa/",
       group.vector <- group.vector[1:130]
       mg <- Biostrings::AAMultipleAlignment(group.vector, use.names = TRUE)
     }
-    group.consensus <- msa::msaConsensusSequence(mg, thresh = consensus.thresh)
+    group.consensus <- msa::msaConsensusSequence(mg, type = consensus.type, thresh = consensus.thresh)
     write(group.consensus,cpath,append=TRUE)
     num.consensus.pos <- stringr::str_count(group.consensus, "[A-Z]")
 
