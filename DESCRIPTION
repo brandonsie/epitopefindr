@@ -80,4 +80,4 @@ Suggests:
     foreach,
     doParallel
 VignetteBuilder: knitr
-Depends: R (>= 2.10)
+Depends: R (>= 3.5)
