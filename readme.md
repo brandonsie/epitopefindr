@@ -17,18 +17,7 @@ The purpose of this package is to describe the [BLAST](https://blast.ncbi.nlm.ni
 2. Install [BLAST+ (version 2.7.1+)](https://blast.ncbi.nlm.nih.gov/Blast.cgi?PAGE_TYPE=BlastDocs&DOC_TYPE=Download).  
 3. In R console, execute: 
 ``` r  
-
-# Install Bioconductor packages
-if (!requireNamespace("BiocManager")) install.packages("BiocManager")
-BiocManager::install(c("Biostrings", "IRanges", "msa", "S4Vectors"))
-
-# Install Github packages
-if(!requireNamespace("devtools")) install.packages("devtools")
-devtools::install_github("mhahsler/rBLAST") 
-devtools::install_github("brandonsie/pdfuniter")   
 devtools::install_github("brandonsie/epitopefindr")
-
-# Load & attach
 library(epitopefindr)
 ```
 
