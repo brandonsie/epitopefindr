@@ -1,4 +1,8 @@
-# epitopefidnr 1.1.28 (2020-05-07)
+# epitopefindr 1.1.29 (2020-05-30)
+## Minor changes
+- Specify remote sources for Bioconductor and Github package dependencies.
+
+# epitopefindr 1.1.28 (2020-05-07)
 ## Minor changes
 - multiple sequence alignment consensus sequence defaults changed. Consensus sequence type = "upperlower", thresh = c(100, 50). See ?msa::msaConsensusSequence for more information.
 
