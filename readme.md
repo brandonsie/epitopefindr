@@ -32,7 +32,7 @@ _(These are not essential to `epitopefindr`, but are used to generate alignment 
 ## Debugging
 
 - epitopefindr 1.1.29 (2020-05-30) updates the DESCRIPTION file to specify sources of Bioconductor and Github packages. If the above installation produces issues during certain package installations, try the following:
-```
+``` r
 if (!requireNamespace("BiocManager")) install.packages("BiocManager")
 BiocManager::install(c("Biostrings", "IRanges", "msa", "S4Vectors"))
 
