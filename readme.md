@@ -14,7 +14,7 @@ The purpose of this package is to describe the [BLAST](https://blast.ncbi.nlm.ni
 
 # Installation:  
 1. Install [R (version 3.5+)](https://www.r-project.org/).  
-2. Install [BLAST+ (version 2.7.1+)](https://blast.ncbi.nlm.nih.gov/Blast.cgi?PAGE_TYPE=BlastDocs&DOC_TYPE=Download).  
+2. Install [BLAST+ (version 2.7.1)](ftp://ftp.ncbi.nlm.nih.gov/blast/executables/blast+/2.7.1/). (Note: we have observed some issues with more recent versions of BLAST+ and will monitor for bugfixes.)
 3. In R console, execute: 
 ``` r  
 if (!requireNamespace("devtools")) install.packages("devtools")
