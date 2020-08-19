@@ -1,4 +1,4 @@
-# epitopefindr <img src="https://brandonsie.github.io/docs/Epitopefindr_4.png" align="right" width="140">
+# epitopefindr <img src="https://brandonsie.github.io/resources/Epitopefindr_4.png" align="right" width="140">
 
 [![License](https://img.shields.io/badge/licence-GPL--3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0.en.html) 
 [![Lifecycle](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://www.tidyverse.org/lifecycle/) 
@@ -9,7 +9,7 @@ The purpose of this package is to describe the [BLAST](https://blast.ncbi.nlm.ni
 
 `epitopefindr` takes a .fasta file listing peptide sequences of interest and calls BLASTp from within R to identify alignments among these peptides. Each peptide's alignments to other peptides are then simplified to the minimal number of "non overlapping" intervals* of the index peptide that represent all alignments to other peptides reported by BLAST. (*By default, each interval must be at least 7 amino acids long, and two intervals are considered NOT overlapping if they share 6 or fewer amino acids). After the minimal overlaps are identified for each peptide, these overlaps are gathered into aligning groups based on the initial BLAST. For each group, a multiple sequence alignment logo (motif) is generated to represent the collective sequence. Additionally, a spreadsheet is written to list the final trimmed amino acid sequences and some metadata. 
 
-![workflow](https://raw.githubusercontent.com/brandonsie/brandonsie.github.io/master/docs/EpitopeFindRWorkflow2c.png)
+![workflow](https://raw.githubusercontent.com/brandonsie/brandonsie.github.io/master/resources/EpitopeFindRWorkflow2c.png)
 
 
 # Installation:  
