@@ -17,23 +17,27 @@
 <link rel="apple-touch-icon" type="image/png" sizes="60x60" href="apple-touch-icon-60x60.png" />
 
 <!-- jquery -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
-<link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.7/sandstone/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.4.0/sandstone/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
 
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script>
+
+<!-- bootstrap-toc -->
+<link rel="stylesheet" href="bootstrap-toc.css">
+<script src="bootstrap-toc.js"></script>
 
 <!-- Font Awesome icons -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous" />
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous" />
 
 <!-- clipboard.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script>
 
 <!-- headroom.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="pkgdown.css" rel="stylesheet">
@@ -42,15 +46,14 @@
 
 <!-- docsearch -->
 <script src="docsearch.js"></script>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/docsearch.js/2.6.1/docsearch.min.css" integrity="sha256-QOSRU/ra9ActyXkIBbiIB144aDBdtvXBcNc3OTNuX/Q=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/docsearch.js/2.6.3/docsearch.min.css" integrity="sha256-QOSRU/ra9ActyXkIBbiIB144aDBdtvXBcNc3OTNuX/Q=" crossorigin="anonymous" />
 <link href="docsearch.css" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/jquery.mark.min.js" integrity="sha256-4HLtjeVgH0eIB3aZ9mLYF6E8oU5chNdjU6p6rrXpl9U=" crossorigin="anonymous"></script>
 
 
 
 <meta property="og:title" content="epitopefindr " />
-<meta property="og:image" content="https://brandonsie.github.io/epitopefindr/logo.png" />
-<meta name="twitter:card" content="summary" />
+<meta property="og:image" content="https://brandonsie.github.io/epitopefindr/logo.svg" />
 
 
 
@@ -78,7 +81,7 @@
 
   </head>
 
-  <body>
+  <body data-spy="scroll" data-target="#toc">
     <div class="container template-title-body">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -92,7 +95,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">epitopefindr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.29</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.30</span>
       </span>
     </div>
 
@@ -178,9 +181,11 @@
 <li>Install <a href="https://blast.ncbi.nlm.nih.gov/Blast.cgi?PAGE_TYPE=BlastDocs&amp;DOC_TYPE=Download">BLAST+ (version 2.7.1)</a>. (Note: we have observed some issues with more recent versions of BLAST+ and will monitor for bugfixes.)</li>
 <li>In R console, execute:</li>
 </ol>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" title="1"><span class="cf">if</span> (<span class="op">!</span><span class="kw"><a href="https://rdrr.io/r/base/ns-load.html">requireNamespace</a></span>(<span class="st">"devtools"</span>)) <span class="kw"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span>(<span class="st">"devtools"</span>)</a>
-<a class="sourceLine" id="cb1-2" title="2">devtools<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/devtools/man/reexports.html">install_github</a></span>(<span class="st">"brandonsie/epitopefindr"</span>)</a>
-<a class="sourceLine" id="cb1-3" title="3"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(epitopefindr)</a></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="downlit">
+<span class="co">if</span> (<span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/ns-load.html">requireNamespace</a></span>(<span class="st">"devtools"</span>)) <span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span>(<span class="st">"devtools"</span>)
+<span class="kw">devtools</span>::<span class="fu"><a href="https://devtools.r-lib.org//reference/remote-reexports.html">install_github</a></span>(<span class="st">"brandonsie/epitopefindr"</span>)
+<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="kw">epitopefindr</span>)
+</pre></div>
 <div id="optional-suggested-additional-setup-" class="section level2">
 <h2 class="hasAnchor">
 <a href="#optional-suggested-additional-setup-" class="anchor"></a>Optional (Suggested) Additional Setup :</h2>
@@ -197,14 +202,16 @@
 <ul>
 <li>epitopefindr 1.1.29 (2020-05-30) updates the DESCRIPTION file to specify sources of Bioconductor and Github packages. If the above installation produces issues during certain package installations, try the following:</li>
 </ul>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" title="1"><span class="cf">if</span> (<span class="op">!</span><span class="kw"><a href="https://rdrr.io/r/base/ns-load.html">requireNamespace</a></span>(<span class="st">"BiocManager"</span>)) <span class="kw"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span>(<span class="st">"BiocManager"</span>)</a>
-<a class="sourceLine" id="cb2-2" title="2">BiocManager<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/BiocManager/man/install.html">install</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"Biostrings"</span>, <span class="st">"IRanges"</span>, <span class="st">"msa"</span>, <span class="st">"S4Vectors"</span>))</a>
-<a class="sourceLine" id="cb2-3" title="3"></a>
-<a class="sourceLine" id="cb2-4" title="4"><span class="co"># Install Github packages</span></a>
-<a class="sourceLine" id="cb2-5" title="5"><span class="cf">if</span>(<span class="op">!</span><span class="kw"><a href="https://rdrr.io/r/base/ns-load.html">requireNamespace</a></span>(<span class="st">"devtools"</span>)) <span class="kw"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span>(<span class="st">"devtools"</span>)</a>
-<a class="sourceLine" id="cb2-6" title="6">devtools<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/devtools/man/reexports.html">install_github</a></span>(<span class="st">"mhahsler/rBLAST"</span>) </a>
-<a class="sourceLine" id="cb2-7" title="7">devtools<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/devtools/man/reexports.html">install_github</a></span>(<span class="st">"brandonsie/pdfuniter"</span>)   </a>
-<a class="sourceLine" id="cb2-8" title="8">devtools<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/devtools/man/reexports.html">install_github</a></span>(<span class="st">"brandonsie/epitopefindr"</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="downlit">
+<span class="co">if</span> (<span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/ns-load.html">requireNamespace</a></span>(<span class="st">"BiocManager"</span>)) <span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span>(<span class="st">"BiocManager"</span>)
+<span class="kw">BiocManager</span>::<span class="fu"><a href="https://rdrr.io/pkg/BiocManager/man/install.html">install</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"Biostrings"</span>, <span class="st">"IRanges"</span>, <span class="st">"msa"</span>, <span class="st">"S4Vectors"</span>))
+
+<span class="co"># Install Github packages</span>
+<span class="co">if</span>(<span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/ns-load.html">requireNamespace</a></span>(<span class="st">"devtools"</span>)) <span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span>(<span class="st">"devtools"</span>)
+<span class="kw">devtools</span>::<span class="fu"><a href="https://devtools.r-lib.org//reference/remote-reexports.html">install_github</a></span>(<span class="st">"mhahsler/rBLAST"</span>) 
+<span class="kw">devtools</span>::<span class="fu"><a href="https://devtools.r-lib.org//reference/remote-reexports.html">install_github</a></span>(<span class="st">"brandonsie/pdfuniter"</span>)   
+<span class="kw">devtools</span>::<span class="fu"><a href="https://devtools.r-lib.org//reference/remote-reexports.html">install_github</a></span>(<span class="st">"brandonsie/epitopefindr"</span>)
+</pre></div>
 <hr>
 </div>
 </div>
@@ -220,18 +227,20 @@
 </li>
 <li>To run a typical <code>epitopefindr</code> pipeline, try calling <code>epfind</code>:</li>
 </ol>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" title="1"><span class="co"># Basic call</span></a>
-<a class="sourceLine" id="cb3-2" title="2"><span class="kw"><a href="reference/epfind.html">epfind</a></span>(<span class="op">&lt;</span>path to .fasta<span class="op">&gt;</span>, <span class="op">&lt;</span>path to output dir<span class="op">&gt;</span>)</a>
-<a class="sourceLine" id="cb3-3" title="3"></a>
-<a class="sourceLine" id="cb3-4" title="4"><span class="co"># Without pdflatex or pdftk</span></a>
-<a class="sourceLine" id="cb3-5" title="5"><span class="kw"><a href="reference/epfind.html">epfind</a></span>(<span class="op">&lt;</span>path to .fasta<span class="op">&gt;</span>, <span class="op">&lt;</span>path to output dir<span class="op">&gt;</span>, </a>
-<a class="sourceLine" id="cb3-6" title="6">        <span class="dt">pdflatex =</span> <span class="ot">FALSE</span>, <span class="dt">pdftk =</span> <span class="ot">FALSE</span>)</a>
-<a class="sourceLine" id="cb3-7" title="7"></a>
-<a class="sourceLine" id="cb3-8" title="8"><span class="co"># More stringent e-value threshold</span></a>
-<a class="sourceLine" id="cb3-9" title="9"><span class="kw"><a href="reference/epfind.html">epfind</a></span>(<span class="op">&lt;</span>path to .fasta<span class="op">&gt;</span>, <span class="op">&lt;</span>path to output dir<span class="op">&gt;</span>, <span class="dt">e.thresh =</span> <span class="fl">0.0001</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a><span class="co"># Basic call</span></span>
+<span id="cb3-2"><a href="#cb3-2"></a><span class="kw">epfind</span>(<span class="op">&lt;</span>path to .fasta<span class="op">&gt;</span>, <span class="op">&lt;</span>path to output dir<span class="op">&gt;</span>)</span>
+<span id="cb3-3"><a href="#cb3-3"></a></span>
+<span id="cb3-4"><a href="#cb3-4"></a><span class="co"># Without pdflatex or pdftk</span></span>
+<span id="cb3-5"><a href="#cb3-5"></a><span class="kw">epfind</span>(<span class="op">&lt;</span>path to .fasta<span class="op">&gt;</span>, <span class="op">&lt;</span>path to output dir<span class="op">&gt;</span>, </span>
+<span id="cb3-6"><a href="#cb3-6"></a>        <span class="dt">pdflatex =</span> <span class="ot">FALSE</span>, <span class="dt">pdftk =</span> <span class="ot">FALSE</span>)</span>
+<span id="cb3-7"><a href="#cb3-7"></a></span>
+<span id="cb3-8"><a href="#cb3-8"></a><span class="co"># More stringent e-value threshold</span></span>
+<span id="cb3-9"><a href="#cb3-9"></a><span class="kw">epfind</span>(<span class="op">&lt;</span>path to .fasta<span class="op">&gt;</span>, <span class="op">&lt;</span>path to output dir<span class="op">&gt;</span>, <span class="dt">e.thresh =</span> <span class="fl">0.0001</span>)</span></code></pre></div>
 <p>You can try running <code><a href="reference/epfind.html">epfind()</a></code> with some provided example data:</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" title="1">my_peptides &lt;-<span class="st"> </span>epitopefindr<span class="op">::</span>pairwise_viral_hits</a>
-<a class="sourceLine" id="cb4-2" title="2">epitopefindr<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/epitopefindr/man/epfind.html">epfind</a></span>(<span class="dt">data =</span> my_peptides, <span class="dt">output.dir =</span> <span class="st">"my_epf_1/"</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="downlit">
+<span class="kw">my_peptides</span> <span class="op">&lt;-</span> <span class="kw">epitopefindr</span>::<span class="kw"><a href="reference/pairwise_viral_hits.html">pairwise_viral_hits</a></span>
+<span class="kw">epitopefindr</span>::<span class="fu"><a href="reference/epfind.html">epfind</a></span>(data = <span class="kw">my_peptides</span>, output.dir = <span class="st">"my_epf_1/"</span>)
+</pre></div>
 <p>A brief summary of the functions called by <code>epfind</code>:</p>
 <ul>
 <li>
@@ -260,6 +269,12 @@
 
   </div>
 
+  <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
+    <nav id="toc" data-toggle="toc" class="sticky-top">
+      <h2 data-toc-skip>Contents</h2>
+    </nav>
+  </div>
+
 </div>
 
 
@@ -270,7 +285,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

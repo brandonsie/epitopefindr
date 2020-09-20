@@ -1,3 +1,8 @@
+# epitopefindr 1.1.30 (2020-09-19)
+## Minor changes
+- Keep blast alignment table as data.table::data.table to fix changes in R 4.0
+- changed pdf merge default to pdfuniter to get around rJava issue
+
 # epitopefindr 1.1.29 (2020-05-30)
 ## Minor changes
 - Specify remote sources for Bioconductor and Github package dependencies.

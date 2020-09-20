@@ -31,7 +31,7 @@ epfind <- function(data = NULL, output.dir = NULL,
                    consensus.type = "Biostrings",
                    consensus.thresh = c(100, 49),
                    peptide.nchar = 50, msa.width = "dynamic",
-                   verbose = TRUE, pdflatex = TRUE, pdftk = TRUE, pdfuniter = TRUE, make.png = FALSE,
+                   verbose = TRUE, pdflatex = TRUE, pdftk = FALSE, pdfuniter = TRUE, make.png = FALSE,
                    name.msa = "msa.pdf",
                    name.alignments = "finalAlignments.csv",
                    name.epitopekey = "epitopeKey.csv",
@@ -87,7 +87,7 @@ epfind <- function(data = NULL, output.dir = NULL,
   data.table::fwrite(peptide.name.map,
                      paste0(temp.dir, "peptide_name_map.txt"), sep = "\t")
 
-  blast1 <- selfBLASTaa(f1.path)
+  blast1 <- selfBLASTaa(f1.path) %>% (data.table::as.data.table)
   b1.path <- paste0(temp.dir, "blast1.csv")
   data.table::fwrite(blast1, b1.path)
   if(nrow(blast1) == 0){
