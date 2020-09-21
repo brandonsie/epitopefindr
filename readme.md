@@ -27,6 +27,7 @@ library(epitopefindr)
 _(These are not essential to `epitopefindr`, but are used to generate alignment logo PDFs from the alignment data, which can be valuable visualizations.)_  
 1. Install a TeX distribution with `pdflatex`. (e.g. [MiKTeX](https://miktex.org), [Tex Live](https://tug.org/texlive/)). _(Optional; used to convert multiple sequence alignment TeX files to PDF.)_  
 2. Install [pdftk (version 2.02+)](https://www.pdflabs.com/tools/pdftk-server/). _(Optional; used to merge individual PDFs into a single file.)_ If you are unable to install pdftk, but your system has the pdfunite command line utility, you can install the R package [`pdfuniter`](https://github.com/brandonsie/pdfuniter), which performs a similar function. With `pdfuniter`, run `epfind` with `pdftk = FALSE, pdfunite = TRUE`.  
+   - as of epitopefindr version 1.1.30 (2020-09-20), `pdftk = FALSE, pdfunite = TRUE` is the default behavior. If your machine does not have the underlying [pdfunite](https://manpages.ubuntu.com/manpages/bionic/man1/pdfunite.1.html) utility (e.g. macOS), try `brew install poppler` and then `gem install pdfunite`.
 
 
 ## Debugging
