@@ -50,6 +50,7 @@ Collate:
     'zzz.R'
 Remotes: 
     mhahsler/rBLAST, 
+    brandonsie/pdfuniter,
     bioc::3.10/Biostrings, 
     bioc::3.10/IRanges, 
     bioc::3.10/msa, 
