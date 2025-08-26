@@ -26,11 +26,12 @@ trimEpitopes <- function(data, aln.size, tofilter = FALSE){
     # print(index)
     blast.backup <- blast
 
-    blast.index <- rbind(
-      blast[blast$qID==index,-"nAlign"],
-      qsSwap(blast[blast$sID==index,-"nAlign"])) %>% unique %>%
-      numAlignments
-
+    # Getting error in indexEpitope which seems to stem from double qsSwap() calls. qsSwap() has already been called above on line 16. The double call let too short queries that were previously subjects enter the algorithm, as removeSmallAln() on line 17 only operates on queries.
+    blast.index <- 
+      blast[blast$qID == index, -"nAlign"] %>% 
+      unique %>% 
+      numAlignments()
+    
 
     if(nrow(blast.index)>0){
       #input full blast and index name. output modified blast and index epitopes
